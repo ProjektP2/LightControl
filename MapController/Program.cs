@@ -72,7 +72,9 @@ namespace LightControl
             Console.WriteLine($"Velocity of the occupant is: {Math.Round(SignalSource.Velocity, 3)} m/s");
             Console.WriteLine("CALCULATION FINISHED.\n\n");
 
-            Console.ReadKey();
+
+            //Giver fejl hvis den er slået til!
+           // Console.ReadKey();
         }
     }
 }
