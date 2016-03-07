@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
 using LightControl;
+using Triangulering;
 
 namespace SimEnvironment
 {
@@ -20,6 +21,10 @@ namespace SimEnvironment
         Bitmap player;
         Bitmap teils;
         Form window;
+        List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
+        List<LightingUnit> ActivatedLightingUnitsInPath = new List<LightingUnit>();
+        List<Coords> LightingUnitCoordinates = new List<Coords>();
+        Coords StartingPoint = new Coords(99999,99999);
         //int posX, posY;
         Coords PositionCoords = new Coords();
         //public int mouseX, mouseY;
@@ -43,7 +48,13 @@ namespace SimEnvironment
             double YY = PositionCoords.y / 32;
             MouseCoords.x = Convert.ToInt32((Math.Floor(xx)));
             MouseCoords.y = Convert.ToInt32((Math.Floor(YY)));
-            //Endnu et funktionskald nr. 2 ændring
+            
+            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(StartingPoint,LightingUnitCoordinates);
+            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(StartingPoint, MouseCoords, LightingUnitCoordinates);
+            
+            StartingPoint.x = MouseCoords.x;
+            StartingPoint.y = MouseCoords.y;
+
         }
 
         private void GetSurce(string pixelColorStringValue)

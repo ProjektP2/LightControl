@@ -56,8 +56,13 @@ namespace Triangulering
             return 1-(Triangulate.CalculateDistanceBetweenPoints(UserCoordinates, LightingUnitCoordinates) / distance);
         }
 
-        private static List<LightingUnit> LightsToActivateInPath(Coords StartingPosition, Coords EndingPosition, List<Coords> LightingUnitCoordinates)
+        public static List<LightingUnit> LightsToActivateInPath(Coords StartingPosition, Coords EndingPosition, List<Coords> LightingUnitCoordinates)
         {
+            if (EndingPosition.x == 99999 && EndingPosition.y == 99999)
+            {
+                return null;
+            }
+
             Coords MovementVector = VectorMath.CalculateVector(StartingPosition, EndingPosition); //Defines the movement vector
             List<Coords> LightingUnitsInPath = FindLightsInPath(EndingPosition, MovementVector, LightingUnitCoordinates); 
             List<Coords> ReducedLightingUnitsInPath = ReduceLightingUnitsInPath(LightingUnitsInPath, EndingPosition, MovementVector);
