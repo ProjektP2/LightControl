@@ -17,6 +17,7 @@ namespace LightControl
         [STAThread]
         static void Main()
         {
+            // This should be here
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
