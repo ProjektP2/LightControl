@@ -28,6 +28,7 @@ namespace SimEnvironment
                 case "075000130": move = true; break;
                 case "240128128": move = false; break;
                 default: move = false; break;
+                    //Test
             }
             return move;
         }
