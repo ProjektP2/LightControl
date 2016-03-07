@@ -52,17 +52,27 @@ namespace SimEnvironment
             YPosY = Convert.ToInt32((Math.Ceiling(YY)));
         }
         //
+        private bool noget(int posx, int posy, int x, int y)
+        {
+
+            CollisonPosition(posx + x, posy + y);
+            return ReadFromMap(XPosX, YPosY);
+        }
+
+
         public bool CheckCollisonLeft(int posx, int posy)
         {
-            bool CanMove = true;
+            //bool CanMove = true;
             //First position
-            CollisonPosition(posx + 2, posy + 2);
-            CanMove = ReadFromMap(XPosX, YPosY);
+            // CollisonPosition(posx + 2, posy + 2);
+            // CanMove = ReadFromMap(XPosX, YPosY);
             //Second position
-            CollisonPosition(posx + 2, posy + 30);
-            if (CanMove == true)
-                CanMove = ReadFromMap(XPosX, YPosY);
-            return CanMove;
+            //CollisonPosition(posx + 2, posy + 30);
+            if (noget(posx, posy, 2, 2) == true)
+                //CanMove = ReadFromMap(XPosX, YPosY);
+                return noget(posx, posy, 2, 30);
+            else
+                return false;
         }
         public bool CheckCollisonRight(int posx, int posy)
         {
