@@ -58,7 +58,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Triangulate\Circle.cs" />
-    <Compile Include="Triangulate\Coords.cs" />
+    <Compile Include="Coords.cs" />
     <Compile Include="Triangulate\DetermineLightsToActivate.cs" />
     <Compile Include="Triangulate\LightingUnit.cs" />
     <Compile Include="Triangulate\Occupant.cs" />
