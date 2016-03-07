@@ -11,9 +11,9 @@ namespace LightControl
 
     class Coords
     {
-        public int x, y;
+        public double x, y;
 
-        public Coords(int p1, int p2)
+        public Coords(double p1, double p2)
         {
             x = p1;
             y = p2;
