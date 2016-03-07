@@ -40,6 +40,7 @@ namespace SimEnvironment
             double YY = posY / 32;
             mouseX = Convert.ToInt32((Math.Floor(xx)));
             mouseY = Convert.ToInt32((Math.Floor(YY)));
+            //Endnu et funktionskald
         }
 
         private void GetSurce(string pixelColorStringValue)
