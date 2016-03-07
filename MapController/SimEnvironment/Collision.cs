@@ -60,55 +60,15 @@ namespace SimEnvironment
         }
 
 
-        public bool CheckCollisonLeft(int posx, int posy, int x1, int y1, int x2, int y2)
+        public bool CheckCollison(int posx, int posy, int x1, int y1, int x2, int y2)
         {
-            //First position
-
             if (noget(posx, posy, x1, y1) == true)
                 return noget(posx, posy, x2, y2);
             else
                 return false;
-            /*
-            if (noget(posx, posy, 2, 2) == true)
-                return noget(posx, posy, 2, 30);
-            else
-                return false*/
         }
-        public bool CheckCollisonRight(int posx, int posy)
-        {
-            bool CanMove = true;
-            //First position
-            CollisonPosition(posx+30, posy+2);
-            CanMove = ReadFromMap(XPosX, YPosY);
-            //Second position
-            CollisonPosition(posx+30, posy + 30);
-            if (CanMove == true)
-                CanMove = ReadFromMap(XPosX, YPosY);
-            return CanMove;
-        }
-        public bool CheckCollisonDown(int posx, int posy)
-        {
-            bool CanMove = true;
-            //First position
-            CollisonPosition(posx+2, posy + 30);
-            CanMove = ReadFromMap(XPosX, YPosY);
-            //Second position
-            CollisonPosition(posx + 30, posy + 30);
-            if (CanMove == true)
-                CanMove = ReadFromMap(XPosX, YPosY);
-            return CanMove;
-        }
-        public bool CheckCollisonUp(int posx, int posy)
-        {
-            bool CanMove = true;
-            //First position
-            CollisonPosition(posx+2, posy+2);
-            CanMove = ReadFromMap(XPosX, YPosY);
-            //Second position
-            CollisonPosition(posx + 30, posy+2);
-            if (CanMove == true)
-                CanMove = ReadFromMap(XPosX, YPosY);
-            return CanMove;
-        }
+
+
+
     }
 }

@@ -45,5 +45,10 @@ namespace SimEnvironment
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAsAttribute(UnmanagedType.Bool)]
         static extern bool AllocConsole();
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            gEngine.Running = false;
+        }
     }
 }
