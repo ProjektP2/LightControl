@@ -103,6 +103,7 @@ namespace SimEnvironment
                 "Map Y" + MouseCoords.y, window.Font, Brushes.Black, 650, 0);
             //Draw it to the window
             G = Graphics.FromImage(BB);
+
             try
             {
                 BBG = window.CreateGraphics();
