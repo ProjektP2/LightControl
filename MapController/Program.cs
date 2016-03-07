@@ -42,9 +42,8 @@ namespace LightControl
 
             //Print results
             Console.WriteLine($"The possible positions of signal source are:");
-            Console.WriteLine($"P1 = ({Math.Round(PossiblePositions[0].x, 3)},{Math.Round(PossiblePositions[0].y, 3)})");
-            Console.WriteLine($"P2 = ({Math.Round(PossiblePositions[1].x, 3)},{Math.Round(PossiblePositions[1].y, 3)})");
-            Console.WriteLine("CALCULATION FINISHED.\n\n");
+           // Console.WriteLine($"P1 = ({Math.Round(PossiblePositions[0].x, 3)},{Math.Round(PossiblePositions[0].y, 3)})");
+            //ole.WriteLine("CALCULATION FINISHED.\n\n");
             //To calculate the velocity, we assume that the first set of coordinates is the correct one.
 
             //We create an instance of a room occupant - this is the signal source. We set his starting position to be the 

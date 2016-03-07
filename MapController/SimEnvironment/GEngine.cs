@@ -100,7 +100,7 @@ namespace SimEnvironment
             if (left == true)
             {
                 //Checks out if the direction is blocked
-                if (collision.CheckCollisonLeft(playerX - PlayerSpeed, playerY))
+                if (collision.CheckCollisonLeft(playerX - PlayerSpeed, playerY, 2,2,2,30))
                     playerX -= PlayerSpeed;
             }
             if (right == true)
