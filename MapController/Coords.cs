@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Triangulering
+namespace LightControl
 {
     //Simple class containing two doubles. The class is used to represent a set of coordinates.
     //Default coordinates is set to (0,0)
 
     class Coords
     {
-        public double x, y;
+        public int x, y;
 
-        public Coords(double p1, double p2)
+        public Coords(int p1, int p2)
         {
             x = p1;
             y = p2;

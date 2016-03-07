@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
+using LightControl;
 
 namespace SimEnvironment
 {
@@ -19,8 +20,10 @@ namespace SimEnvironment
         Bitmap player;
         Bitmap teils;
         Form window;
-        int posX, posY;
-        public int mouseX, mouseY;
+        //int posX, posY;
+        Coords PositionCoords = new Coords();
+        //public int mouseX, mouseY;
+        Coords MouseCoords = new Coords();
 
         public GraphicsDraw(Form form, Bitmap map)
         {
@@ -36,10 +39,10 @@ namespace SimEnvironment
         }
         public void Position()
         {
-            double xx = posX / 32;
-            double YY = posY / 32;
-            mouseX = Convert.ToInt32((Math.Floor(xx)));
-            mouseY = Convert.ToInt32((Math.Floor(YY)));
+            double xx = PositionCoords.x / 32;
+            double YY = PositionCoords.y / 32;
+            MouseCoords.x = Convert.ToInt32((Math.Floor(xx)));
+            MouseCoords.y = Convert.ToInt32((Math.Floor(YY)));
             //Endnu et funktionskald nr. 2 ændring
         }
 
@@ -59,8 +62,8 @@ namespace SimEnvironment
         public void Draw(int xpos, int ypos)
         {
             //Player possion
-            posX = xpos;
-            posY = ypos;
+            PositionCoords.x = xpos;
+            PositionCoords.y = ypos;
             // Draw the teils to the window
             for (int x = 0; x < Map.Width; x ++)
             {
@@ -82,11 +85,11 @@ namespace SimEnvironment
             //Player Drawing
             sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
             player.MakeTransparent(Color.CadetBlue);
-            G.DrawImage(player, posX, posY, sRect, GraphicsUnit.Pixel);
+            G.DrawImage(player, PositionCoords.x, PositionCoords.y, sRect, GraphicsUnit.Pixel);
 
             //Info Drawing
-            G.DrawString("Map X:" + mouseX + "\r\n" +
-                "Map Y" + mouseY, window.Font, Brushes.Black, 650, 0);
+            G.DrawString("Map X:" + MouseCoords.x + "\r\n" +
+                "Map Y" + MouseCoords.y, window.Font, Brushes.Black, 650, 0);
             //Draw it to the window
             G = Graphics.FromImage(BB);
             try
