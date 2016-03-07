@@ -74,7 +74,7 @@ namespace LightControl
 
 
             //Giver fejl hvis den er slået til!
-           // Console.ReadKey();
+            Console.ReadKey();
         }
     }
 }
