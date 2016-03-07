@@ -26,7 +26,7 @@ namespace LightControl
             Circle Router2 = new Circle();
 
             //The routers contain a coordinate for their position in a room, and the strength of the signal they're receiving.
-            //These values are set here.
+            //These values are set here. lololololololol
             Router1.SetRouterPosition(3, 4);
             Router1.SetSignalStrength(43);
             Router2.SetRouterPosition(21, 34);
