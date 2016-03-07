@@ -24,7 +24,7 @@ namespace SimEnvironment
         List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
         List<LightingUnit> ActivatedLightingUnitsInPath = new List<LightingUnit>();
         List<Coords> LightingUnitCoordinates = new List<Coords>();
-        Coords StartingPoint = new Coords(99999,99999);
+        Coords PreviousPosition = new Coords(99999,99999);
         //int posX, posY;
         Coords PositionCoords = new Coords();
         //public int mouseX, mouseY;
@@ -49,11 +49,11 @@ namespace SimEnvironment
             MouseCoords.x = Convert.ToInt32((Math.Floor(xx)));
             MouseCoords.y = Convert.ToInt32((Math.Floor(YY)));
             
-            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(StartingPoint,LightingUnitCoordinates);
-            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(StartingPoint, MouseCoords, LightingUnitCoordinates);
+            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(MouseCoords,LightingUnitCoordinates);
+            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, MouseCoords, LightingUnitCoordinates);
             
-            StartingPoint.x = MouseCoords.x;
-            StartingPoint.y = MouseCoords.y;
+            PreviousPosition.x = MouseCoords.x;
+            PreviousPosition.y = MouseCoords.y;
 
         }
 
@@ -96,7 +96,7 @@ namespace SimEnvironment
             //Player Drawing
             sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
             player.MakeTransparent(Color.CadetBlue);
-            G.DrawImage(player, PositionCoords.x, PositionCoords.y, sRect, GraphicsUnit.Pixel);
+            G.DrawImage(player, xpos, ypos, sRect, GraphicsUnit.Pixel);
 
             //Info Drawing
             G.DrawString("Map X:" + MouseCoords.x + "\r\n" +
