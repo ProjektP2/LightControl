@@ -58,6 +58,7 @@ namespace SimEnvironment
                 grapihicsDraw.Draw(playerX, playerY);
 
             } while (Running);
+            Application.Exit();
         }
 
         //Move the player
