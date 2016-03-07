@@ -48,7 +48,7 @@ namespace SimEnvironment
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
+            gEngine.Running = false;
         }
     }
 }

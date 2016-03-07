@@ -21,7 +21,7 @@ namespace SimEnvironment
         Bitmap Map;
         Form window;
 
-        bool Running = true;
+        public bool Running = true;
         //Starting position
         private int playerX = 4*32;
         private int playerY = 4*32;
@@ -48,7 +48,7 @@ namespace SimEnvironment
         private void StartGameLoop()
         {
 
-            while (Running)
+            do
             {
                 //makes the computer not to fuck up!
                 Application.DoEvents();
@@ -56,8 +56,8 @@ namespace SimEnvironment
                 PlayerMove();
                 grapihicsDraw.Position();
                 grapihicsDraw.Draw(playerX, playerY);
-                
-            }
+
+            } while (Running);
         }
 
         //Move the player
