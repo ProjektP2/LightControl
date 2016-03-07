@@ -34,7 +34,7 @@ namespace SimEnvironment
             player = new Bitmap("Player.png");
             teils = new Bitmap("Teils.png");
         }
-        public void Posision()
+        public void Position()
         {
             double xx = posX / 32;
             double YY = posY / 32;

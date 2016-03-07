@@ -54,7 +54,7 @@ namespace SimEnvironment
                 Application.DoEvents();
                 //
                 PlayerMove();
-                grapihicsDraw.Posision();
+                grapihicsDraw.Position();
                 grapihicsDraw.Draw(playerX, playerY);
                 
             }

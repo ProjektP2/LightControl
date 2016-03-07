@@ -10,3 +10,12 @@ C:\Users\Mysjkin\Desktop\Niko\MapControle\MapController\MapController\obj\Debug\
 C:\Users\Mysjkin\Desktop\Niko\MapControle\LightControl\MapController\bin\Debug\MapController.exe.config
 C:\Users\Mysjkin\Desktop\Niko\MapControle\LightControl\MapController\obj\Debug\MapController.exe
 C:\Users\Mysjkin\Desktop\Niko\MapControle\LightControl\MapController\obj\Debug\MapController.pdb
+C:\Users\Anders Brams\Documents\GitHub\LightControl\MapController\bin\Debug\MapController.exe.config
+C:\Users\Anders Brams\Documents\GitHub\LightControl\MapController\obj\Debug\MapController.exe
+C:\Users\Anders Brams\Documents\GitHub\LightControl\MapController\obj\Debug\MapController.pdb
+C:\Users\Anders Brams\Documents\GitHub\LightControl\MapController\bin\Debug\MapController.exe
+C:\Users\Anders Brams\Documents\GitHub\LightControl\MapController\bin\Debug\MapController.pdb
+C:\Users\Anders Brams\Documents\GitHub\LightControl\MapController\obj\Debug\LightControl.csprojResolveAssemblyReference.cache
+C:\Users\Anders Brams\Documents\GitHub\LightControl\MapController\obj\Debug\SimEnvironment.Form1.resources
+C:\Users\Anders Brams\Documents\GitHub\LightControl\MapController\obj\Debug\MapController.Properties.Resources.resources
+C:\Users\Anders Brams\Documents\GitHub\LightControl\MapController\obj\Debug\LightControl.csproj.GenerateResource.Cache
