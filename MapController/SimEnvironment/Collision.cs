@@ -60,19 +60,19 @@ namespace SimEnvironment
         }
 
 
-        public bool CheckCollisonLeft(int posx, int posy)
+        public bool CheckCollisonLeft(int posx, int posy, int x1, int y1, int x2, int y2)
         {
-            //bool CanMove = true;
             //First position
-            // CollisonPosition(posx + 2, posy + 2);
-            // CanMove = ReadFromMap(XPosX, YPosY);
-            //Second position
-            //CollisonPosition(posx + 2, posy + 30);
-            if (noget(posx, posy, 2, 2) == true)
-                //CanMove = ReadFromMap(XPosX, YPosY);
-                return noget(posx, posy, 2, 30);
+
+            if (noget(posx, posy, x1, y1) == true)
+                return noget(posx, posy, x2, y2);
             else
                 return false;
+            /*
+            if (noget(posx, posy, 2, 2) == true)
+                return noget(posx, posy, 2, 30);
+            else
+                return false*/
         }
         public bool CheckCollisonRight(int posx, int posy)
         {
