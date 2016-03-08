@@ -9,8 +9,7 @@ namespace Triangulering
 {
     class LightingUnit : Coords
     {
-        float stepInterval = 0.5f;
-        int adress;
+        float stepInterval = 0.05f;
         float maxLevel = 1.0f;
         float minLevel = 0.0f;
         float LightingLevel = 0.0f;
@@ -18,13 +17,17 @@ namespace Triangulering
         float[] scene = new float[16];
 
 
-        public LightingUnit(int address, double X, double Y) : this(address, X, Y, null, null)
+        public LightingUnit() :this(0, 0, null, null)
+        {
+        }
+
+        public LightingUnit(double X, double Y) : this(X, Y, null, null)
         {
             x = X;
             y = Y;
         }
 
-        public LightingUnit(int address, double X, double Y, int[] group, float[] scene)
+        public LightingUnit(double X, double Y, int[] group, float[] scene)
         {
             x = X;
             y = Y;
