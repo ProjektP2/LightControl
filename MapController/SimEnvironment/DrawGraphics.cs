@@ -41,6 +41,7 @@ namespace SimEnvironment
             BB = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
             player = new Bitmap("Player.png");
             teils = new Bitmap("Teils.png");
+            LightingUnitCoordinates.Add(new Coords(10, 10));
         }
         public void Position()
         {
@@ -97,6 +98,21 @@ namespace SimEnvironment
             sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
             player.MakeTransparent(Color.CadetBlue);
             G.DrawImage(player, xpos, ypos, sRect, GraphicsUnit.Pixel);
+
+            for (int x = 0; x < GEngine.FormWidht; x++)
+            {
+                for (int y = 0; y < GEngine.FormHeigt; y++)
+                {
+                    foreach (var item in LightingUnitCoordinates)
+                    {
+                        if (item.x == x && item.y == y)
+                        {
+                            sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
+                            G.DrawImage(player, x, y, sRect, GraphicsUnit.Pixel);
+                        }
+                    }
+                }
+            }
 
             //Info Drawing
             G.DrawString("Map X:" + MouseCoords.x + "\r\n" +
