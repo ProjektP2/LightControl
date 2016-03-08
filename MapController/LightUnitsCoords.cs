@@ -51,14 +51,5 @@ namespace LightControl
             else
                 return false;
         }
-        
-        public void printCoords()
-        {
-            foreach (Coords coord in lightUnitCoords)
-            {
-                Console.WriteLine($"x: {coord.x}, y: {coord.y}");
-            }
-            Console.ReadKey();
-        } 
     }
 }
