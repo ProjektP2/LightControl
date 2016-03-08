@@ -24,6 +24,8 @@ namespace SimEnvironment
         List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
         List<LightingUnit> ActivatedLightingUnitsInPath = new List<LightingUnit>();
         List<Coords> LightingUnitCoordinates = new List<Coords>();
+        //LightingUnit test = new LightingUnit(100, 230);
+        List<LightingUnit> test = new List<LightingUnit>();
         Coords PreviousPosition = new Coords(99999,99999);
         //int posX, posY;
         Coords PositionCoords = new Coords();
@@ -41,7 +43,8 @@ namespace SimEnvironment
             BB = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
             player = new Bitmap("Player.png");
             teils = new Bitmap("Teils.png");
-            LightingUnitCoordinates.Add(new Coords(10, 10));
+            //LightingUnitCoordinates.Add(new Coords(10, 10));
+            test.Add(new LightingUnit(100, 200));
         }
         public void Position()
         {
@@ -50,8 +53,8 @@ namespace SimEnvironment
             MouseCoords.x = Convert.ToInt32((Math.Floor(xx)));
             MouseCoords.y = Convert.ToInt32((Math.Floor(YY)));
             
-            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(MouseCoords,LightingUnitCoordinates);
-            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, MouseCoords, LightingUnitCoordinates);
+            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(MouseCoords,test);
+            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, MouseCoords, test);
             
             PreviousPosition.x = MouseCoords.x;
             PreviousPosition.y = MouseCoords.y;
@@ -71,7 +74,7 @@ namespace SimEnvironment
              }
         }
 
-        public void Draw(int xpos, int ypos)
+        public void Draw(int xpos, int ypos, int fps)
         {
             //Player possion
             PositionCoords.x = xpos;
@@ -99,23 +102,20 @@ namespace SimEnvironment
             player.MakeTransparent(Color.CadetBlue);
             G.DrawImage(player, xpos, ypos, sRect, GraphicsUnit.Pixel);
 
-            for (int x = 0; x < GEngine.FormWidht; x++)
-            {
-                for (int y = 0; y < GEngine.FormHeigt; y++)
-                {
-                    foreach (var item in LightingUnitCoordinates)
+            //Lamps Drawing
+            #region Lamps
+                    foreach (var item in test)
                     {
-                        if (item.x == x && item.y == y)
-                        {
-                            sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
-                            G.DrawImage(player, x, y, sRect, GraphicsUnit.Pixel);
-                        }
+                int xx = Convert.ToInt32(item.x);
+                int yy = Convert.ToInt32(item.y);
+                sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
+                            G.DrawImage(player, xx, yy, sRect, GraphicsUnit.Pixel);
+                            //Console.WriteLine(item.LightingLevel);
                     }
-                }
-            }
+            #endregion
 
             //Info Drawing
-            G.DrawString("Map X:" + MouseCoords.x + "\r\n" +
+            G.DrawString("FPS:" + fps + "\r\n" + "Map X:" + MouseCoords.x + "\r\n" +
                 "Map Y" + MouseCoords.y, window.Font, Brushes.Black, 650, 0);
             //Draw it to the window
             G = Graphics.FromImage(BB);
@@ -129,9 +129,6 @@ namespace SimEnvironment
             catch (Exception)
             {    
             }
-
         }
-
-    }
-    
+    }   
 }
