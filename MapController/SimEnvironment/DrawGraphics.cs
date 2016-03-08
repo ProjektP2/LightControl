@@ -24,6 +24,8 @@ namespace SimEnvironment
         List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
         List<LightingUnit> ActivatedLightingUnitsInPath = new List<LightingUnit>();
         List<Coords> LightingUnitCoordinates = new List<Coords>();
+        //LightingUnit test = new LightingUnit(100, 230);
+        List<LightingUnit> test = new List<LightingUnit>();
         Coords PreviousPosition = new Coords(99999,99999);
         //int posX, posY;
         Coords PositionCoords = new Coords();
@@ -41,7 +43,8 @@ namespace SimEnvironment
             BB = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
             player = new Bitmap("Player.png");
             teils = new Bitmap("Teils.png");
-            LightingUnitCoordinates.Add(new Coords(10, 10));
+            //LightingUnitCoordinates.Add(new Coords(10, 10));
+            test.Add(new LightingUnit(100, 200));
         }
         public void Position()
         {
@@ -105,7 +108,7 @@ namespace SimEnvironment
             {
                 for (int y = 0; y < GEngine.FormHeigt; y++)
                 {
-                    foreach (var item in LightingUnitCoordinates)
+                    foreach (var item in test)
                     {
                         if (item.x == x && item.y == y)
                         {
