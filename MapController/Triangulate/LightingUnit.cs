@@ -12,7 +12,7 @@ namespace Triangulering
         float stepInterval = 0.05f;
         float maxLevel = 1.0f;
         float minLevel = 0.0f;
-        float LightingLevel = 0.0f;
+        public float LightingLevel = 0.0f;
         int[] group = new int[4];
         float[] scene = new float[16];
 
