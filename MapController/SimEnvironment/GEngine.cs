@@ -41,6 +41,8 @@ namespace SimEnvironment
             grapihicsDraw = new GraphicsDraw(window, Map);
             collision = new Collision(Map);
             grapihicsDraw.Begin();
+            grapihicsDraw.DrawMap();
+            grapihicsDraw.DrawLamps();
             StartGameLoop();
         }
         //Load the Map from a picture
@@ -64,7 +66,6 @@ namespace SimEnvironment
             } while (Running);
             Application.Exit();
         }
-
         private void FPS()
         {
             frameRendered++;
