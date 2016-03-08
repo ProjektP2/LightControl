@@ -24,16 +24,19 @@ namespace SimEnvironment
         List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
         List<LightingUnit> ActivatedLightingUnitsInPath = new List<LightingUnit>();
         List<Coords> LightingUnitCoordinates = new List<Coords>();
-        //LightingUnit test = new LightingUnit(100, 230);
-        List<LightingUnit> test = new List<LightingUnit>();
+        
+        List<LightingUnit> LightUnitCoordinates;
         Coords PreviousPosition = new Coords(99999,99999);
-        //int posX, posY;
+        
         Coords PositionCoords = new Coords();
-        //public int mouseX, mouseY;
+        
         Coords MouseCoords = new Coords();
 
         public GraphicsDraw(Form form, Bitmap map)
         {
+            LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.FormHeigt, GEngine.FormWidht, 32);
+            LightUnitCoordinates = new List<LightingUnit>();
+            lol2.GetLightUnitCoords(ref LightUnitCoordinates);
             Map = map;
             window = form;
         }
@@ -43,8 +46,6 @@ namespace SimEnvironment
             BB = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
             player = new Bitmap("Player.png");
             teils = new Bitmap("Teils.png");
-            //LightingUnitCoordinates.Add(new Coords(10, 10));
-            test.Add(new LightingUnit(100, 200));
         }
         public void Position()
         {
@@ -53,8 +54,8 @@ namespace SimEnvironment
             MouseCoords.x = Convert.ToInt32((Math.Floor(xx)));
             MouseCoords.y = Convert.ToInt32((Math.Floor(YY)));
             
-            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(MouseCoords,test);
-            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, MouseCoords, test);
+            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(MouseCoords, LightUnitCoordinates);
+            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, MouseCoords, LightUnitCoordinates);
             
             PreviousPosition.x = MouseCoords.x;
             PreviousPosition.y = MouseCoords.y;
@@ -104,13 +105,13 @@ namespace SimEnvironment
 
             //Lamps Drawing
             #region Lamps
-                    foreach (var item in test)
+                    foreach (var item in LightUnitCoordinates)
                     {
                 int xx = Convert.ToInt32(item.x);
                 int yy = Convert.ToInt32(item.y);
                 sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
                             G.DrawImage(player, xx, yy, sRect, GraphicsUnit.Pixel);
-                            //Console.WriteLine(item.LightingLevel);
+                            Console.WriteLine(item.x);
                     }
             #endregion
 
