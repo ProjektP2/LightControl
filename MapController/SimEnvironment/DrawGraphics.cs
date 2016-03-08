@@ -26,6 +26,7 @@ namespace SimEnvironment
         List<Coords> LightingUnitCoordinates = new List<Coords>();
         //LightingUnit test = new LightingUnit(100, 230);
         List<LightingUnit> test = new List<LightingUnit>();
+        
         Coords PreviousPosition = new Coords(99999,99999);
         //int posX, posY;
         Coords PositionCoords = new Coords();
@@ -34,6 +35,8 @@ namespace SimEnvironment
 
         public GraphicsDraw(Form form, Bitmap map)
         {
+            List<LightingUnit> LightUnitCoordinates = new List<LightingUnit>();
+            LightUnitsCoords lol2 = new LightUnitsCoords(100, 100, 32, LightUnitCoordinates);
             Map = map;
             window = form;
         }
