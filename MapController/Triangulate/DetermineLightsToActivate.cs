@@ -50,15 +50,15 @@ namespace Triangulering
         //We're calling the CalculateDistanceBetweenPoints from the class Triangulate.
         private static double CalculateLightingLevel(Coords UserCoordinates, Coords LightingUnitCoordinates, double distance)
         {
-            return 1-(Triangulate.CalculateDistanceBetweenPoints(UserCoordinates, LightingUnitCoordinates) / distance);
+            double DistanceBetweenPoints = (Triangulate.CalculateDistanceBetweenPoints(UserCoordinates, LightingUnitCoordinates));
+            return 1- (DistanceBetweenPoints / distance);
         }
 
         public static List<LightingUnit> LightsToActivateInPath(Coords StartingPosition, Coords EndingPosition, List<LightingUnit> LightingUnits)
         {
-            if (EndingPosition.x == 99999 && EndingPosition.y == 99999)
-            {
-                return null;
-            }
+            if (EndingPosition.x == 99999 && EndingPosition.y == 99999) //Makes sure we don't calculate a movement vector when we don't have
+                return null;                                            //two points
+
 
             Coords MovementVector = VectorMath.CalculateVector(StartingPosition, EndingPosition); //Defines the movement vector
             List<LightingUnit> LightingUnitsInPath = FindLightsInPath(EndingPosition, MovementVector, LightingUnits); 
