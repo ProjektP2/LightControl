@@ -20,19 +20,16 @@ namespace Triangulering
         //enough to activate. If they are (if their coordinates exist in the circle around the user), the coordinates to the lighting
         //unit is stored in the LightingUnitsToActivate list (List<LightingUnits>), which is returned when every lighting unit has been checked.
         //Furthermore, the LightingLevel variable from the LightingUnit class is set by CalculateLightingLevel.
-        public static List<LightingUnit> LightsToActivateOnUser(Coords UserCoordinates, List<Coords> LightingUnitsCoordinates)
+        public static List<LightingUnit> LightsToActivateOnUser(Coords UserCoordinates, List<LightingUnit> LightingUnits)
         {
             List<LightingUnit> LightingUnitsToActivateOnUser = new List<LightingUnit>();
-            LightingUnit LightingUnitToSave = new LightingUnit();
 
-            foreach (Coords LightingUnitToCheck in LightingUnitsCoordinates)
+            foreach (LightingUnit LightingUnitToCheck in LightingUnits)
             {
                 if (ExistsInCircle(UserCoordinates, LightingUnitToCheck))
                 {
-                    LightingUnitToSave.x = LightingUnitToCheck.x;
-                    LightingUnitToSave.y = LightingUnitToCheck.y;
-                    LightingUnitToSave.SetLightLevel(CalculateLightingLevel(UserCoordinates, LightingUnitToCheck, Radius));
-                    LightingUnitsToActivateOnUser.Add(LightingUnitToSave);
+                    LightingUnitToCheck.LightingLevel = (CalculateLightingLevel(UserCoordinates, LightingUnitToCheck, Radius));
+                    LightingUnitsToActivateOnUser.Add(LightingUnitToCheck);
                 }
             }
             return LightingUnitsToActivateOnUser;
@@ -56,7 +53,7 @@ namespace Triangulering
             return 1-(Triangulate.CalculateDistanceBetweenPoints(UserCoordinates, LightingUnitCoordinates) / distance);
         }
 
-        public static List<LightingUnit> LightsToActivateInPath(Coords StartingPosition, Coords EndingPosition, List<Coords> LightingUnitCoordinates)
+        public static List<LightingUnit> LightsToActivateInPath(Coords StartingPosition, Coords EndingPosition, List<LightingUnit> LightingUnits)
         {
             if (EndingPosition.x == 99999 && EndingPosition.y == 99999)
             {
@@ -64,29 +61,26 @@ namespace Triangulering
             }
 
             Coords MovementVector = VectorMath.CalculateVector(StartingPosition, EndingPosition); //Defines the movement vector
-            List<Coords> LightingUnitsInPath = FindLightsInPath(EndingPosition, MovementVector, LightingUnitCoordinates); 
-            List<Coords> ReducedLightingUnitsInPath = ReduceLightingUnitsInPath(LightingUnitsInPath, EndingPosition, MovementVector);
+            List<LightingUnit> LightingUnitsInPath = FindLightsInPath(EndingPosition, MovementVector, LightingUnits); 
+            List<LightingUnit> ReducedLightingUnitsInPath = ReduceLightingUnitsInPath(LightingUnitsInPath, EndingPosition, MovementVector);
             List<LightingUnit> LightingUnitsToActivateInPath = new List<LightingUnit>(); //List to return
-            LightingUnit LightingUnitToReturn = new LightingUnit();
 
-            foreach (Coords LightingUnitToSave in ReducedLightingUnitsInPath)
+            foreach (LightingUnit LightingUnitToSave in ReducedLightingUnitsInPath)
             {
-                LightingUnitToReturn.x = LightingUnitToSave.x;
-                LightingUnitToReturn.y = LightingUnitToSave.y;
-                LightingUnitToReturn.SetLightLevel(CalculateLightingLevel(EndingPosition, LightingUnitToSave, PredictedMovementScaling));
-                LightingUnitsToActivateInPath.Add(LightingUnitToReturn);
+                LightingUnitToSave.LightingLevel = (CalculateLightingLevel(EndingPosition, LightingUnitToSave, PredictedMovementScaling));
+                LightingUnitsToActivateInPath.Add(LightingUnitToSave);
             }
             return LightingUnitsToActivateInPath;
         }
 
         //Returns a list of coordinates for lighting units. A lighting units coordinates are added to the returned list if the length 
         //of the perpendicular vector from the lighting unit to the movement vector is less than MaxDistanceFromPath. 
-        private static List<Coords> FindLightsInPath(Coords EndingPosition, Coords MovementVector, List<Coords> LightingUnitCoordinates)
+        private static List<LightingUnit> FindLightsInPath(Coords EndingPosition, Coords MovementVector, List<LightingUnit> LightingUnits)
         {
-            List<Coords> LightingUnitsInPath = new List<Coords>();
+            List<LightingUnit> LightingUnitsInPath = new List<LightingUnit>();
             double DistanceFromPath;
 
-            foreach (Coords LightingUnitToCheck in LightingUnitCoordinates)
+            foreach (LightingUnit LightingUnitToCheck in LightingUnits)
             {
                 DistanceFromPath = VectorMath.LengthOfVector(VectorMath.PerpendicularVectorBetweenPointAndVector(MovementVector, LightingUnitToCheck, EndingPosition));
 
@@ -104,12 +98,12 @@ namespace Triangulering
         //Maybe this function could be implemented into FindLightsInPath by adding the condition from the if statement in this function
         //to the if statement in FindLightsInPath. This would reduce the time complexity of the program by an order of magnitude.
         //However, they are separate for now for the sake of readability.
-        private static List<Coords> ReduceLightingUnitsInPath(List<Coords> LightingUnitsInPath, Coords EndingPosition, Coords MovementVector)
+        private static List<LightingUnit> ReduceLightingUnitsInPath(List<LightingUnit> LightingUnitsInPath, Coords EndingPosition, Coords MovementVector)
         {
-            List<Coords> ReducedLightingUnitsInPath = new List<Coords>();
+            List<LightingUnit> ReducedLightingUnitsInPath = new List<LightingUnit>();
             double LengthOfPredictedPath = VectorMath.LengthOfVector(MovementVector) * PredictedMovementScaling;
 
-            foreach (Coords LightingUnitToCheck in LightingUnitsInPath)
+            foreach (LightingUnit LightingUnitToCheck in LightingUnitsInPath)
             {
                 if (Triangulate.CalculateDistanceBetweenPoints(LightingUnitToCheck,EndingPosition)<LengthOfPredictedPath)
                 {
