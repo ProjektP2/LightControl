@@ -12,19 +12,23 @@ namespace SimEnvironment
 {
     class GraphicsDraw
     {
+
         Graphics BBG;
         Rectangle sRect;
         Rectangle dRect;
         Graphics G;
-        Graphics GG;
-        Graphics GGG;
-        Bitmap BB;
+        Graphics GMap;
+        Graphics Glamps;
+        Graphics GCircle;
+        
         Bitmap Map;
         Bitmap player;
         Bitmap teils;
 
+        Bitmap BB;
         Bitmap MAPMAP;
         Bitmap Lamps;
+        Bitmap Light;
 
         Form window;
         List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
@@ -49,11 +53,13 @@ namespace SimEnvironment
         public void Begin()
         {
             G = window.CreateGraphics();
-            GG = window.CreateGraphics();
-            GGG = window.CreateGraphics();
+            GMap = window.CreateGraphics();
+            Glamps = window.CreateGraphics();
+            GCircle = window.CreateGraphics();
             BB = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
             MAPMAP = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
             Lamps = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
+            Light = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
             player = new Bitmap("Player.png");
             teils = new Bitmap("Teils.png");
 
@@ -74,7 +80,7 @@ namespace SimEnvironment
         }
         public void DrawMap()
         {
-            GG = Graphics.FromImage(MAPMAP);
+            GMap = Graphics.FromImage(MAPMAP);
             for (int x = 0; x < Map.Width; x++)
             {
                 for (int y = 0; y < Map.Height; y++)
@@ -88,15 +94,14 @@ namespace SimEnvironment
                         PixelCode.B.ToString("D3") + "";
                     GetSurce(pixelColorStringValue);
                     dRect = new Rectangle((x * GEngine.TileSize), (y * GEngine.TileSize), GEngine.TileSize, GEngine.TileSize);
-                    GG.DrawImage(teils, dRect, sRect, GraphicsUnit.Pixel);
+                    GMap.DrawImage(teils, dRect, sRect, GraphicsUnit.Pixel);
                 }
 
             }
         }
-
         public void DrawLamps()
         {
-            GGG = Graphics.FromImage(Lamps);
+            Glamps = Graphics.FromImage(Lamps);
             foreach (var item in LightUnitCoordinates)
             {
 
@@ -104,10 +109,30 @@ namespace SimEnvironment
                 int yy = Convert.ToInt32(item.y);
                 sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
                 player.MakeTransparent(Color.CadetBlue);
-                GGG.DrawImage(player, xx, yy, sRect, GraphicsUnit.Pixel);
+                Glamps.DrawImage(player, xx, yy, sRect, GraphicsUnit.Pixel);
                 //Console.WriteLine(item.x);
             }
 
+        }
+        public void DrawLight()
+        {
+            int radius = 10;
+            int tal = 20;
+            double procent = 1.0;
+            for (double i = procent; i >= 0; i-=0.1)
+            {
+                tal--;
+                double volume = 255 - (255 * (procent-i));
+                int vm = Convert.ToInt32((Math.Floor(volume)));
+                Console.WriteLine((radius+vm));
+                //Console.WriteLine(vm);
+
+                GCircle = Graphics.FromImage(Light);
+                sRect = new Rectangle((6*32)-radius, (6*32)-radius, radius+vm , radius+vm);
+                SolidBrush myBrush = new SolidBrush(Color.FromArgb(100, 000, 000, 000));
+                GCircle.FillEllipse(myBrush, sRect);
+                //GCircle.FillRectangle(myBrush, sRect);
+            }
         }
         private void GetSurce(string pixelColorStringValue)
         {
@@ -156,9 +181,11 @@ namespace SimEnvironment
             G.DrawImage(player, xpos, ypos, sRect, GraphicsUnit.Pixel);
 
             //Lamps Drawing
-
             sRect = new Rectangle(0, 0, GEngine.FormWidht, GEngine.FormHeigt);
             G.DrawImage(Lamps, 0, 0, sRect, GraphicsUnit.Pixel);
+
+            sRect = new Rectangle(0, 0, GEngine.FormWidht, GEngine.FormHeigt);
+            G.DrawImage(Light, 0, 0, sRect, GraphicsUnit.Pixel);
             /* (var item in LightUnitCoordinates)
              { 
 
@@ -169,15 +196,9 @@ namespace SimEnvironment
                  //Console.WriteLine(item.x);
              }*/
 
-            /*sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
-            SolidBrush myBrush = new SolidBrush(Color.FromArgb(a, r, g, b));
-            G.FillRectangle(myBrush, sRect)*/
-
-
             //Info Drawing
             G.DrawString("FPS:" + fps + "\r\n" + "Map X:" + MouseCoords.x + "\r\n" +
                 "Map Y" + MouseCoords.y, window.Font, Brushes.Black, 650, 0);
-            Console.WriteLine(fps);
             //Draw it to the window
             G = Graphics.FromImage(BB);
 
@@ -187,14 +208,13 @@ namespace SimEnvironment
                 BBG.DrawImage(BB, 0, 0, GEngine.FormWidht, GEngine.FormHeigt);
 
                 G.Clear(Color.Green);
+                GCircle.Clear(Color.Transparent);
 
             }
             catch (Exception)
             {    
             }
         }
-
-
 
     }   
 }

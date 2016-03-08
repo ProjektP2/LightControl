@@ -61,8 +61,9 @@ namespace SimEnvironment
                 PlayerMove();
                 grapihicsDraw.Position();
                 grapihicsDraw.Draw(playerX, playerY, fps);
+                grapihicsDraw.DrawLight();
                 FPS();
-
+                //Running = false;
             } while (Running);
             Application.Exit();
         }
