@@ -74,7 +74,7 @@ namespace SimEnvironment
              }
         }
 
-        public void Draw(int xpos, int ypos)
+        public void Draw(int xpos, int ypos, int fps)
         {
             //Player possion
             PositionCoords.x = xpos;
@@ -104,25 +104,18 @@ namespace SimEnvironment
 
             //Lamps Drawing
             #region Lamps
-            for (int x = 0; x < GEngine.FormWidht; x++)
-            {
-                for (int y = 0; y < GEngine.FormHeigt; y++)
-                {
                     foreach (var item in test)
                     {
-                        if (item.x == x && item.y == y)
-                        {
-                            sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
-                            G.DrawImage(player, x, y, sRect, GraphicsUnit.Pixel);
+                int xx = Convert.ToInt32(item.x);
+                int yy = Convert.ToInt32(item.y);
+                sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
+                            G.DrawImage(player, xx, yy, sRect, GraphicsUnit.Pixel);
                             //Console.WriteLine(item.LightingLevel);
-                        }
                     }
-                }
-            }
             #endregion
 
             //Info Drawing
-            G.DrawString("Map X:" + MouseCoords.x + "\r\n" +
+            G.DrawString("FPS:" + fps + "\r\n" + "Map X:" + MouseCoords.x + "\r\n" +
                 "Map Y" + MouseCoords.y, window.Font, Brushes.Black, 650, 0);
             //Draw it to the window
             G = Graphics.FromImage(BB);
