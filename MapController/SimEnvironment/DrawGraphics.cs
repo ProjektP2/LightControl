@@ -53,8 +53,8 @@ namespace SimEnvironment
             MouseCoords.x = Convert.ToInt32((Math.Floor(xx)));
             MouseCoords.y = Convert.ToInt32((Math.Floor(YY)));
             
-            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(MouseCoords,LightingUnitCoordinates);
-            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, MouseCoords, LightingUnitCoordinates);
+            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(MouseCoords,test);
+            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, MouseCoords, test);
             
             PreviousPosition.x = MouseCoords.x;
             PreviousPosition.y = MouseCoords.y;
@@ -114,6 +114,7 @@ namespace SimEnvironment
                         {
                             sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
                             G.DrawImage(player, x, y, sRect, GraphicsUnit.Pixel);
+                            //Console.WriteLine(item.LightingLevel);
                         }
                     }
                 }
