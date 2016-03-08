@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LightUnitsCoords.cs" />
     <Compile Include="SimEnvironment\Collision.cs" />
     <Compile Include="SimEnvironment\DrawGraphics.cs" />
     <Compile Include="SimEnvironment\Form1.cs">
