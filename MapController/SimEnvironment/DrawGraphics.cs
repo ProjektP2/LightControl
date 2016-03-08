@@ -99,6 +99,8 @@ namespace SimEnvironment
             player.MakeTransparent(Color.CadetBlue);
             G.DrawImage(player, xpos, ypos, sRect, GraphicsUnit.Pixel);
 
+            //Lamps Drawing
+            #region Lamps
             for (int x = 0; x < GEngine.FormWidht; x++)
             {
                 for (int y = 0; y < GEngine.FormHeigt; y++)
@@ -113,6 +115,7 @@ namespace SimEnvironment
                     }
                 }
             }
+            #endregion
 
             //Info Drawing
             G.DrawString("Map X:" + MouseCoords.x + "\r\n" +
@@ -129,9 +132,6 @@ namespace SimEnvironment
             catch (Exception)
             {    
             }
-
         }
-
-    }
-    
+    }   
 }
