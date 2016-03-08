@@ -14,16 +14,18 @@ namespace LightControl
         public int Width { get; private set; }
         public double PixelDensity { get; set; }
 
-        List<Coords> lightUnitCoords = new List<Coords>();
+        List<Coords> lightUnitCoords;
 
-        public LightUnitsCoords(int height, int width, int pixelDensity)
+        public LightUnitsCoords(int height, int width, int pixelDensity,
+            List<Coords> coordList) 
         {
             Height = height;
             Width = width;
             PixelDensity = pixelDensity;
+            lightUnitCoords = coordList;
         }
         
-        public void GetLightUnitCoords()
+        public List<Coords> GetLightUnitCoords()
         {
             for (int x = 0; x < Height; x++)
             {
@@ -35,6 +37,7 @@ namespace LightControl
                     }
                 }
             }
+            return lightUnitCoords;
         }
 
         private bool CheckCoords(int x, int y)
