@@ -9,12 +9,12 @@ namespace Triangulering
 {
     class LightingUnit : Coords
     {
-        float stepInterval = 0.05f;
-        float maxLevel = 1.0f;
-        float minLevel = 0.0f;
-        public float LightingLevel = 0.0f;
+        double stepInterval = 0.05;
+        double maxLevel = 1.0;
+        double minLevel = 0.0;
+        public double LightingLevel = 0.0;
         int[] group = new int[4];
-        float[] scene = new float[16];
+        double[] scene = new double[16];
 
 
         public LightingUnit() :this(0, 0, null, null)
@@ -34,25 +34,25 @@ namespace Triangulering
         }
 
 
-        public float goToMax()
+        public double goToMax()
         {
             LightingLevel = maxLevel;
             return LightingLevel;
         }
 
-        public float goToMin()
+        public double goToMin()
         {
             LightingLevel = minLevel;
             return LightingLevel;
         }
 
-        public float stepUp()
+        public double stepUp()
         {
             LightingLevel = LightingLevel + stepInterval;
             return LightingLevel;
         }
 
-        public float stepDown()
+        public double stepDown()
         {
             LightingLevel = LightingLevel - stepInterval;
             return LightingLevel;
