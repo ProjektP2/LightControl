@@ -24,6 +24,7 @@ namespace SimEnvironment
         Bitmap Map;
         Bitmap player;
         Bitmap teils;
+        Bitmap lamp;
 
         Bitmap BB;
         Bitmap MAPMAP;
@@ -62,6 +63,7 @@ namespace SimEnvironment
             Light = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
             player = new Bitmap("Player.png");
             teils = new Bitmap("Teils.png");
+            lamp = new Bitmap("Lamp.png");
 
         }
         public void Position()
@@ -107,32 +109,120 @@ namespace SimEnvironment
 
                 int xx = Convert.ToInt32(item.x);
                 int yy = Convert.ToInt32(item.y);
-                sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
+                sRect = new Rectangle(0, 0, 5, 5);
                 player.MakeTransparent(Color.CadetBlue);
-                Glamps.DrawImage(player, xx, yy, sRect, GraphicsUnit.Pixel);
-                //Console.WriteLine(item.x);
+                Glamps.DrawImage(lamp, xx-2, yy-2, sRect, GraphicsUnit.Pixel);
             }
 
         }
+        public void LLLLLL()
+        {
+            /*GCircle = Graphics.FromImage(Light);
+            sRect = new Rectangle(0, 0, GEngine.FormWidht - 200, GEngine.FormHeigt);
+            SolidBrush myBrush = new SolidBrush(Color.FromArgb(255, 000, 000, 000));
+            GCircle.FillRectangle(myBrush, sRect);*/
+        }
+
         public void DrawLight()
         {
-            int radius = 10;
-            int tal = 20;
-            double procent = 1.0;
-            for (double i = procent; i >= 0; i-=0.1)
+            GCircle = Graphics.FromImage(Light);
+            sRect = new Rectangle(0, 0, GEngine.FormWidht-100, GEngine.FormHeigt);
+            SolidBrush myBrush = new SolidBrush(Color.FromArgb(255, 000, 000, 000));
+            GCircle.FillRectangle(myBrush, sRect);
+            //int tal = 0;
+            //double procent = 1.0;
+
+           /*for (int x = 0; x < 400; x++)
             {
-                tal--;
+                double y = (Math.Sqrt((radius * radius) - ((x - 200) * (x - 200))) + 200);
+                int vdd = Convert.ToInt32((y));
+
+                Light.SetPixel(x, vdd, Color.FromArgb(155, 000, 000, 000));
+            }*/
+
+            int tal = 0;
+            int radius;
+            for (int y = 0; y < GEngine.FormHeigt-100; y++)
+            {
+                radius = 100;
+                for (int x = 0; x < GEngine.FormWidht-100; x++)
+                {
+                    {
+                        foreach (var item in LightUnitCoordinates)
+                        {
+                            int xx = Convert.ToInt32(item.x);
+                            int yy = Convert.ToInt32(item.y);
+
+                            int r = radius * radius;
+                            int noget = ((x - xx) * (x - xx)) + ((y - yy) * (y - yy));
+                            if (r >= noget)
+                            {
+                                int jaa = 0 + (Convert.ToInt32(Math.Sqrt(noget)) * 4) + 10;
+
+                                Color PC = Light.GetPixel(x, y);
+                                string pixelColorStringValue =
+                                    PC.A.ToString("D3") + "";
+                                int dfg = Convert.ToInt32(pixelColorStringValue);
+
+                                if (jaa < dfg)
+                                {
+                                    Light.SetPixel(x, y, Color.FromArgb(jaa, 000, 000, 000));
+                                }
+
+                            }
+                        }
+                        //int xx = 64;//Convert.ToInt32(32);
+                        //int yy = 64;// Convert.ToInt32(32);
+                       /* int r = radius * radius;
+                        int noget = ((x - xx) * (x - xx)) + ((y - yy)* (y - yy));
+                        if (r >= noget)
+                        {
+                            int jaa = 0+(Convert.ToInt32(Math.Sqrt(noget))*4)+10;
+
+                            Color PC = Light.GetPixel(x, y);
+                            string pixelColorStringValue =
+                                PC.A.ToString("D3") + "";
+                            int dfg = Convert.ToInt32(pixelColorStringValue);
+
+                            if (jaa < dfg)
+                            {
+                                Light.SetPixel(x, y, Color.FromArgb(jaa, 000, 000, 000));
+                            }
+                                
+                        }*/
+                    }
+                   // tal++;
+                }
+                
+            }
+            //Console.WriteLine(tal);
+
+
+
+
+
+            /*for (double i = procent; i >= 0; i-=0.1)
+            {
                 double volume = 255 - (255 * (procent-i));
                 int vm = Convert.ToInt32((Math.Floor(volume)));
-                Console.WriteLine((radius+vm));
-                //Console.WriteLine(vm);
 
-                GCircle = Graphics.FromImage(Light);
-                sRect = new Rectangle((6*32)-radius, (6*32)-radius, radius+vm , radius+vm);
-                SolidBrush myBrush = new SolidBrush(Color.FromArgb(100, 000, 000, 000));
-                GCircle.FillEllipse(myBrush, sRect);
+                
+
+                int xx = Convert.ToInt32(LightUnitCoordinates[48].x);
+                int yy = Convert.ToInt32(LightUnitCoordinates[48].y);
+
+                sRect = new Rectangle((xx-(radius/2)), (yy-(radius/2)), radius , radius);
+
+                Pen pen = new Pen(Color.FromArgb(vm, 000, 000, 000), 10);
+                
+                GCircle.DrawEllipse(pen, sRect);
+
+
+                //GCircle.FillEllipse(myBrush, sRect);
                 //GCircle.FillRectangle(myBrush, sRect);
-            }
+                radius -= 20;
+                tal+=10;
+            }*/
         }
         private void GetSurce(string pixelColorStringValue)
         {
