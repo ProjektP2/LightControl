@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace SimEnvironment
 {
@@ -14,7 +15,6 @@ namespace SimEnvironment
         public const int FormHeigt = 640;
         public const int FormWidht = 750;
         public const int TileSize = 32;
-        
 
         GraphicsDraw grapihicsDraw;
         Collision collision;
@@ -28,6 +28,9 @@ namespace SimEnvironment
         // The Speed the player walks with
         private int PlayerSpeed = 3;
         bool right, left, up, down;
+        int frameRendered = 0;
+        int fps = 0;
+        long startTime = Environment.TickCount;
 
         public GEngine(Form form)
         {
@@ -38,6 +41,8 @@ namespace SimEnvironment
             grapihicsDraw = new GraphicsDraw(window, Map);
             collision = new Collision(Map);
             grapihicsDraw.Begin();
+            grapihicsDraw.DrawMap();
+            grapihicsDraw.DrawLamps();
             StartGameLoop();
         }
         //Load the Map from a picture
@@ -55,11 +60,24 @@ namespace SimEnvironment
                 //
                 PlayerMove();
                 grapihicsDraw.Position();
-                grapihicsDraw.Draw(playerX, playerY);
-
+                grapihicsDraw.Draw(playerX, playerY, fps);
+                grapihicsDraw.DrawLight();
+                FPS();
+                //Running = false;
             } while (Running);
             Application.Exit();
         }
+        private void FPS()
+        {
+            frameRendered++;
+            if (Environment.TickCount >= startTime + 1000)
+            {
+                fps = frameRendered;
+                frameRendered = 0;
+                startTime = Environment.TickCount;
+            }
+        }
+
 
         //Move the player
         public void NoPress(KeyEventArgs e)

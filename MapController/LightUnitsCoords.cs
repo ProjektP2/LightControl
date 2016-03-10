@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LightControl;
+using Triangulering;
 
 namespace LightControl
 {
@@ -14,30 +15,26 @@ namespace LightControl
         public int Width { get; private set; }
         public double PixelDensity { get; set; }
 
-        List<Coords> lightUnitCoords;
 
-        public LightUnitsCoords(int height, int width, int pixelDensity,
-            List<Coords> coordList) 
+        public LightUnitsCoords(int height, int width, int pixelDensity) 
         {
             Height = height;
             Width = width;
             PixelDensity = pixelDensity;
-            lightUnitCoords = coordList;
         }
         
-        public List<Coords> GetLightUnitCoords()
+        public void GetLightUnitCoords(ref List<LightingUnit> lightUnitCoords)
         {
-            for (int x = 0; x < Height; x++)
+            for (int y = 50; y < Height-200; y++)
             {
-                for (int y = 0; y < Width; y++)
+                for (int x = 50; x < Width-200; x++)
                 {
                     if (CheckCoords(x,y))
                     {
-                        lightUnitCoords.Add(new Coords(x, y));
+                        lightUnitCoords.Add(new LightingUnit(x,y));
                     }
                 }
             }
-            return lightUnitCoords;
         }
 
         private bool CheckCoords(int x, int y)

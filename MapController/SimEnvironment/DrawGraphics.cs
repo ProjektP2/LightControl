@@ -7,57 +7,178 @@ using System.Drawing;
 using System.Windows.Forms;
 using LightControl;
 using Triangulering;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 
 namespace SimEnvironment
 {
     class GraphicsDraw
     {
+
         Graphics BBG;
         Rectangle sRect;
         Rectangle dRect;
         Graphics G;
-        Bitmap BB;
+        Graphics GMap;
+        Graphics Glamps;
+        Graphics GCircle;
+        Graphics GBlack;
+
         Bitmap Map;
         Bitmap player;
         Bitmap teils;
+        Bitmap lamp;
+
+        Bitmap BB;
+        Bitmap MAPMAP;
+        Bitmap Lamps;
+        Bitmap Light;
+
         Form window;
         List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
         List<LightingUnit> ActivatedLightingUnitsInPath = new List<LightingUnit>();
         List<Coords> LightingUnitCoordinates = new List<Coords>();
+        
+        List<LightingUnit> LightUnitCoordinates;
         Coords PreviousPosition = new Coords(99999,99999);
-        //int posX, posY;
+        
         Coords PositionCoords = new Coords();
-        //public int mouseX, mouseY;
+        
         Coords MouseCoords = new Coords();
 
         public GraphicsDraw(Form form, Bitmap map)
         {
+            LightingUnitCoordinates.Add(new Coords(30, 50));
+            LightingUnitCoordinates.Add(new Coords(60, 50));
+            LightingUnitCoordinates.Add(new Coords(90, 50));
+            LightingUnitCoordinates.Add(new Coords(200, 50));
+            LightingUnitCoordinates.Add(new Coords(250, 50));
+            LightingUnitCoordinates.Add(new Coords(300, 50));
+            LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.FormHeigt, GEngine.FormWidht, GEngine.TileSize);
+            LightUnitCoordinates = new List<LightingUnit>();
+            lol2.GetLightUnitCoords(ref LightUnitCoordinates);
             Map = map;
             window = form;
         }
         public void Begin()
         {
             G = window.CreateGraphics();
+            GMap = window.CreateGraphics();
+            Glamps = window.CreateGraphics();
+            GCircle = window.CreateGraphics();
+            GBlack = window.CreateGraphics();
             BB = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
+            MAPMAP = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
+            Lamps = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
+            Light = new Bitmap(GEngine.FormWidht-200, GEngine.FormHeigt);
             player = new Bitmap("Player.png");
             teils = new Bitmap("Teils.png");
-            LightingUnitCoordinates.Add(new Coords(10, 10));
+            lamp = new Bitmap("Lamp.png");
+
         }
         public void Position()
         {
-            double xx = PositionCoords.x / 32;
-            double YY = PositionCoords.y / 32;
+            double xx = PositionCoords.x / GEngine.TileSize;
+            double YY = PositionCoords.y / GEngine.TileSize;
             MouseCoords.x = Convert.ToInt32((Math.Floor(xx)));
             MouseCoords.y = Convert.ToInt32((Math.Floor(YY)));
             
-            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(MouseCoords,LightingUnitCoordinates);
-            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, MouseCoords, LightingUnitCoordinates);
+            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(MouseCoords, LightUnitCoordinates);
+            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, MouseCoords, LightUnitCoordinates);
             
             PreviousPosition.x = MouseCoords.x;
             PreviousPosition.y = MouseCoords.y;
 
         }
+        public void DrawMap()
+        {
+            GMap = Graphics.FromImage(MAPMAP);
+            for (int x = 0; x < Map.Width; x++)
+            {
+                for (int y = 0; y < Map.Height; y++)
+                {
+                    //Determine the color code of the pixel on the map
+                    // And draw to the window
+                    Color PixelCode = Map.GetPixel(x, y);
+                    string pixelColorStringValue =
+                        PixelCode.R.ToString("D3") + "" +
+                        PixelCode.G.ToString("D3") + "" +
+                        PixelCode.B.ToString("D3") + "";
+                    GetSurce(pixelColorStringValue);
+                    dRect = new Rectangle((x * GEngine.TileSize), (y * GEngine.TileSize), GEngine.TileSize, GEngine.TileSize);
+                    GMap.DrawImage(teils, dRect, sRect, GraphicsUnit.Pixel);
+                }
+            }
+            GMap.Dispose();
+            teils.Dispose();
+        }
+        public void DrawLamps()
+        {
+            Glamps = Graphics.FromImage(Lamps);
+            foreach (var item in LightingUnitCoordinates)
+            {
+                int xx = Convert.ToInt32(item.x);
+                int yy = Convert.ToInt32(item.y);
+                sRect = new Rectangle(0, 0, 5, 5);
+                lamp.MakeTransparent(Color.CadetBlue);
+                Glamps.DrawImage(lamp, xx-2, yy-2, sRect, GraphicsUnit.Pixel);
+            }
+            Glamps.Dispose();
+            lamp.Dispose();
 
+
+        }
+
+        public void DrawLight()
+        {
+            
+            GCircle = Graphics.FromImage(Light);
+            int radius = 30;
+            double procent = 0.9;
+
+            PixelFormat pxf = PixelFormat.Format32bppArgb;
+            Rectangle reccct = new Rectangle(0, 0, Light.Width, Light.Height);
+            BitmapData bmpData = Light.LockBits(reccct, ImageLockMode.ReadWrite, pxf);
+            IntPtr ptr = bmpData.Scan0;
+
+            int numBytes = bmpData.Stride * Light.Height;
+            byte[] rgbValues = new byte[numBytes];
+
+            Marshal.Copy(ptr,rgbValues, 0, numBytes);
+            int tal = 0;
+            for (int i = 0; i < rgbValues.Length; i+=4)
+            {
+                rgbValues[i] = 0;
+                rgbValues[i+1] = 0;
+                rgbValues[i + 2] = 0;
+                rgbValues[i + 3] = 255;
+                tal++;
+            }
+            foreach (var item in LightUnitCoordinates)
+            {
+                double volume = 255 - (255 * (procent));
+
+                int Xcentrum = Convert.ToInt32(item.x);
+                int Ycentrum = Convert.ToInt32(item.y);
+                int PlaceInArray;
+                for (int y = Ycentrum - radius; y < Ycentrum + radius; y++)
+                {
+                    for (int x = Xcentrum - radius; x < Xcentrum + radius; x++)
+                    {
+                        int r = radius * radius;
+                        int Cirklensligning = ((x - Xcentrum) * (x - Xcentrum)) + ((y - Ycentrum) * (y - Ycentrum));
+                        if (Cirklensligning <= r)
+                        {
+                            int jaa = 0 + (Convert.ToInt32(volume + (Math.Sqrt(Cirklensligning))));
+                                PlaceInArray = (y * Light.Width*4) + x*4;
+                            rgbValues[PlaceInArray+3] = Convert.ToByte(jaa);
+                        }
+                    }
+                }
+            }
+            Marshal.Copy(rgbValues, 0, ptr, numBytes);
+            Light.UnlockBits(bmpData);
+        }
         private void GetSurce(string pixelColorStringValue)
         {
             switch (pixelColorStringValue)
@@ -71,52 +192,33 @@ namespace SimEnvironment
              }
         }
 
-        public void Draw(int xpos, int ypos)
+        public void Draw(int xpos, int ypos, int fps)
         {
             //Player possion
             PositionCoords.x = xpos;
             PositionCoords.y = ypos;
-            // Draw the teils to the window
-            for (int x = 0; x < Map.Width; x ++)
-            {
-                for (int y = 0; y < Map.Height; y ++)
-                {
-                    //Determine the color code of the pixel on the map
-                    // And draw to the window
-                    Color PixelCode = Map.GetPixel(x,y);
-                    string pixelColorStringValue =
-                        PixelCode.R.ToString("D3") + "" +
-                        PixelCode.G.ToString("D3") + "" +
-                        PixelCode.B.ToString("D3") + "";
-                    GetSurce(pixelColorStringValue);
-                    dRect = new Rectangle((x * GEngine.TileSize), (y * GEngine.TileSize), GEngine.TileSize, GEngine.TileSize);
-                    G.DrawImage(teils, dRect, sRect, GraphicsUnit.Pixel);                
-                }
-   
-            }
+            
+            // Draw the teils to the 
+            
+            sRect = new Rectangle(0, 0, GEngine.FormWidht, GEngine.FormHeigt);
+            G.DrawImage(MAPMAP, 0, 0, sRect, GraphicsUnit.Pixel);
+
             //Player Drawing
             sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
             player.MakeTransparent(Color.CadetBlue);
             G.DrawImage(player, xpos, ypos, sRect, GraphicsUnit.Pixel);
 
-            for (int x = 0; x < GEngine.FormWidht; x++)
-            {
-                for (int y = 0; y < GEngine.FormHeigt; y++)
-                {
-                    foreach (var item in LightingUnitCoordinates)
-                    {
-                        if (item.x == x && item.y == y)
-                        {
-                            sRect = new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize);
-                            G.DrawImage(player, x, y, sRect, GraphicsUnit.Pixel);
-                        }
-                    }
-                }
-            }
+            //Lamps Drawing
+            sRect = new Rectangle(0, 0, GEngine.FormWidht, GEngine.FormHeigt);
+            G.DrawImage(Lamps, 0, 0, sRect, GraphicsUnit.Pixel);
+
+            //Light Drawing
+            sRect = new Rectangle(0, 0, GEngine.FormWidht, GEngine.FormHeigt);
+            G.DrawImage(Light, 0, 0, sRect, GraphicsUnit.Pixel);
 
             //Info Drawing
-            G.DrawString("Map X:" + MouseCoords.x + "\r\n" +
-                "Map Y" + MouseCoords.y, window.Font, Brushes.Black, 650, 0);
+            G.DrawString("FPS:" + fps + "\r\n" + "Map X:" + MouseCoords.x + "\r\n" +
+               "Map Y" + MouseCoords.y, window.Font, Brushes.Black, 650, 0);
             //Draw it to the window
             G = Graphics.FromImage(BB);
 
@@ -125,13 +227,12 @@ namespace SimEnvironment
                 BBG = window.CreateGraphics();
                 BBG.DrawImage(BB, 0, 0, GEngine.FormWidht, GEngine.FormHeigt);
                 G.Clear(Color.Green);
+
             }
             catch (Exception)
             {    
             }
-
         }
 
-    }
-    
+    }   
 }
