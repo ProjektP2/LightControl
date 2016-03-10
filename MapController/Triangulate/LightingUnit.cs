@@ -12,7 +12,7 @@ namespace Triangulering
         double stepInterval = 0.01; //intervallet hvormed der bliver ændret ved stepUp og stepDown
         double maxLevel = 1.0; //max lysstyrke (basically en standard on knap)
         double minLevel = 0.0; //min lysstyrke (basically en standard off knap)
-        private int _address = 0;
+        static private int _address = 0;
         private double fadeRate = 0.5; //jeg har en ide med den her (kan måske undgåes at skulle sammenligne to lister for at fade lamperne ud efter brug)
         private double watts = 60; //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
         public double LightingLevel = 0.0; //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres(forklaring følger))
@@ -90,8 +90,8 @@ namespace Triangulering
 
         public int Address
         {
-            get { return _address; }
-            private set { _address = value; }
+            get { return Address; }
+            private set { Address = value; }
         }
 
 
@@ -127,7 +127,7 @@ namespace Triangulering
         {
             while (LightingLevel > wantedLightLevel)
             {
-                stepUp();
+                stepDown();
             }
             while (LightingLevel < wantedLightLevel)
             {
