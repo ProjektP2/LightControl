@@ -232,9 +232,6 @@ namespace SimEnvironment
                 BBG.DrawImage(BB, 0, 0, GEngine.FormWidht, GEngine.FormHeigt);
 
                 G.Clear(Color.Green);
-                Light.Dispose();
-                //GCircle.Dispose();
-                //GCircle.Clear(Color.Transparent);
 
             }
             catch (Exception)
