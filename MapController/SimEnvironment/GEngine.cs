@@ -76,6 +76,7 @@ namespace SimEnvironment
                 fps = frameRendered;
                 frameRendered = 0;
                 startTime = Environment.TickCount;
+                //Console.WriteLine(fps);
             }
         }
 
