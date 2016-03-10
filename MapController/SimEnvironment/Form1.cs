@@ -23,7 +23,7 @@ namespace SimEnvironment
         {
             //Starts when the Form i Loaded
             gEngine = new GEngine(this);
-            //AllocConsole();
+            AllocConsole();
 
             this.Show();
             this.Focus();
