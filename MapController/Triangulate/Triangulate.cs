@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LightControl;
+using SimEnvironment;
 
 namespace Triangulering
 {
@@ -83,7 +84,7 @@ namespace Triangulering
 
         //Collection of function calls. Creates all variables needed and calls all the functions to determine the possible positions
         //of the source signal.
-        public static Coords[] TriangulateSignalSource(Circle Circle1, Circle Circle2)
+        private static Coords[] TriangulateSignalSource(Circle Circle1, Circle Circle2)
         {
             //Calculates all variables needed for triangulation (Distance between Centers, a, h and P2)
             double DistanceBetweenCenters = CalculateDistanceBetweenPoints(Circle1, Circle2);
@@ -108,5 +109,100 @@ namespace Triangulering
             Console.WriteLine($"h was calculated to: {Math.Round(h,3)}");
             Console.WriteLine($"Coordinates of P2 were calculated to: ({Math.Round(P2.x,3)},{Math.Round(P2.y,3)})");
         }
+
+        public static void DetermineSignalStrengthFromCoords(Occupant SignalSource, Circle Router1, Circle Router2)
+        {
+            Coords CoordinatesTouse = new Coords();
+            Coords Router1Center = new Coords(Router1.x, Router1.y);
+            Coords Router2Center = new Coords(Router2.x, Router2.y);
+
+            if (SignalSource.IsPosition2Initialized == false)
+            {
+                CoordinatesTouse = SignalSource.Position1;
+            }
+
+            else
+            {
+                CoordinatesTouse = SignalSource.Position2;
+            }
+
+            //Distance between Router1 and CoordinatesTouse, set this to the radius of Router1
+
+            Router1.Radius = CalculateDistanceBetweenPoints(CoordinatesTouse, Router1Center);
+            Router2.Radius = CalculateDistanceBetweenPoints(CoordinatesTouse, Router2Center);
+        }
+
+        public static Coords ExcludeImpossiblePosition(
+            Occupant SignalSource, Circle Router1, Circle Router2, Coords[] PositionsOfSignalSource)
+        {
+            //If Routers are placed on the western wall
+            if (Router1.x == 0 && Router2.x == 0)
+            {
+                if (PositionsOfSignalSource[0].x < 0)
+                {
+                    return PositionsOfSignalSource[1];
+                }
+                else
+                {
+                    return PositionsOfSignalSource[0];
+                }
+            }
+
+            //If routers are placed on southern wall
+            else if (Router1.y == GEngine.FormHeigt && Router2.y == GEngine.FormHeigt)
+            {
+                if (PositionsOfSignalSource[0].y > GEngine.FormHeigt)
+                {
+                    return PositionsOfSignalSource[1];
+                }
+                else
+                {
+                    return PositionsOfSignalSource[0];
+                }
+            }
+
+            //If routers are placed on eastern wall
+            else if (Router1.x == GEngine.FormWidht && Router2.x == GEngine.FormWidht)
+            {
+                if (PositionsOfSignalSource[0].x > GEngine.FormWidht)
+                {
+                    return PositionsOfSignalSource[1];
+                }
+                else
+                {
+                    return PositionsOfSignalSource[0];
+                }
+            }
+
+            //If routers are placed on northern wall
+            else if (Router1.y == 0 && Router2.y == 0)
+            {
+                if (PositionsOfSignalSource[0].y < 0)
+                {
+                    return PositionsOfSignalSource[1];
+                }
+                else
+                {
+                    return PositionsOfSignalSource[0];
+                }
+            }
+
+            else
+            {
+                Console.WriteLine("No possible positions.");
+                return (null);
+            }
+
+        }
+
+        //Calls all functions in this class... returns the single possible position of the signal source.
+        public static Coords TriangulatePositionOfSignalSource(
+            Occupant SignalSource, Circle Router1, Circle Router2)
+        {
+            DetermineSignalStrengthFromCoords(SignalSource, Router1, Router2);
+            Coords[] PossiblePositions = TriangulateSignalSource(Router1, Router2);
+            return (ExcludeImpossiblePosition(SignalSource, Router1, Router2, PossiblePositions));
+        }
+
     }
 }
