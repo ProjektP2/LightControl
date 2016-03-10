@@ -52,7 +52,6 @@ namespace SimEnvironment
             LightingUnitCoordinates.Add(new Coords(90, 50));
             LightingUnitCoordinates.Add(new Coords(200, 50));
             LightingUnitCoordinates.Add(new Coords(250, 50));
-            LightingUnitCoordinates.Add(new Coords(300, 50));
             LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.FormHeigt, GEngine.FormWidht, 32);
             LightUnitCoordinates = new List<LightingUnit>();
             lol2.GetLightUnitCoords(ref LightUnitCoordinates);
@@ -109,8 +108,9 @@ namespace SimEnvironment
                     dRect = new Rectangle((x * GEngine.TileSize), (y * GEngine.TileSize), GEngine.TileSize, GEngine.TileSize);
                     GMap.DrawImage(teils, dRect, sRect, GraphicsUnit.Pixel);
                 }
-
             }
+            GMap.Dispose();
+            teils.Dispose();
         }
         public void DrawLamps()
         {
@@ -121,9 +121,12 @@ namespace SimEnvironment
                 int xx = Convert.ToInt32(item.x);
                 int yy = Convert.ToInt32(item.y);
                 sRect = new Rectangle(0, 0, 5, 5);
-                player.MakeTransparent(Color.CadetBlue);
+                lamp.MakeTransparent(Color.CadetBlue);
                 Glamps.DrawImage(lamp, xx-2, yy-2, sRect, GraphicsUnit.Pixel);
             }
+            Glamps.Dispose();
+            lamp.Dispose();
+
 
         }
 
@@ -149,37 +152,36 @@ namespace SimEnvironment
             */
             int radius;
             double procent = 0.9;
-                radius = 30;
-                    foreach (var item in LightingUnitCoordinates)
+            radius = 30;
+            foreach (var item in LightingUnitCoordinates)
+            {
+                double volume = 255 - (255 * (procent));
+
+                int X0 = Convert.ToInt32(item.x);
+                int Y0 = Convert.ToInt32(item.y);
+                for (int y = Y0 - radius; y < Y0 + radius; y++)
+                {
+                    for (int x = X0 - radius; x < X0 + radius; x++)
                     {
-                        double volume = 255 - (255 * (procent));
-
-                        int X0 = Convert.ToInt32(item.x);
-                        int Y0 = Convert.ToInt32(item.y);
-                        for (int y = Y0 - radius; y < Y0 + radius; y++)
+                        int r = radius * radius;
+                        int Cirklensligning = ((x - X0) * (x - X0)) + ((y - Y0) * (y - Y0));
+                        if (Cirklensligning <= r)
                         {
-                            for (int x = X0 - radius; x < X0 + radius; x++)
+                            int jaa = 0 + (Convert.ToInt32(volume + (Math.Sqrt(Cirklensligning)) * 4));
+                            Color PixelCode = Light.GetPixel(x, y);
+                            string pixelColorStringValue =
+                            PixelCode.A.ToString("D3") + "";
+                            int dfg = Convert.ToInt32(pixelColorStringValue);
+
+                            if (jaa < dfg)
                             {
-                                int r = radius * radius;
-                                int Cirklensligning = ((x - X0) * (x - X0)) + ((y - Y0) * (y - Y0));
-                                if (Cirklensligning <= r)
-                                {
-                                    int jaa = 0 + (Convert.ToInt32(volume + (Math.Sqrt(Cirklensligning)) * 4));
-                                    //Color PixelCode = Light.GetPixel(x, y);
-                                    //string pixelColorStringValue =
-                                    //PixelCode.A.ToString("D3") + "";
-                                    //int dfg = Convert.ToInt32(pixelColorStringValue);
-
-                                    //if (jaa < dfg)
-                                    {
-                                        Light.SetPixel(x, y, Color.FromArgb(jaa, 000, 000, 000));
-                                    }
-
-                                }
+                                Light.SetPixel(x, y, Color.FromArgb(jaa, 000, 000, 000));
                             }
-                        }
 
+                        }
                     }
+                }
+            }      
         }
         private void GetSurce(string pixelColorStringValue)
         {
@@ -230,6 +232,8 @@ namespace SimEnvironment
                 BBG.DrawImage(BB, 0, 0, GEngine.FormWidht, GEngine.FormHeigt);
 
                 G.Clear(Color.Green);
+                Light.Dispose();
+                //GCircle.Dispose();
                 //GCircle.Clear(Color.Transparent);
 
             }
