@@ -13,8 +13,23 @@ namespace Triangulering
     //to calculate the speed of which the signal source is moving between two points.
     class Occupant
     {
-        private bool IsPosition1Initialized = false;
-        private bool IsPosition2Initialized = false;
+        public Occupant()
+        {
+            IsPosition1Initialized = false;
+            IsPosition2Initialized = false;
+        }
+
+        public bool IsPosition1Initialized
+        {
+            get { return IsPosition1Initialized; }
+            private set { IsPosition1Initialized = value; }
+        }
+
+        public bool IsPosition2Initialized
+        {
+            get { return IsPosition2Initialized; }
+            private set { IsPosition2Initialized = value; }
+        }
 
         public Coords Position1 = new Coords();
         public Coords Position2 = new Coords();
@@ -90,6 +105,8 @@ namespace Triangulering
             Console.WriteLine($"Velocity of Occupant1: {Velocity}");
             Console.ReadKey();
         }
+
+
 
     }
 
