@@ -196,12 +196,12 @@ namespace Triangulering
         }
 
         //Calls all functions in this class... returns the single possible position of the signal source.
-        public static Coords TriangulatePositionOfSignalSource(
+        public static void TriangulatePositionOfSignalSource(
             Occupant SignalSource, Circle Router1, Circle Router2)
         {
             DetermineSignalStrengthFromCoords(SignalSource, Router1, Router2);
             Coords[] PossiblePositions = TriangulateSignalSource(Router1, Router2);
-            return (ExcludeImpossiblePosition(SignalSource, Router1, Router2, PossiblePositions));
+            SignalSource.UpdatePositions(ExcludeImpossiblePosition(SignalSource, Router1, Router2, PossiblePositions));
         }
 
     }
