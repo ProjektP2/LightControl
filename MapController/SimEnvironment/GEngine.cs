@@ -43,6 +43,7 @@ namespace SimEnvironment
             grapihicsDraw.Begin();
             grapihicsDraw.DrawMap();
             grapihicsDraw.DrawLamps();
+            grapihicsDraw.BlackMap();
             StartGameLoop();
         }
         //Load the Map from a picture
