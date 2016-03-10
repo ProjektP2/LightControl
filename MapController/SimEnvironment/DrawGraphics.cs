@@ -33,7 +33,6 @@ namespace SimEnvironment
         Bitmap MAPMAP;
         Bitmap Lamps;
         Bitmap Light;
-        Bitmap Black;
 
         Form window;
         List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
@@ -54,6 +53,7 @@ namespace SimEnvironment
             LightingUnitCoordinates.Add(new Coords(90, 50));
             LightingUnitCoordinates.Add(new Coords(200, 50));
             LightingUnitCoordinates.Add(new Coords(250, 50));
+            LightingUnitCoordinates.Add(new Coords(300, 50));
             LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.FormHeigt, GEngine.FormWidht, GEngine.TileSize);
             LightUnitCoordinates = new List<LightingUnit>();
             lol2.GetLightUnitCoords(ref LightUnitCoordinates);
@@ -71,7 +71,6 @@ namespace SimEnvironment
             MAPMAP = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
             Lamps = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
             Light = new Bitmap(GEngine.FormWidht-200, GEngine.FormHeigt);
-            Black = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
             player = new Bitmap("Player.png");
             teils = new Bitmap("Teils.png");
             lamp = new Bitmap("Lamp.png");
@@ -118,7 +117,6 @@ namespace SimEnvironment
             Glamps = Graphics.FromImage(Lamps);
             foreach (var item in LightingUnitCoordinates)
             {
-
                 int xx = Convert.ToInt32(item.x);
                 int yy = Convert.ToInt32(item.y);
                 sRect = new Rectangle(0, 0, 5, 5);
@@ -131,26 +129,10 @@ namespace SimEnvironment
 
         }
 
-        public void BlackMap()
-        {
-            /*GBlack = Graphics.FromImage(Black);
-            sRect = new Rectangle(0, 0, GEngine.FormWidht - 100, GEngine.FormHeigt);
-            SolidBrush myBrush = new SolidBrush(Color.FromArgb(255, 000, 000, 000));
-            GBlack.FillRectangle(myBrush, sRect);*/
-        }
-
         public void DrawLight()
         {
             
             GCircle = Graphics.FromImage(Light);
-            /*sRect = new Rectangle(0, 0, GEngine.FormWidht - 100, GEngine.FormHeigt);
-            SolidBrush myBrush = new SolidBrush(Color.FromArgb(255, 000, 000, 000));
-            GCircle.FillRectangle(myBrush, sRect);*/
-
-            /*GCircle = Graphics.FromImage(Light);
-            sRect = new Rectangle(0, 0, Black.Width, Black.Height);
-            GCircle.DrawImage(Black, 0, 0, sRect, GraphicsUnit.Pixel);
-            */
             int radius = 30;
             double procent = 0.9;
 
@@ -172,39 +154,30 @@ namespace SimEnvironment
                 rgbValues[i + 3] = 255;
                 tal++;
             }
-            foreach (var item in LightingUnitCoordinates)
+            foreach (var item in LightUnitCoordinates)
             {
                 double volume = 255 - (255 * (procent));
 
-                int X0 = Convert.ToInt32(item.x);
-                int Y0 = Convert.ToInt32(item.y);
-                int ee = 0;
-                for (int y = Y0 - radius; y < Y0 + radius; y++)
+                int Xcentrum = Convert.ToInt32(item.x);
+                int Ycentrum = Convert.ToInt32(item.y);
+                int PlaceInArray;
+                for (int y = Ycentrum - radius; y < Ycentrum + radius; y++)
                 {
-                    for (int x = X0 - radius; x < X0 + radius; x++)
+                    for (int x = Xcentrum - radius; x < Xcentrum + radius; x++)
                     {
                         int r = radius * radius;
-                        int Cirklensligning = ((x - X0) * (x - X0)) + ((y - Y0) * (y - Y0));
+                        int Cirklensligning = ((x - Xcentrum) * (x - Xcentrum)) + ((y - Ycentrum) * (y - Ycentrum));
                         if (Cirklensligning <= r)
                         {
                             int jaa = 0 + (Convert.ToInt32(volume + (Math.Sqrt(Cirklensligning))));
-                                ee = (y * Light.Width*4) + x*4;
-                            //rgbValues[ee] = 0;
-                            //rgbValues[ee + 1] = 0;
-                            //rgbValues[ee+2] = 0;
-                            rgbValues[ee+3] = 155;
+                                PlaceInArray = (y * Light.Width*4) + x*4;
+                            rgbValues[PlaceInArray+3] = Convert.ToByte(jaa);
                         }
                     }
                 }
             }
             Marshal.Copy(rgbValues, 0, ptr, numBytes);
-
             Light.UnlockBits(bmpData);
-
-            // double ggg = (tal / Light.Width);
-            //int y = Convert.ToInt32(Math.Floor(ggg));
-            //int x = tal % Light.Width;
-            //int r = radius * radius;
         }
         private void GetSurce(string pixelColorStringValue)
         {

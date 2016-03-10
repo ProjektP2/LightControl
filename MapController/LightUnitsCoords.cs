@@ -25,9 +25,9 @@ namespace LightControl
         
         public void GetLightUnitCoords(ref List<LightingUnit> lightUnitCoords)
         {
-            for (int x = 0; x < Height; x++)
+            for (int y = 50; y < Height-200; y++)
             {
-                for (int y = 0; y < Width; y++)
+                for (int x = 50; x < Width-200; x++)
                 {
                     if (CheckCoords(x,y))
                     {

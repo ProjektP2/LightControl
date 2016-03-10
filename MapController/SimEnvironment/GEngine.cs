@@ -43,7 +43,6 @@ namespace SimEnvironment
             grapihicsDraw.Begin();
             grapihicsDraw.DrawMap();
             grapihicsDraw.DrawLamps();
-            grapihicsDraw.BlackMap();
             StartGameLoop();
         }
         //Load the Map from a picture
@@ -76,7 +75,6 @@ namespace SimEnvironment
                 fps = frameRendered;
                 frameRendered = 0;
                 startTime = Environment.TickCount;
-                //Console.WriteLine(fps);
             }
         }
 
