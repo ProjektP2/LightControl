@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Threading.Tasks;
 
 namespace SimEnvironment
 {
@@ -60,8 +59,9 @@ namespace SimEnvironment
                 //
                 PlayerMove();
                 grapihicsDraw.Position();
-                grapihicsDraw.Draw(playerX, playerY, fps);
                 grapihicsDraw.DrawLight();
+                grapihicsDraw.Draw(playerX, playerY, fps);
+
                 FPS();
                 //Running = false;
             } while (Running);
@@ -107,25 +107,25 @@ namespace SimEnvironment
             if (up == true)
             {
                 //Checks out if the direction is blocked 
-                if (collision.CheckCollison(playerX, playerY - PlayerSpeed,2,2,30,2))
+                if (collision.CheckCollison(playerX, playerY - PlayerSpeed,2,2,16,2))
                     playerY -= PlayerSpeed;
             }
             if (down == true)
             {
                 //Checks out if the direction is blocked
-                if (collision.CheckCollison(playerX, playerY+ PlayerSpeed,2,30,30,30))
+                if (collision.CheckCollison(playerX, playerY+ PlayerSpeed,2, 16, 16,16))
                     playerY += PlayerSpeed;
             }
             if (left == true)
             {
                 //Checks out if the direction is blocked
-                if (collision.CheckCollison(playerX - PlayerSpeed, playerY, 2,2,2,30))
+                if (collision.CheckCollison(playerX - PlayerSpeed, playerY, 2,2,2, 16))
                     playerX -= PlayerSpeed;
             }
             if (right == true)
             {
                 //Checks out if the direction is blocked
-                if (collision.CheckCollison(playerX + PlayerSpeed, playerY, 30, 2, 30, 30))
+                if (collision.CheckCollison(playerX + PlayerSpeed, playerY, 16, 2, 16, 16))
                     playerX += PlayerSpeed;
             }
         }
