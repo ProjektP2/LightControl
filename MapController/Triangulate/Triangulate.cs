@@ -16,7 +16,7 @@ namespace Triangulering
         //This value is a length, so it cannot be negative.
         public static double CalculateDistanceBetweenPoints(Coords Center1, Coords Center2)
         {
-            double Distance = (Math.Sqrt(Math.Pow(Center1.x - Center2.x, 2)) + Math.Pow(Center1.y - Center2.y, 2));
+            double Distance = (Math.Sqrt((Math.Pow(Center1.x - Center2.x, 2)) + Math.Pow(Center1.y - Center2.y, 2)));
             if (Distance < 0)
             {
                 Distance = Distance * (-1);
