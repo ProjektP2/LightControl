@@ -50,6 +50,8 @@
     <Compile Include="LightUnitsCoords.cs" />
     <Compile Include="Quadtree\QuadTreecs.cs" />
     <Compile Include="Quadtree\QuadTreeNode.cs" />
+    <Compile Include="Running.cs" />
+    <Compile Include="Setup.cs" />
     <Compile Include="SimEnvironment\Collision.cs" />
     <Compile Include="SimEnvironment\DrawGraphics.cs" />
     <Compile Include="SimEnvironment\Form1.cs">

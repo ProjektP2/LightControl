@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Triangulering;
 using SimEnvironment;
+using Organising;
 
 
 namespace LightControl
@@ -18,10 +19,11 @@ namespace LightControl
         static void Main()
         {
             // This should be here
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-            
+            Setup setup = new Setup();
+            Running Loop = new Running();
+
+            setup.Start();
+            Loop.Start();
             //Creating two instances of routers.
             Circle Router1 = new Circle();
             Circle Router2 = new Circle();

@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
+using Organising;
 
 namespace SimEnvironment
 {
     class GEngine
     {
+        
         // Size of the const.
         public const int FormHeigt = 640;
         public const int FormWidht = 750;
