@@ -67,6 +67,7 @@ namespace LightControl
             //has been defined yet, the result is in the format: (distance) pr. (time)
             SignalSource.CalculateVelocity();
             Console.WriteLine($"The new possible positions of signal source are:");
+            // chnage error handling!
             if (NewPossiblePositions[0] != null && NewPossiblePositions[1] != null)
             {
                 Console.WriteLine($"P1 = ({Math.Round(NewPossiblePositions[0].x, 3)},{Math.Round(NewPossiblePositions[0].y, 3)})");
