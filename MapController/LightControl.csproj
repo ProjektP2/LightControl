@@ -46,7 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Quadtree\Bounds.cs" />
     <Compile Include="LightUnitsCoords.cs" />
+    <Compile Include="Quadtree\QuadTreecs.cs" />
+    <Compile Include="Quadtree\QuadTreeNode.cs" />
     <Compile Include="SimEnvironment\Collision.cs" />
     <Compile Include="SimEnvironment\DrawGraphics.cs" />
     <Compile Include="SimEnvironment\Form1.cs">
