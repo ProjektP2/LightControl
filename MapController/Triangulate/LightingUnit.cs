@@ -35,7 +35,7 @@ namespace Triangulering
             Address = _address;
             _address++;
             Time1 = DateTime.Now;
-            Console.WriteLine(_address);
+            //Console.WriteLine(_address);
             //her skal vi have lavet en sikkerhedsforanstaltning der starter en ny liste når _address når 63
 
         }

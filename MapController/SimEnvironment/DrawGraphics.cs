@@ -71,12 +71,17 @@ namespace SimEnvironment
             double YY = PositionCoords.y / GEngine.TileSize;
             MouseCoords.x = Convert.ToInt32((Math.Floor(xx)));
             MouseCoords.y = Convert.ToInt32((Math.Floor(YY)));
+
             
-            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(MouseCoords, LightUnitCoordinates);
-            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, MouseCoords, LightUnitCoordinates);
-            
-            PreviousPosition.x = MouseCoords.x;
-            PreviousPosition.y = MouseCoords.y;
+            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(PositionCoords, LightUnitCoordinates);
+            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, PositionCoords, LightUnitCoordinates);
+            /*foreach (var item in ActivatedLightingUnitsOnUser)
+            {
+                Console.WriteLine(item.LightingLevel);
+            }
+            */
+            PreviousPosition.x = PositionCoords.x;
+            PreviousPosition.y = PositionCoords.y;
 
         }
         public void DrawMap()
@@ -138,9 +143,9 @@ namespace SimEnvironment
                  rgbValues[i] = 255;
              }
              #region noget
-             foreach (var item in LightUnitCoordinates)
+             foreach (var item in ActivatedLightingUnitsOnUser)
              {
-                 double volume = 255 - (255 * (procent));
+                 double volume = 255 - (255 * (item.LightingLevel));
                  int PlaceInArray;
                  for (double y = item.y - _radius; y < item.y + _radius; y++)
                  {
