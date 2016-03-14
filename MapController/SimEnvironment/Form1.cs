@@ -8,37 +8,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using Organising;
 
 namespace SimEnvironment
 {
-    public partial class Form1 : Form
+    public partial class Window : Form
     {
-        GEngine gEngine;
-        public Form1()
+        public Window()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Window_Load(object sender, EventArgs e )
         {
             //Starts when the Form i Loaded
-            gEngine = new GEngine(this);
+            
             AllocConsole();
-
             this.Show();
             this.Focus();
-            gEngine.LoadLevel();
-            gEngine.Init();
+            
+
         }
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             //Detect KeyDown
-            gEngine.Press(e);
+            //gEngine.Press(e);
         }
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        private void Window_KeyUp(object sender, KeyEventArgs e)
         {
             //Detect KeyUp
-            gEngine.NoPress(e);
+            //gEngine.NoPress(e);
         }
 
         //Console Window to Debug 
@@ -46,9 +45,10 @@ namespace SimEnvironment
         [return: MarshalAsAttribute(UnmanagedType.Bool)]
         static extern bool AllocConsole();
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void Window_FormClosing(object sender, FormClosingEventArgs e)
         {
-            gEngine.Running = false;
+            Program.ProgramRunning = false;
         }
+
     }
 }

@@ -20,7 +20,7 @@ namespace SimEnvironment
         GraphicsDraw grapihicsDraw;
         Collision collision;
         Bitmap Map;
-        Form window;
+        Window window;
 
         public bool Running = true;
         //Starting position
@@ -33,7 +33,7 @@ namespace SimEnvironment
         int fps = 0;
         long startTime = Environment.TickCount;
 
-        public GEngine(Form form)
+               public GEngine(Window form)
         {
             window = form;
         }
@@ -44,18 +44,15 @@ namespace SimEnvironment
             grapihicsDraw.Begin();
             grapihicsDraw.DrawMap();
             grapihicsDraw.DrawLamps();
-            StartGameLoop();
+            Visualizing();
         }
         //Load the Map from a picture
         public void LoadLevel()
         {
             Map = new Bitmap("Map3.png");
         }
-        private void StartGameLoop()
+        public void Visualizing()
         {
-
-            do
-            {
                 //makes the computer not to fuck up!
                 Application.DoEvents();
                 //
@@ -63,11 +60,7 @@ namespace SimEnvironment
                 grapihicsDraw.Position();
                 grapihicsDraw.DrawLight();
                 grapihicsDraw.Draw(playerX, playerY, fps);
-
                 FPS();
-                //Running = false;
-            } while (Running);
-            Application.Exit();
         }
         private void FPS()
         {
