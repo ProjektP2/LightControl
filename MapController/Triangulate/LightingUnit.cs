@@ -9,9 +9,6 @@ namespace Triangulering
 {
     class LightingUnit : Coords
     {
-        double wattUsage = 0;
-        DateTime Time1;
-        DateTime Time2;
         double stepInterval = 0.01; //intervallet hvormed der bliver ændret ved stepUp og stepDown
         double maxLevel = 1.0; //max lysstyrke (basically en standard on knap)
         double minLevel = 0.0; //min lysstyrke (basically en standard off knap)
@@ -20,11 +17,11 @@ namespace Triangulering
         private double watts = 60; //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
         public double LightingLevel = 0.0; //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres(forklaring følger))
         List<int> groups = new List<int>(); //liste over grupper den enkelte light unit tilhører
-        double[] scene = new double[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0 }; //array af presets (her tænker jeg vi laver nogle standard scener 
+        double[] scene = new double[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0}; //array af presets (her tænker jeg vi laver nogle standard scener 
         //der gælder for alle light units
 
 
-        public LightingUnit() : this(0, 0) //for testing purposes only. will be deleted later
+        public LightingUnit() :this(0, 0) //for testing purposes only. will be deleted later
         {
         }
 
@@ -32,10 +29,8 @@ namespace Triangulering
         {
             x = X;
             y = Y;
-            Address = _address;
-            _address++;
-            Time1 = DateTime.Now;
-            Console.WriteLine(_address);
+            //Address = _address;
+            //_address++;
             //her skal vi have lavet en sikkerhedsforanstaltning der starter en ny liste når _address når 63
 
         }
@@ -64,7 +59,7 @@ namespace Triangulering
             {
                 Console.WriteLine("Something went completely wrong trying to add the light unit to another group");
             }
-
+          
 
         }
 
@@ -84,15 +79,8 @@ namespace Triangulering
                 //bedre exeption
                 Console.WriteLine("Something went completely wrong trying to remove the light unit to another group");
             }
-        }
 
 
-        public void getWattUsageForLightUnitInHours()
-        {
-            Time2 = DateTime.Now;
-            TimeSpan WattInterval = Time2 - Time1;
-            wattUsage = wattUsage + (WattInterval.TotalHours * LightingLevel * watts);
-            Time1 = Time2;
         }
 
         public void clearGroupsFromLightingUnit(LightingUnit LightingUnitToClearGroupsFrom) //blot en simpel funktion til at rense grupperne i en Light Unit
@@ -100,44 +88,39 @@ namespace Triangulering
             LightingUnitToClearGroupsFrom.groups.Clear();
         }
 
-        public int Address
+        /*public int Address
         {
             get { return Address; }
-            private set { _address = value; }
-        }
+            private set { Address = value; }
+        }*/
 
 
         public double goToMax()
         {
-            getWattUsageForLightUnitInHours();
             LightingLevel = maxLevel;
             return LightingLevel;
         }
 
         public double goToMin()
         {
-            getWattUsageForLightUnitInHours();
             LightingLevel = minLevel;
             return LightingLevel;
         }
 
         public double stepUp()
         {
-            getWattUsageForLightUnitInHours();
             LightingLevel = LightingLevel + stepInterval;
             return LightingLevel;
         }
 
         public double stepDown()
         {
-            getWattUsageForLightUnitInHours();
             LightingLevel = LightingLevel - stepInterval;
             return LightingLevel;
         }
 
         public void Extinguish(LightingUnit lightingUnitToExtinguish) //sluk med det samme!!!
         {
-            getWattUsageForLightUnitInHours();
             lightingUnitToExtinguish.LightingLevel = 0;
         }
         /*public double setLightLevel(double wantedLightLevel)
