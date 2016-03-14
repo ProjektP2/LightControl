@@ -64,6 +64,7 @@
     <Compile Include="SimEnvironment\Initialize.cs" />
     <Compile Include="Triangulate\Circle.cs" />
     <Compile Include="Coords.cs" />
+    <Compile Include="Triangulate\DALIController.cs" />
     <Compile Include="Triangulate\DetermineLightsToActivate.cs" />
     <Compile Include="Triangulate\LightingUnit.cs" />
     <Compile Include="Triangulate\Occupant.cs" />
