@@ -9,7 +9,7 @@ namespace Triangulering
 {
     class DetermineLightsToActivate
     {
-        private static double Radius = 960; //Lights that are further than 3 meters away from the user will not be activated.
+        private static double Radius = 1000; //Lights that are further than 3 meters away from the user will not be activated.
         private static double MaxDistanceFromPath = 1.5; //The maximum distance lighting units can stray from the path of direction
                                                          //to be activated.
         private static double PredictedMovementScaling = 3; //The amount of times we scale the movement vector when predicting movement.
@@ -30,7 +30,6 @@ namespace Triangulering
                 {
                     LightingUnitToCheck.LightingLevel = (CalculateLightingLevel(UserCoordinates, LightingUnitToCheck, Radius));
                     LightingUnitsToActivateOnUser.Add(LightingUnitToCheck);
-                    Console.WriteLine(LightingUnitToCheck.LightingLevel);
                 }
 
 
