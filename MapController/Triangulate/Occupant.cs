@@ -19,17 +19,9 @@ namespace Triangulering
             IsPosition2Initialized = false;
         }
 
-        public bool IsPosition1Initialized
-        {
-            get { return IsPosition1Initialized; }
-            private set { IsPosition1Initialized = value; }
-        }
+        public bool IsPosition1Initialized { get; private set; }
 
-        public bool IsPosition2Initialized
-        {
-            get { return IsPosition2Initialized; }
-            private set { IsPosition2Initialized = value; }
-        }
+        public bool IsPosition2Initialized { get; private set; }
 
         public Coords Position1 = new Coords();
         public Coords Position2 = new Coords();
@@ -40,8 +32,7 @@ namespace Triangulering
         //Sets the starting coordinates (i.e. first signal reading)
         public void SetStartingPosition(Coords Coordinates)
         {
-            Position1.x = Coordinates.x;
-            Position1.y = Coordinates.y;
+            Position1 = Coordinates;
             IsPosition1Initialized = true;
         }
 
@@ -66,8 +57,7 @@ namespace Triangulering
 
             else if (IsPosition1Initialized)
             {
-                Position2.x = Coordinates.x;
-                Position2.y = Coordinates.y;
+                Position2 = Coordinates;
                 IsPosition2Initialized = true;
             }
 
@@ -84,8 +74,11 @@ namespace Triangulering
             }
             else
             {
-                PositionVector.x = Position2.x - Position1.x;
-                PositionVector.x = Position2.y - Position1.y;
+                if (Position1 != null && Position2 != null)
+                {
+                    PositionVector.x = Position2.x - Position1.x;
+                    PositionVector.y = Position2.y - Position1.y;
+                }
             }
 
         }
