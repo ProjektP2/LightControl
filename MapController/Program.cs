@@ -67,6 +67,7 @@ namespace LightControl
             //has been defined yet, the result is in the format: (distance) pr. (time)
             SignalSource.CalculateVelocity();
             Console.WriteLine($"The new possible positions of signal source are:");
+            // Fejl her NullReference !!!!!!!!!!!!!!!!!!!
             Console.WriteLine($"P1 = ({Math.Round(NewPossiblePositions[0].x, 3)},{Math.Round(NewPossiblePositions[0].y, 3)})");
             Console.WriteLine($"P2 = ({Math.Round(NewPossiblePositions[1].x, 3)},{Math.Round(NewPossiblePositions[1].y, 3)})");
             Console.WriteLine($"Velocity of the occupant is: {Math.Round(SignalSource.Velocity, 3)} m/s");
