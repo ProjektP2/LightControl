@@ -38,7 +38,7 @@ namespace LightControl
             Coords[] PossiblePositions = new Coords[2];
 
             //Applying the static method from Triangulate. We give the two routers as input, and receive two set of coordinates.
-            PossiblePositions = Triangulate.TriangulateSignalSource(Router1, Router2);
+           ///// PossiblePositions = Triangulate.TriangulateSignalSource(Router1, Router2);
 
             //Print results
             Console.WriteLine($"The possible positions of signal source are:");
@@ -57,7 +57,7 @@ namespace LightControl
 
             //Once again, we calculate the two possible positions of the signal. 
             Coords[] NewPossiblePositions = new Coords[2];
-            NewPossiblePositions = Triangulate.TriangulateSignalSource(Router1, Router2);
+           //// NewPossiblePositions = Triangulate.TriangulateSignalSource(Router1, Router2);
 
             //We assume that the first possible solution is the correct one. We update the occupants second read position to
             //these coordinates.

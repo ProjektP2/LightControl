@@ -29,8 +29,8 @@ namespace Triangulering
         {
             x = X;
             y = Y;
-            Address = _address;
-            _address++;
+            //Address = _address;
+            //_address++;
             //her skal vi have lavet en sikkerhedsforanstaltning der starter en ny liste når _address når 63
 
         }
@@ -88,11 +88,11 @@ namespace Triangulering
             LightingUnitToClearGroupsFrom.groups.Clear();
         }
 
-        public int Address
+        /*public int Address
         {
             get { return Address; }
             private set { Address = value; }
-        }
+        }*/
 
 
         public double goToMax()
