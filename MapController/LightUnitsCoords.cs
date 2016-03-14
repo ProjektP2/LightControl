@@ -32,7 +32,7 @@ namespace LightControl
                     if (CheckCoords(x,y))
                     {
                         tal++;
-                        if (tal > 25)
+                        if (tal > 100)
                             break;
                         else
                             lightUnitCoords.Add(new LightingUnit(x, y));
