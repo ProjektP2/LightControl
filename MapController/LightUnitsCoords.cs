@@ -22,16 +22,21 @@ namespace LightControl
             Width = width;
             PixelDensity = pixelDensity;
         }
-        
+        int tal = 0;
         public void GetLightUnitCoords(ref List<LightingUnit> lightUnitCoords)
         {
-            for (int x = 0; x < Height; x++)
+            for (int y = 50; y < Height-250; y++)
             {
-                for (int y = 0; y < Width; y++)
+                for (int x = 50; x < Width-250; x++)
                 {
                     if (CheckCoords(x,y))
                     {
-                        lightUnitCoords.Add(new LightingUnit(x,y));
+                        tal++;
+                        if (tal > 100)
+                            break;
+                        else
+                            lightUnitCoords.Add(new LightingUnit(x, y));
+
                     }
                 }
             }
