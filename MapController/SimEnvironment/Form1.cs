@@ -27,15 +27,10 @@ namespace SimEnvironment
 
             this.Show();
             this.Focus();
-            
             this.Width = width;
-            
             this.Height = height;
-
             gEngine = new GEngine(this);
             AllocConsole();
-
-
             gEngine.LoadLevel();
             gEngine.Init();
         }
