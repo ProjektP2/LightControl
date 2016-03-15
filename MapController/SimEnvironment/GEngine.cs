@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
+using LightControl;
+using Triangulering;
 
 namespace SimEnvironment
 {
@@ -16,119 +18,46 @@ namespace SimEnvironment
         public const int TileSize = 32;
 
         GraphicsDraw grapihicsDraw;
-        Collision collision;
+
+        LightControl.Fps FpsCounter;
         Bitmap Map;
         Form window;
 
-        public bool Running = true;
-        //Starting position
-        private int playerX = (4*32);
-        private int playerY = (4*32);
-        // The Speed the player walks with
-        private int PlayerSpeed = 3;
-        bool right, left, up, down;
-        int frameRendered = 0;
-        int fps = 0;
-        long startTime = Environment.TickCount;
 
-        public GEngine(Form form)
+        //Starting position
+
+
+        public GEngine(Form form, Bitmap map)
         {
             window = form;
+            Map = map;
         }
-        public void Init()
-        {
-            grapihicsDraw = new GraphicsDraw(window, Map);
-            collision = new Collision(Map);
-            grapihicsDraw.Begin();
-            grapihicsDraw.DrawMap();
-            grapihicsDraw.DrawLamps();
-            StartGameLoop();
-        }
-        //Load the Map from a picture
-        public void LoadLevel()
-        {
-            Map = new Bitmap("Map3.png");
-        }
-        private void StartGameLoop()
-        {
-
-            do
-            {
-                //makes the computer not to fuck up!
-                Application.DoEvents();
-                //
-                PlayerMove();
-                grapihicsDraw.Position();
-                grapihicsDraw.DrawLight();
-                grapihicsDraw.Draw(playerX, playerY, fps);
-
-                FPS();
-                //Running = false;
-            } while (Running);
-            Application.Exit();
-        }
-        private void FPS()
+        public void init()
         {
             
-            frameRendered++;
-            if (Environment.TickCount >= startTime + 1000)
-            {
-                fps = frameRendered;
-                frameRendered = 0;
-                startTime = Environment.TickCount;
-            }
+            grapihicsDraw = new GraphicsDraw(window, Map);
+            
+            FpsCounter = new LightControl.Fps();
         }
+        //Load the Map from a picture
+        public void LoadLevel(List<LightingUnit> LightingUnits)
+        {
+            //Fejlen er her et sted
+            grapihicsDraw.Begin();
+            grapihicsDraw.DrawMap();
+            grapihicsDraw.DrawLamps(LightingUnits);
+            Console.WriteLine("her int");
+        }
+        public void Drawing(Point EmployerPosition, List<LightingUnit> LightingUnits)
+        {
+            grapihicsDraw.Position();
+                grapihicsDraw.DrawLight(LightingUnits);
+                grapihicsDraw.Draw(FpsCounter.fps, EmployerPosition);
+                FpsCounter.FPS();
 
-
+        }
+        
         //Move the player
-        public void NoPress(KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.D)
-                right = false;
-            if (e.KeyCode == Keys.A)
-                left = false;
-            if (e.KeyCode == Keys.W)
-                up = false;
-            if (e.KeyCode == Keys.S)
-                down = false;
-        }
-        public void Press(KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.W)
-                up = true;
-            if (e.KeyCode == Keys.S)
-                down = true;
-            if (e.KeyCode == Keys.A)
-                left = true;
-            if (e.KeyCode == Keys.D)
-                right = true;
-        }
-        public void PlayerMove()
-        {
-            if (up == true)
-            {
-                //Checks out if the direction is blocked 
-                if (collision.CheckCollison(playerX, playerY - PlayerSpeed,2,2,16,2))
-                    playerY -= PlayerSpeed;
-            }
-            if (down == true)
-            {
-                //Checks out if the direction is blocked
-                if (collision.CheckCollison(playerX, playerY+ PlayerSpeed,2, 16, 16,16))
-                    playerY += PlayerSpeed;
-            }
-            if (left == true)
-            {
-                //Checks out if the direction is blocked
-                if (collision.CheckCollison(playerX - PlayerSpeed, playerY, 2,2,2, 16))
-                    playerX -= PlayerSpeed;
-            }
-            if (right == true)
-            {
-                //Checks out if the direction is blocked
-                if (collision.CheckCollison(playerX + PlayerSpeed, playerY, 16, 2, 16, 16))
-                    playerX += PlayerSpeed;
-            }
-        }
+       
     }
 }

@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fps.cs" />
+    <Compile Include="Loop.cs" />
+    <Compile Include="OccupantMove.cs" />
     <Compile Include="Quadtree\Bounds.cs" />
     <Compile Include="LightUnitsCoords.cs" />
     <Compile Include="Quadtree\QuadTreecs.cs" />

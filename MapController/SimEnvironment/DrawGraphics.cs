@@ -38,21 +38,21 @@ namespace SimEnvironment
 
         Point start = new Point((Form1.width/2)-(GEngine.SimulationWidht/2), (Form1.height/2)-(GEngine.SimulationWidht/2));
 
-        List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
+        /*List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
         List<LightingUnit> ActivatedLightingUnitsInPath = new List<LightingUnit>();
         
         List<LightingUnit> LightUnitCoordinates;
         Coords PreviousPosition = new Coords(99999,99999);
         
-        Coords PositionCoords = new Coords();
+        Coords PositionCoords = new Coords();*/
         
         Coords MouseCoords = new Coords();
 
         public GraphicsDraw(Form form, Bitmap map)
         {
-            LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30); // 
+            /*LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30); // 
             LightUnitCoordinates = new List<LightingUnit>();
-            lol2.GetLightUnitCoords(ref LightUnitCoordinates);
+            lol2.GetLightUnitCoords(ref LightUnitCoordinates);*/
             Map = map;
             window = form;
 
@@ -75,7 +75,7 @@ namespace SimEnvironment
         }
         public void Position()
         {
-            double xx = PositionCoords.x / GEngine.TileSize;
+            /*double xx = PositionCoords.x / GEngine.TileSize;
             double YY = PositionCoords.y / GEngine.TileSize;
             MouseCoords.x = Convert.ToInt32((Math.Floor(xx)));
             MouseCoords.y = Convert.ToInt32((Math.Floor(YY)));
@@ -85,7 +85,7 @@ namespace SimEnvironment
             ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, PositionCoords, LightUnitCoordinates);
 
             PreviousPosition.x = PositionCoords.x;
-            PreviousPosition.y = PositionCoords.y;
+            PreviousPosition.y = PositionCoords.y;*/
 
         }
         public void DrawMap()
@@ -111,7 +111,7 @@ namespace SimEnvironment
             GMap.Dispose();
             teils.Dispose();
         }
-        public void DrawLamps()
+        public void DrawLamps(List<LightingUnit> LightUnitCoordinates)
         {
             Glamps = Graphics.FromImage(Lamps);
             foreach (var item in LightUnitCoordinates)
@@ -126,8 +126,9 @@ namespace SimEnvironment
             lamp.Dispose();
         }
 
-        public void DrawLight()
+        public void DrawLight(List<LightingUnit> ActivatedLightingUnitsOnUser)
         {
+            
             //Lock Bitmap to get BitmapData
             int Width = Light.Width;
              PixelFormat pxf = PixelFormat.Format32bppArgb;
@@ -184,12 +185,13 @@ namespace SimEnvironment
              }
         }
 
-        public void Draw(int xpos, int ypos, int fps)
+        public void Draw(int fps, Point point)
         {
+            
             G = Graphics.FromImage(BB);
             //Player possion
-            PositionCoords.x = xpos;
-            PositionCoords.y = ypos;
+            /*PositionCoords.x = point.X;
+            PositionCoords.y = point.Y;*/
             // Draw the Bitmaps
             
             //Map
@@ -197,7 +199,7 @@ namespace SimEnvironment
 
             // Employer
             player.MakeTransparent(Color.CadetBlue);
-            G.DrawImage(player, xpos, ypos);
+            G.DrawImage(player, point.X-8, point.Y-8);
 
             //Lamps Drawing
             G.DrawImage(Lamps, 0, 0);
