@@ -12,7 +12,7 @@ namespace SimEnvironment
     {
         // Size of the const.
         public const int FormHeigt = 640;
-        public const int FormWidht = 750;
+        public const int FormWidht = 640;
         public const int TileSize = 32;
 
         GraphicsDraw grapihicsDraw;
