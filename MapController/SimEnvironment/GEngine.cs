@@ -45,8 +45,9 @@ namespace SimEnvironment
             //Fejlen er her et sted
             grapihicsDraw.Begin();
             grapihicsDraw.DrawMap();
+            
             grapihicsDraw.DrawLamps(LightingUnits);
-            Console.WriteLine("her int");
+            
         }
         public void Drawing(Point EmployerPosition, List<LightingUnit> LightingUnits)
         {
