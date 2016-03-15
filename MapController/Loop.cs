@@ -79,6 +79,7 @@ namespace LightControl
             {
                 Application.DoEvents();
                 EmployerPosition = occupantMove.PlayerMove(EmployerPosition);
+                Position();
                 gEngine.Drawing(EmployerPosition, ActivatedLightingUnitsOnUser);
 
 
