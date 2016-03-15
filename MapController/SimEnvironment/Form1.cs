@@ -13,6 +13,8 @@ namespace SimEnvironment
 {
     public partial class Form1 : Form
     {
+        public static int width = Screen.PrimaryScreen.WorkingArea.Width;
+        public static int height = Screen.PrimaryScreen.WorkingArea.Height;
         GEngine gEngine;
         public Form1()
         {
@@ -22,11 +24,18 @@ namespace SimEnvironment
         private void Form1_Load(object sender, EventArgs e)
         {
             //Starts when the Form i Loaded
-            gEngine = new GEngine(this);
-            AllocConsole();
 
             this.Show();
             this.Focus();
+            
+            this.Width = width;
+            
+            this.Height = height;
+
+            gEngine = new GEngine(this);
+            AllocConsole();
+
+
             gEngine.LoadLevel();
             gEngine.Init();
         }
@@ -49,6 +58,7 @@ namespace SimEnvironment
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             gEngine.Running = false;
+            Application.Exit();
         }
     }
 }

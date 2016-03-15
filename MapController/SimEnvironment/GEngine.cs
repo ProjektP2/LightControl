@@ -11,8 +11,8 @@ namespace SimEnvironment
     class GEngine
     {
         // Size of the const.
-        public const int FormHeigt = 640;
-        public const int FormWidht = 640;
+        public const int SimulationHeigt = 640;
+        public const int SimulationWidht = 640;
         public const int TileSize = 32;
 
         GraphicsDraw grapihicsDraw;
@@ -22,8 +22,8 @@ namespace SimEnvironment
 
         public bool Running = true;
         //Starting position
-        private int playerX = 4*32;
-        private int playerY = 4*32;
+        private int playerX = (4*32);
+        private int playerY = (4*32);
         // The Speed the player walks with
         private int PlayerSpeed = 3;
         bool right, left, up, down;
@@ -69,6 +69,7 @@ namespace SimEnvironment
         }
         private void FPS()
         {
+            
             frameRendered++;
             if (Environment.TickCount >= startTime + 1000)
             {

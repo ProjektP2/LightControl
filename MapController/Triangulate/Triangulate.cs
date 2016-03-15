@@ -148,9 +148,9 @@ namespace Triangulering
             }
 
             //If routers are placed on southern wall
-            else if (Router1.y == GEngine.FormHeigt && Router2.y == GEngine.FormHeigt)
+            else if (Router1.y == GEngine.SimulationHeigt && Router2.y == GEngine.SimulationHeigt)
             {
-                if (PositionsOfSignalSource[0].y > GEngine.FormHeigt)
+                if (PositionsOfSignalSource[0].y > GEngine.SimulationHeigt)
                 {
                     return PositionsOfSignalSource[1];
                 }
@@ -161,9 +161,9 @@ namespace Triangulering
             }
 
             //If routers are placed on eastern wall
-            else if (Router1.x == GEngine.FormWidht && Router2.x == GEngine.FormWidht)
+            else if (Router1.x == GEngine.SimulationWidht && Router2.x == GEngine.SimulationWidht)
             {
-                if (PositionsOfSignalSource[0].x > GEngine.FormWidht)
+                if (PositionsOfSignalSource[0].x > GEngine.SimulationWidht)
                 {
                     return PositionsOfSignalSource[1];
                 }
