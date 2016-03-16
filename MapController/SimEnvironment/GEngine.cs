@@ -18,14 +18,10 @@ namespace SimEnvironment
         public const int TileSize = 32;
 
         GraphicsDraw grapihicsDraw;
+        Fps FpsCounter;
 
-        LightControl.Fps FpsCounter;
         Bitmap Map;
         Form window;
-
-
-        //Starting position
-
 
         public GEngine(Form form, Bitmap map)
         {
@@ -34,31 +30,23 @@ namespace SimEnvironment
         }
         public void init()
         {
-            
             grapihicsDraw = new GraphicsDraw(window, Map);
-            
-            FpsCounter = new LightControl.Fps();
+            FpsCounter = new Fps();
         }
         //Load the Map from a picture
-        public void LoadLevel(List<LightingUnit> LightingUnits)
+        public void LoadLevel()
         {
-            //Fejlen er her et sted
             grapihicsDraw.Begin();
             grapihicsDraw.DrawMap();
-            
-            grapihicsDraw.DrawLamps(LightingUnits);
+            grapihicsDraw.DrawLamps();
             
         }
-        public void Drawing(Point EmployerPosition, List<LightingUnit> LightingUnits)
-        {
-            grapihicsDraw.Position();
-                grapihicsDraw.DrawLight(LightingUnits);
+        public void Drawing(Point EmployerPosition)
+        {  
+                grapihicsDraw.DrawLight();
                 grapihicsDraw.Draw(FpsCounter.fps, EmployerPosition);
+                grapihicsDraw.Position();
                 FpsCounter.FPS();
-
         }
-        
-        //Move the player
-       
     }
 }

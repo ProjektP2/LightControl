@@ -37,27 +37,29 @@ namespace SimEnvironment
         Form window;
 
         Point start = new Point((Form1.width/2)-(GEngine.SimulationWidht/2), (Form1.height/2)-(GEngine.SimulationWidht/2));
-
-        /*List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
+        // DET HER SKAL FLYTTES TIL LOOP
+        List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
         List<LightingUnit> ActivatedLightingUnitsInPath = new List<LightingUnit>();
         
         List<LightingUnit> LightUnitCoordinates;
         Coords PreviousPosition = new Coords(99999,99999);
         
-        Coords PositionCoords = new Coords();*/
+        Coords PositionCoords = new Coords();
         
         Coords MouseCoords = new Coords();
-
+        // HER TIL
         public GraphicsDraw(Form form, Bitmap map)
         {
-            /*LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30); // 
+            //DET HER SKAL FLYTTES TIL LOOP
+            LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30); // 
             LightUnitCoordinates = new List<LightingUnit>();
-            lol2.GetLightUnitCoords(ref LightUnitCoordinates);*/
+            lol2.GetLightUnitCoords(ref LightUnitCoordinates);
+            //HER TIL
             Map = map;
             window = form;
 
-            pb.Width = 640;
-            pb.Height = 640;
+            pb.Width = GEngine.SimulationWidht;
+            pb.Height = GEngine.SimulationWidht;
             pb.Location = start;
             pb.Visible = true;
             pb.Show();
@@ -74,8 +76,8 @@ namespace SimEnvironment
             lamp = new Bitmap("Lamp.png");
         }
         public void Position()
-        {
-            /*double xx = PositionCoords.x / GEngine.TileSize;
+        {//HELE DENNE METODE SKAL FLYTTES VÆK
+            double xx = PositionCoords.x / GEngine.TileSize;
             double YY = PositionCoords.y / GEngine.TileSize;
             MouseCoords.x = Convert.ToInt32((Math.Floor(xx)));
             MouseCoords.y = Convert.ToInt32((Math.Floor(YY)));
@@ -85,8 +87,8 @@ namespace SimEnvironment
             ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, PositionCoords, LightUnitCoordinates);
 
             PreviousPosition.x = PositionCoords.x;
-            PreviousPosition.y = PositionCoords.y;*/
-
+            PreviousPosition.y = PositionCoords.y;
+            //HER TIL
         }
         public void DrawMap()
         {
@@ -111,7 +113,7 @@ namespace SimEnvironment
             GMap.Dispose();
             teils.Dispose();
         }
-        public void DrawLamps(List<LightingUnit> LightUnitCoordinates)
+        public void DrawLamps()
         {
             Glamps = Graphics.FromImage(Lamps);
             foreach (var item in LightUnitCoordinates)
@@ -126,7 +128,7 @@ namespace SimEnvironment
             lamp.Dispose();
         }
 
-        public void DrawLight(List<LightingUnit> ActivatedLightingUnitsOnUser)
+        public void DrawLight()
         {
             
             //Lock Bitmap to get BitmapData
@@ -187,31 +189,24 @@ namespace SimEnvironment
 
         public void Draw(int fps, Point point)
         {
-            
-            G = Graphics.FromImage(BB);
             //Player possion
-            /*PositionCoords.x = point.X;
-            PositionCoords.y = point.Y;*/
-            // Draw the Bitmaps
-            
+            PositionCoords.x = point.X;
+            PositionCoords.y = point.Y;
+
+            G = Graphics.FromImage(BB);            
             //Map
             G.DrawImage(MAPMAP, 0, 0);
-
             // Employer
             player.MakeTransparent(Color.CadetBlue);
             G.DrawImage(player, point.X-8, point.Y-8);
-
             //Lamps Drawing
             G.DrawImage(Lamps, 0, 0);
-
             //Light Drawing
             G.DrawImage(Light, 0, 0);
-
             //Info Drawing
             G.DrawString("FPS:" + fps + "\r\n" + "Map X:" + MouseCoords.x + "\r\n" +
                "Map Y" + MouseCoords.y, window.Font, Brushes.Red, 590, 0);
             //Draw it to the window
-
             pb.Image = BB;
         }
     }   

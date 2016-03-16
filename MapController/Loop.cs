@@ -20,22 +20,6 @@ namespace LightControl
         Point EmployerPosition;
 
 
-        List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
-        List<LightingUnit> ActivatedLightingUnitsInPath = new List<LightingUnit>();
-
-        List<LightingUnit> LightUnitCoordinates;
-        Coords PreviousPosition = new Coords(99999, 99999);
-
-        Coords PositionCoords = new Coords();
-
-        private void CreateLamps()
-        {
-            LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30); 
-            LightUnitCoordinates = new List<LightingUnit>();
-            lol2.GetLightUnitCoords(ref LightUnitCoordinates);
-        }
-
-
         public bool Running = true;
 
 
@@ -43,22 +27,6 @@ namespace LightControl
         {
             Window = form;
         }
-
-
-        public void Position()
-        {
-            double xx = PositionCoords.x / GEngine.TileSize;
-            double YY = PositionCoords.y / GEngine.TileSize;
-
-            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(PositionCoords, LightUnitCoordinates);
-            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, PositionCoords, LightUnitCoordinates);
-
-            PreviousPosition.x = PositionCoords.x;
-            PreviousPosition.y = PositionCoords.y;
-
-        }
-
-
 
         public void Start()
         {
@@ -68,21 +36,17 @@ namespace LightControl
             occupantMove = new OccupantMove(Map);
             
             gEngine.init();
-            gEngine.LoadLevel(LightUnitCoordinates);
+            gEngine.LoadLevel();
             calculationLoop();
         }
 
         private void calculationLoop()
-        {
-            
+        {      
             do
             {
                 Application.DoEvents();
                 EmployerPosition = occupantMove.PlayerMove(EmployerPosition);
-                Position();
-                gEngine.Drawing(EmployerPosition, ActivatedLightingUnitsOnUser);
-
-
+                gEngine.Drawing(EmployerPosition);
             } while (Running);
             Application.Exit();
         }

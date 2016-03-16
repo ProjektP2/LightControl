@@ -16,7 +16,6 @@ namespace SimEnvironment
         public static int width = Screen.PrimaryScreen.WorkingArea.Width;
         public static int height = Screen.PrimaryScreen.WorkingArea.Height;
 
-        //GEngine gEngine;
         LightControl.Loop loop;
         public Form1()
         {
