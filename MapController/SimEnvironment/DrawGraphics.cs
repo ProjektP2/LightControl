@@ -14,7 +14,7 @@ namespace SimEnvironment
 {
     class GraphicsDraw
     {
-        int _radius = 30;
+        int _radius = 35;
         Graphics BBG;
         Rectangle sRect;
         Rectangle dRect;
