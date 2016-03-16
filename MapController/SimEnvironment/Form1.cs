@@ -13,7 +13,10 @@ namespace SimEnvironment
 {
     public partial class Form1 : Form
     {
-        GEngine gEngine;
+        public static int width = Screen.PrimaryScreen.WorkingArea.Width;
+        public static int height = Screen.PrimaryScreen.WorkingArea.Height;
+
+        LightControl.Loop loop;
         public Form1()
         {
             InitializeComponent();
@@ -22,23 +25,22 @@ namespace SimEnvironment
         private void Form1_Load(object sender, EventArgs e)
         {
             //Starts when the Form i Loaded
-            gEngine = new GEngine(this);
-            AllocConsole();
-
             this.Show();
             this.Focus();
-            gEngine.LoadLevel();
-            gEngine.Init();
+            this.Width = width;
+            this.Height = height;
+            loop = new LightControl.Loop(this);
+
+            AllocConsole();
+            loop.Start();
         }
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        public void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            //Detect KeyDown
-            gEngine.Press(e);
+            loop.Form1_KeyDown(sender,e);
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            //Detect KeyUp
-            gEngine.NoPress(e);
+            loop.Form1_KeyUp(sender, e);
         }
 
         //Console Window to Debug 
@@ -48,7 +50,7 @@ namespace SimEnvironment
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            gEngine.Running = false;
+            loop.Form1_FormClosing(sender, e);
         }
     }
 }

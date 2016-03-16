@@ -20,7 +20,7 @@ namespace LightControl
             // This should be here
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run( new Form1());
 
             //Creating two instances of routers.
             Circle Router1 = new Circle();
