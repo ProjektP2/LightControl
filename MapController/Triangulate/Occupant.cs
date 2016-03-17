@@ -19,6 +19,14 @@ namespace Triangulering
             IsPosition2Initialized = false;
         }
 
+        public Coords LatestPosition()
+        {
+            if (IsPosition2Initialized)
+                return Position2;
+            else
+                return Position1;
+        }
+
         public bool IsPosition1Initialized { get; private set; }
 
         public bool IsPosition2Initialized { get; private set; }
