@@ -14,6 +14,30 @@ namespace Triangulering
                                                          //to be activated.
         private static double PredictedMovementScaling = 3; //The amount of times we scale the movement vector when predicting movement.
 
+        internal Triangulate Triangulate
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal VectorMath VectorMath
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         //Determines what lights need to be activated around the user. Not based on movement. 
         //Receives a list of coordinates for every lighting unit in a room (LightingUnitsCoordinates), as well as the last known position of the 
         //signal source (UserCoordinates). Calls "ExistsInCircle" to determine whether or not the lights in the room are close

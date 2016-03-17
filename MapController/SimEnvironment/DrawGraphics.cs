@@ -16,7 +16,7 @@ namespace SimEnvironment
     {
         int _radius = 35;
 
-        PictureBox pb = new PictureBox();
+
 
         Rectangle sRect;
         Rectangle dRect;
@@ -35,6 +35,9 @@ namespace SimEnvironment
         Bitmap Light;
 
         Form window;
+
+        PictureBox pb = new PictureBox();
+        Collision collision;
 
         Point start = new Point((Form1.width/2)-(GEngine.SimulationWidht/2), (Form1.height/2)-(GEngine.SimulationWidht/2));
         // DET HER SKAL FLYTTES TIL LOOP
@@ -65,8 +68,34 @@ namespace SimEnvironment
             pb.Show();
             window.Controls.Add(pb);
         }
+
+        internal LightUnitsCoords LightUnitsCoords
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal DetermineLightsToActivate DetermineLightsToActivate
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         public void Begin()
         {
+            collision = new Collision(Map);
             BB = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
             MAPMAP = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
             Lamps = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
@@ -159,15 +188,19 @@ namespace SimEnvironment
                          double Cirklensligning = ((x - item.x) * (x - item.x)) + ((y - item.y) * (y - item.y));
                          if (Cirklensligning <= R)
                          {
-                            PlaceInArray = Convert.ToInt32(((y * Width*4) + x * 4)+3);
-                            double Alpha = volume + (Math.Sqrt(Cirklensligning)*2); // 3 eller 4
-                            if (Alpha > 200)
-                            {
-                                Alpha = 200;
-                            }
+
+                                PlaceInArray = Convert.ToInt32(((y * Width * 4) + x * 4) + 3);
+                                double Alpha = volume + (Math.Sqrt(Cirklensligning) * 2); // 3 eller 4
+                                if (Alpha > 200)
+                                {
+                                    Alpha = 200;
+                                }
                             if (rgbValues[PlaceInArray] > (Byte)(Alpha))
                             {
-                                rgbValues[PlaceInArray] = (Byte)(Alpha);
+                                //if (collision.CheckLightCollision(Convert.ToInt32(x), Convert.ToInt32(y)))
+                                {
+                                    rgbValues[PlaceInArray] = (Byte)(Alpha);
+                                }
                             }
                         }
                      }

@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace SimEnvironment
 {
-    public partial class Form1 : Form
+    public partial class Form1:Form
     {
         public static int width = Screen.PrimaryScreen.WorkingArea.Width;
         public static int height = Screen.PrimaryScreen.WorkingArea.Height;
@@ -20,6 +20,18 @@ namespace SimEnvironment
         public Form1()
         {
             InitializeComponent();
+        }
+
+        internal LightControl.Loop Loop
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -36,7 +48,7 @@ namespace SimEnvironment
         }
         public void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            loop.Form1_KeyDown(sender,e);
+            loop.Form1_KeyDown(sender, e);
         }
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
