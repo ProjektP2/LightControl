@@ -13,7 +13,7 @@ namespace LightControl
     class Loop
     {
         Form Window;
-        Bitmap  Map = new Bitmap("Map3.png");
+        Bitmap Map = new Bitmap("Map3.png");
         GEngine gEngine;
         OccupantMove occupantMove;
 
@@ -28,20 +28,56 @@ namespace LightControl
             Window = form;
         }
 
+        internal OccupantMove OccupantMove
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal GEngine GEngine
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal Fps Fps
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         public void Start()
         {
-           
+
             EmployerPosition = new Point(4 * 32, 4 * 32);
             gEngine = new GEngine(Window, Map);
             occupantMove = new OccupantMove(Map);
-            
+
             gEngine.init();
             gEngine.LoadLevel();
             calculationLoop();
         }
 
         private void calculationLoop()
-        {      
+        {
             do
             {
                 Application.DoEvents();
