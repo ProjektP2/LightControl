@@ -27,43 +27,6 @@ namespace LightControl
         {
             Window = form;
         }
-
-        internal OccupantMove OccupantMove
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
-        internal GEngine GEngine
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
-        internal Fps Fps
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
         public void Start()
         {
 

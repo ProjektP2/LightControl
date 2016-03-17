@@ -24,18 +24,6 @@ namespace Triangulering
             collision = new Collision(Map);
         }
 
-        internal Collision Collision
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
         public void NoPress(KeyEventArgs e)
         {
             if (e.KeyCode == Keys.D)
