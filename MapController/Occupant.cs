@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LightControl;
+using Triangulering;
 
-namespace Triangulering
+namespace LightControl
 {
     //This class is used to simulate an occupant - or rather, the source of a given signal that is received by the access points
     //(instances of the Circle class, in this case.)
@@ -37,13 +38,6 @@ namespace Triangulering
         public double Velocity; //Should only have a public getter
         public string Identity;
 
-        //Sets the starting coordinates (i.e. first signal reading)
-        public void SetStartingPosition(Coords Coordinates)
-        {
-            Position1 = Coordinates;
-            IsPosition1Initialized = true;
-        }
-
         //Sets the identity of the signal source.
         public void SetIdentity(string NewIdentity)
         {
@@ -70,7 +64,16 @@ namespace Triangulering
             }
 
             else
-                Console.WriteLine("Need a starting position.");
+            {
+                Position1 = Coordinates;
+                IsPosition1Initialized = true;
+            }
+        }
+
+        public void UpdatePositions(double x, double y)
+        {
+            Coords CoordinatesToUpdateFrom = new Coords(x,y);
+            UpdatePositions(CoordinatesToUpdateFrom);
         }
 
         //Calculates the position vector given by the two coordinates.

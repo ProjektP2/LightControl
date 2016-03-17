@@ -45,9 +45,7 @@ namespace SimEnvironment
         List<LightingUnit> ActivatedLightingUnitsInPath = new List<LightingUnit>();
         
         List<LightingUnit> LightUnitCoordinates;
-        Coords PreviousPosition = new Coords(99999,99999);
-        
-        Coords PositionCoords = new Coords();
+        Occupant NewOccupant = new Occupant();
         
         Coords MouseCoords = new Coords();
         // HER TIL
@@ -82,17 +80,17 @@ namespace SimEnvironment
         }
         public void Position()
         {//HELE DENNE METODE SKAL FLYTTES VÆK
-            double xx = PositionCoords.x / GEngine.TileSize;
-            double YY = PositionCoords.y / GEngine.TileSize;
+            double xx = NewOccupant.Position2.x / GEngine.TileSize;
+            double YY = NewOccupant.Position2.y / GEngine.TileSize;
             MouseCoords.x = Convert.ToInt32((Math.Floor(xx)));
             MouseCoords.y = Convert.ToInt32((Math.Floor(YY)));
 
             
-            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(PositionCoords, LightUnitCoordinates);
-            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, PositionCoords, LightUnitCoordinates);
+            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(NewOccupant, LightUnitCoordinates);
+            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(NewOccupant, LightUnitCoordinates);
 
-            PreviousPosition.x = PositionCoords.x;
-            PreviousPosition.y = PositionCoords.y;
+            NewOccupant.Position1.x = NewOccupant.Position2.x;
+            NewOccupant.Position1.y = NewOccupant.Position2.y;
             //HER TIL
         }
         public void DrawMap()
@@ -199,8 +197,7 @@ namespace SimEnvironment
         public void Draw(int fps, Point point)
         {
             //Player possion
-            PositionCoords.x = point.X;
-            PositionCoords.y = point.Y;
+            NewOccupant.UpdatePositions(point.X, point.Y);
 
             G = Graphics.FromImage(BB);            
             //Map
