@@ -70,7 +70,7 @@
     <Compile Include="Triangulate\DALIController.cs" />
     <Compile Include="Triangulate\DetermineLightsToActivate.cs" />
     <Compile Include="Triangulate\LightingUnit.cs" />
-    <Compile Include="Triangulate\Occupant.cs" />
+    <Compile Include="Occupant.cs" />
     <Compile Include="Triangulate\Triangulate.cs" />
     <Compile Include="Triangulate\VectorMath.cs" />
     <EmbeddedResource Include="SimEnvironment\Form1.resx">
