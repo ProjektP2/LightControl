@@ -69,30 +69,6 @@ namespace SimEnvironment
             window.Controls.Add(pb);
         }
 
-        internal LightUnitsCoords LightUnitsCoords
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
-        internal DetermineLightsToActivate DetermineLightsToActivate
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
         public void Begin()
         {
             collision = new Collision(Map);
