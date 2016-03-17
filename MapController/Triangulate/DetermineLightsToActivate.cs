@@ -9,7 +9,7 @@ namespace Triangulering
 {
     class DetermineLightsToActivate
     {
-        private static double Radius = 3; //Lights that are further than 3 meters away from the user will not be activated.
+        private static double Radius = 200; //Lights that are further than 3 meters away from the user will not be activated.
         private static double MaxDistanceFromPath = 1.5; //The maximum distance lighting units can stray from the path of direction
                                                          //to be activated.
         private static double PredictedMovementScaling = 3; //The amount of times we scale the movement vector when predicting movement.
@@ -31,6 +31,8 @@ namespace Triangulering
                     LightingUnitToCheck.LightingLevel = (CalculateLightingLevel(UserCoordinates, LightingUnitToCheck, Radius));
                     LightingUnitsToActivateOnUser.Add(LightingUnitToCheck);
                 }
+
+
             }
             return LightingUnitsToActivateOnUser;
         }
@@ -39,7 +41,7 @@ namespace Triangulering
         //and the given coordinates is smaller than the radius. If it is, the coordinates exist inside the circle.
         private static bool ExistsInCircle(Coords Centre, Coords CoordinatesToCheck)
         {
-            if (Triangulate.CalculateDistanceBetweenPoints(Centre, CoordinatesToCheck) < Math.Pow(Radius, 2))
+            if (Triangulate.CalculateDistanceBetweenPoints(Centre, CoordinatesToCheck) < Radius)
                 return true;
             else
                 return false;

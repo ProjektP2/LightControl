@@ -14,8 +14,10 @@ namespace SimEnvironment
 {
     class GraphicsDraw
     {
+        int _radius = 35;
 
-        Graphics BBG;
+        PictureBox pb = new PictureBox();
+
         Rectangle sRect;
         Rectangle dRect;
         Graphics G;
@@ -33,9 +35,11 @@ namespace SimEnvironment
         Bitmap Light;
 
         Form window;
+
+        Point start = new Point((Form1.width/2)-(GEngine.SimulationWidht/2), (Form1.height/2)-(GEngine.SimulationWidht/2));
+        // DET HER SKAL FLYTTES TIL LOOP
         List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
         List<LightingUnit> ActivatedLightingUnitsInPath = new List<LightingUnit>();
-        //List<Coords> LightingUnitCoordinates = new List<Coords>();
         
         List<LightingUnit> LightUnitCoordinates;
         Coords PreviousPosition = new Coords(99999,99999);
@@ -43,44 +47,52 @@ namespace SimEnvironment
         Coords PositionCoords = new Coords();
         
         Coords MouseCoords = new Coords();
-
+        // HER TIL
         public GraphicsDraw(Form form, Bitmap map)
         {
-            //LightingUnitCoordinates.Add(new Coords(30, 50));
-            LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.FormHeigt, GEngine.FormWidht, 32); // 
+            //DET HER SKAL FLYTTES TIL LOOP
+            LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30); // 
             LightUnitCoordinates = new List<LightingUnit>();
             lol2.GetLightUnitCoords(ref LightUnitCoordinates);
+            //HER TIL
             Map = map;
             window = form;
+
+            pb.Width = GEngine.SimulationWidht;
+            pb.Height = GEngine.SimulationWidht;
+            pb.Location = start;
+            pb.Visible = true;
+            pb.Show();
+            window.Controls.Add(pb);
         }
         public void Begin()
         {
-            G = window.CreateGraphics();
-            BB = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
-            MAPMAP = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
-            Lamps = new Bitmap(GEngine.FormWidht, GEngine.FormHeigt);
-            Light = new Bitmap(Map.Width*GEngine.TileSize, GEngine.FormHeigt);
+            BB = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
+            MAPMAP = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
+            Lamps = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
+            Light = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
             player = new Bitmap("Player3.png");
             teils = new Bitmap("Teils.png");
             lamp = new Bitmap("Lamp.png");
-
         }
         public void Position()
-        {
+        {//HELE DENNE METODE SKAL FLYTTES VÆK
             double xx = PositionCoords.x / GEngine.TileSize;
             double YY = PositionCoords.y / GEngine.TileSize;
             MouseCoords.x = Convert.ToInt32((Math.Floor(xx)));
             MouseCoords.y = Convert.ToInt32((Math.Floor(YY)));
-            
-            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(MouseCoords, LightUnitCoordinates);
-            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, MouseCoords, LightUnitCoordinates);
-            
-            PreviousPosition.x = MouseCoords.x;
-            PreviousPosition.y = MouseCoords.y;
 
+            
+            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(PositionCoords, LightUnitCoordinates);
+            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(PreviousPosition, PositionCoords, LightUnitCoordinates);
+
+            PreviousPosition.x = PositionCoords.x;
+            PreviousPosition.y = PositionCoords.y;
+            //HER TIL
         }
         public void DrawMap()
         {
+            
             GMap = Graphics.FromImage(MAPMAP);
             for (int x = 0; x < Map.Width; x++)
             {
@@ -119,11 +131,8 @@ namespace SimEnvironment
         public void DrawLight()
         {
             
-            int _radius = 30; // helst ikke her!!!
-            double procent = 1.0; // her må der ændres [0 til 1]
-
             //Lock Bitmap to get BitmapData
-
+            int Width = Light.Width;
              PixelFormat pxf = PixelFormat.Format32bppArgb;
              Rectangle reccct = new Rectangle(0, 0, Light.Width, Light.Height);
              BitmapData bmpData = Light.LockBits(reccct, ImageLockMode.ReadWrite, pxf);
@@ -135,36 +144,35 @@ namespace SimEnvironment
              Marshal.Copy(ptr,rgbValues, 0, numBytes);
              for (int i = 3; i < rgbValues.Length; i+=4)
              {
-                 rgbValues[i] = 255;
+                 rgbValues[i] = 200;
              }
-             #region noget
-             foreach (var item in LightUnitCoordinates)
+             foreach (var item in ActivatedLightingUnitsOnUser)
              {
-                 double volume = 255 - (255 * (procent));
+                 double volume = 255 - (255 * (item.LightingLevel));
                  int PlaceInArray;
                  for (double y = item.y - _radius; y < item.y + _radius; y++)
                  {
                      for (double x = item.x - _radius; x < item.x + _radius; x++)
                      {
-                         double R = _radius * _radius;
+                        
+                        double R = _radius * _radius;
                          double Cirklensligning = ((x - item.x) * (x - item.x)) + ((y - item.y) * (y - item.y));
                          if (Cirklensligning <= R)
                          {
-                             PlaceInArray = Convert.ToInt32(((y * Light.Width * 4) + x * 4)+3);
-                            double RGB_Color = volume + (Math.Sqrt(Cirklensligning)*2); // 3 eller 4
-                            if (RGB_Color > 255)
+                            PlaceInArray = Convert.ToInt32(((y * Width*4) + x * 4)+3);
+                            double Alpha = volume + (Math.Sqrt(Cirklensligning)*2); // 3 eller 4
+                            if (Alpha > 200)
                             {
-                                RGB_Color = 255;
+                                Alpha = 200;
                             }
-                            if (rgbValues[PlaceInArray] > (Byte)(RGB_Color))
+                            if (rgbValues[PlaceInArray] > (Byte)(Alpha))
                             {
-                                rgbValues[PlaceInArray] = (Byte)(RGB_Color);
+                                rgbValues[PlaceInArray] = (Byte)(Alpha);
                             }
                         }
                      }
                  }
              }
-             #endregion
              Marshal.Copy(rgbValues, 0, ptr, numBytes);
              Light.UnlockBits(bmpData);
         }
@@ -179,46 +187,27 @@ namespace SimEnvironment
              }
         }
 
-        public void Draw(int xpos, int ypos, int fps)
+        public void Draw(int fps, Point point)
         {
             //Player possion
-            PositionCoords.x = xpos;
-            PositionCoords.y = ypos;
+            PositionCoords.x = point.X;
+            PositionCoords.y = point.Y;
 
-            // Draw the Bitmaps
+            G = Graphics.FromImage(BB);            
             //Map
-            sRect = new Rectangle(0, 0, GEngine.FormWidht, GEngine.FormHeigt);
-            G.DrawImage(MAPMAP, 0, 0, sRect, GraphicsUnit.Pixel);
-
-            //Player Drawing
-            sRect = new Rectangle(0, 0, GEngine.TileSize/2, GEngine.TileSize/2);
+            G.DrawImage(MAPMAP, 0, 0);
+            // Employer
             player.MakeTransparent(Color.CadetBlue);
-            G.DrawImage(player, xpos, ypos, sRect, GraphicsUnit.Pixel);
-
+            G.DrawImage(player, point.X-8, point.Y-8);
             //Lamps Drawing
-            sRect = new Rectangle(0, 0, GEngine.FormWidht, GEngine.FormHeigt);
-            G.DrawImage(Lamps, 0, 0, sRect, GraphicsUnit.Pixel);
-
+            G.DrawImage(Lamps, 0, 0);
             //Light Drawing
-            sRect = new Rectangle(0, 0, GEngine.FormWidht, GEngine.FormHeigt);
-            G.DrawImage(Light, 0, 0, sRect, GraphicsUnit.Pixel);
-
+            G.DrawImage(Light, 0, 0);
             //Info Drawing
             G.DrawString("FPS:" + fps + "\r\n" + "Map X:" + MouseCoords.x + "\r\n" +
-               "Map Y" + MouseCoords.y, window.Font, Brushes.Black, 650, 0);
+               "Map Y" + MouseCoords.y, window.Font, Brushes.Red, 590, 0);
             //Draw it to the window
-            G = Graphics.FromImage(BB);
-
-            try
-            {
-                BBG = window.CreateGraphics();
-                BBG.DrawImage(BB, 0, 0, GEngine.FormWidht, GEngine.FormHeigt);
-                G.Clear(Color.Green);
-                BBG.Dispose();
-            }
-            catch (Exception)
-            {
-            }
+            pb.Image = BB;
         }
     }   
 }
