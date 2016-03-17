@@ -197,6 +197,7 @@ namespace SimEnvironment
                                 }
                             if (rgbValues[PlaceInArray] > (Byte)(Alpha))
                             {
+                                //if (collision.CheckLightCollision(Convert.ToInt32(x), Convert.ToInt32(y)))
                                 {
                                     rgbValues[PlaceInArray] = (Byte)(Alpha);
                                 }
