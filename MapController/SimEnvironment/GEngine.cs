@@ -17,7 +17,7 @@ namespace SimEnvironment
         public const int SimulationWidht = 640;
         public const int TileSize = 32;
 
-        GraphicsDraw grapihicsDraw;
+        GraphicsDraw graphicsDraw;
         Fps FpsCounter;
 
         Bitmap Map;
@@ -31,22 +31,21 @@ namespace SimEnvironment
 
         public void init()
         {
-            grapihicsDraw = new GraphicsDraw(window, Map);
+            graphicsDraw = new GraphicsDraw(window, Map);
             FpsCounter = new Fps();
         }
         //Load the Map from a picture
-        public void LoadLevel()
+        public void LoadLevel(List<LightingUnit> LightUnitCoordinates)
         {
-            grapihicsDraw.Begin();
-            grapihicsDraw.DrawMap();
-            grapihicsDraw.DrawLamps();
+            graphicsDraw.InitBitMaps();
+            graphicsDraw.DrawMap();
+            graphicsDraw.DrawLamps(LightUnitCoordinates);
             
         }
-        public void Drawing(Point EmployerPosition)
+        public void Drawing(Point EmployerPosition, List<LightingUnit> ActivatedLightingUnitsOnUser)
         {  
-                grapihicsDraw.DrawLight();
-                grapihicsDraw.Draw(FpsCounter.fps, EmployerPosition);
-                grapihicsDraw.Position();
+                graphicsDraw.DrawLight(ActivatedLightingUnitsOnUser);
+                graphicsDraw.Draw(FpsCounter.fps, EmployerPosition);
                 FpsCounter.FPS();
         }
     }
