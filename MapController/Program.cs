@@ -50,7 +50,7 @@ namespace LightControl
             //We create an instance of a room occupant - this is the signal source. We set his starting position to be the 
             //first possible position.
             Occupant SignalSource = new Occupant();
-            SignalSource.SetStartingPosition(PossiblePositions[0]);
+            SignalSource.UpdatePositions(PossiblePositions[0]);
 
             //We now update the routers received signal strength as to simulate that the signal source has moved.
             Router1.SetSignalStrength(823);
