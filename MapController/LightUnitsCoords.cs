@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LightControl;
 using Triangulering;
+using SimEnvironment;
 
 namespace LightControl
 {
@@ -25,18 +26,13 @@ namespace LightControl
         int tal = 0;
         public void GetLightUnitCoords(ref List<LightingUnit> lightUnitCoords)
         {
-            for (int y = 50; y < Height-250; y++)
+            for (int y = 30; y < Height-30; y++)
             {
-                for (int x = 50; x < Width-250; x++)
+                for (int x = 30; x < Width-30; x++)
                 {
                     if (CheckCoords(x,y))
                     {
-                        tal++;
-                        if (tal > 100)
-                            break;
-                        else
                             lightUnitCoords.Add(new LightingUnit(x, y));
-
                     }
                 }
             }

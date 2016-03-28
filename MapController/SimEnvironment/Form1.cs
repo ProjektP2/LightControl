@@ -11,34 +11,40 @@ using System.Runtime.InteropServices;
 
 namespace SimEnvironment
 {
-    public partial class Form1 : Form
+    public partial class Form1:Form
     {
-        GEngine gEngine;
+        public static int width = Screen.PrimaryScreen.WorkingArea.Width;
+        public static int height = Screen.PrimaryScreen.WorkingArea.Height;
+
+        LightControl.Loop loop;
         public Form1()
         {
             InitializeComponent();
         }
 
+        internal LightControl.Loop Loop
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             //Starts when the Form i Loaded
-            gEngine = new GEngine(this);
-            AllocConsole();
-
             this.Show();
             this.Focus();
-            gEngine.LoadLevel();
-            gEngine.Init();
-        }
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            //Detect KeyDown
-            gEngine.Press(e);
-        }
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
-        {
-            //Detect KeyUp
-            gEngine.NoPress(e);
+            this.Width = width;
+            this.Height = height;
+            loop = new LightControl.Loop(this);
+
+            AllocConsole();
+            loop.Start();
         }
 
         //Console Window to Debug 
@@ -48,7 +54,17 @@ namespace SimEnvironment
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            gEngine.Running = false;
+            loop.Form1_FormClosing(sender, e);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("hej");
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+
         }
     }
 }
