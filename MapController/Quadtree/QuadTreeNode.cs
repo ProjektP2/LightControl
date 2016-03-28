@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using LightControl;
 using Triangulering;
 
-namespace MapController.QuadTree
+namespace TreeStructure
 {
     class QuadTreeNode
     {
