@@ -1,56 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Comment CommentText="Under udvikling">
-    <Position X="4.5" Y="3" Height="0.356" Width="1.7" />
-  </Comment>
-  <Comment CommentText="?">
-    <Position X="2.407" Y="2.992" Height="0.393" Width="1.7" />
-  </Comment>
-  <Comment CommentText="Standard">
-    <Position X="0.5" Y="3" Height="0.405" Width="1.577" />
-  </Comment>
   <Class Name="LightControl.Coords" Collapsed="true">
-    <Position X="2.75" Y="0.5" Width="1.5" />
+    <Position X="11.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAAAA=</HashCode>
       <FileName>Coords.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LightControl.Fps" Collapsed="true">
-    <Position X="11.5" Y="3.5" Width="1.5" />
+    <Position X="1.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAgAAAQAAAAAAAAABAAAAAAAQA=</HashCode>
       <FileName>Fps.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LightControl.LightUnitsCoords" Collapsed="true">
-    <Position X="8.25" Y="5.75" Width="1.5" />
+    <Position X="4.5" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACAABAAAAAAAAAAAAEQQAQAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>LightUnitsCoords.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="LightControl.Loop" Collapsed="true">
-    <Position X="9.25" Y="2.25" Width="1.5" />
+    <Position X="4.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAAIAAADAAAEAAAAAIAQAACAAAAAAIAAAICAQQAAA=</HashCode>
+      <HashCode>BAAAAAAAADABAEAgBAAIEQAAKBAAAAAIAAAYKAQQAAA=</HashCode>
       <FileName>Loop.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="OccupantMove" />
       <Property Name="GEngine" />
+      <Property Name="OccupantMove" />
       <Property Name="Fps" />
+      <Property Name="LightUnitsCoords" />
+      <Property Name="DetermineLightsToActivate" />
+      <Property Name="Occupant" />
     </ShowAsAssociation>
   </Class>
   <Class Name="LightControl.Program" Collapsed="true">
-    <Position X="9.25" Y="0.5" Width="1.5" />
+    <Position X="14" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Triangulering.OccupantMove" Collapsed="true">
-    <Position X="6.75" Y="3.5" Width="1.5" />
+    <Position X="7.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAJACAAAAAAAAAABAAAAIAAAAQCAAAgAAoAA=</HashCode>
       <FileName>OccupantMove.cs</FileName>
@@ -60,14 +54,14 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Triangulering.Circle" Collapsed="true">
-    <Position X="0.5" Y="1.75" Width="1.5" />
+    <Position X="9.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAgAAAAAA=</HashCode>
       <FileName>Triangulate\Circle.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Triangulering.DetermineLightsToActivate" Collapsed="true">
-    <Position X="10.25" Y="5.75" Width="1.5" />
+    <Position X="4.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAIAAAAAAAAAAAAAJEAAAAIAoAAAAAAAAEACAAACAA=</HashCode>
       <FileName>Triangulate\DetermineLightsToActivate.cs</FileName>
@@ -78,86 +72,75 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Triangulering.LightingUnit" Collapsed="true">
-    <Position X="2.75" Y="1.75" Width="1.5" />
+    <Position X="11.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAAAAgAQAAAAIAFAQQAAAADIAhAQMGBAIQ=</HashCode>
       <FileName>Triangulate\LightingUnit.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Triangulering.Occupant" Collapsed="true">
-    <Position X="4.5" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAgIABCACAAACAgAAAAQAQAAAAAAAAAAEAAAACEAAA=</HashCode>
-      <FileName>Triangulate\Occupant.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Triangulering.Triangulate" Collapsed="true">
-    <Position X="9.25" Y="7" Width="1.5" />
+    <Position X="4.5" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAACCIBAoAAAAAAAAAAgEAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Triangulate\Triangulate.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Triangulering.VectorMath" Collapsed="true">
-    <Position X="11.25" Y="7" Width="1.5" />
+    <Position X="7.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAQQAAAAACAAAAAAABAAAAAAAAAAAAAAAAAAETAAAA=</HashCode>
       <FileName>Triangulate\VectorMath.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SimEnvironment.Properties.Resources" Collapsed="true">
-    <Position X="0.5" Y="4.5" Width="1.5" />
+    <Position X="14" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="SimEnvironment.Properties.Settings" Collapsed="true">
-    <Position X="0.5" Y="3.5" Width="1.5" />
+    <Position X="10.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="MapController.QuadTree.Bounds" Collapsed="true">
-    <Position X="5" Y="1.75" Width="1.5" />
+    <Position X="14" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAAAAGAAAAEAAAAAAAAAAAAAAAAAQAMA=</HashCode>
       <FileName>Quadtree\Bounds.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MapController.QuadTree.QuadTree" Collapsed="true">
-    <Position X="4.5" Y="4.25" Width="1.5" />
+    <Position X="10.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAACQAAAAAACAQAgAAQAgAEAABAAAUFgQDAAAEIAA=</HashCode>
       <FileName>Quadtree\QuadTreecs.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MapController.QuadTree.QuadTreeNode" Collapsed="true">
-    <Position X="4.5" Y="3.5" Width="1.5" />
+    <Position X="12.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
       <FileName>Quadtree\QuadTreeNode.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SimEnvironment.Collision" Collapsed="true">
-    <Position X="6.75" Y="4.75" Width="1.5" />
+    <Position X="7.5" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAQAAABBAAAAAAAAAgAAgAAAEQAEAAAIAAAAAAABA=</HashCode>
+      <HashCode>AAAQQAgABBAAAAAAAAAgAAgAAAEQAEAAAIAAAAAAAAA=</HashCode>
       <FileName>SimEnvironment\Collision.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SimEnvironment.GraphicsDraw" Collapsed="true">
-    <Position X="9.25" Y="4.75" Width="1.5" />
+    <Position X="0.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAAAQAAAAFARAgQhAAABAgAAMBAAEAAJAABSLAAhQAA=</HashCode>
-      <FileName>SimEnvironment\DrawGraphics.cs</FileName>
+      <HashCode>CAAAwAAAAFAQggQBAAABAgAAAEAAEAAJAAASDAAhQAA=</HashCode>
+      <FileName>SimEnvironment\GraphicsDraw.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="LightUnitsCoords" />
-      <Property Name="DetermineLightsToActivate" />
-    </ShowAsAssociation>
   </Class>
   <Class Name="SimEnvironment.Form1" Collapsed="true">
-    <Position X="9.25" Y="1.25" Width="1.5" />
+    <Position X="1.5" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAIADAACEwAQACAAAACAAAAAAAAAAQIAAAAAAA=</HashCode>
       <FileName>SimEnvironment\Form1.cs</FileName>
@@ -167,9 +150,9 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="SimEnvironment.GEngine" Collapsed="true">
-    <Position X="9.25" Y="3.5" Width="1.5" />
+    <Position X="1.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAABAAAAEAAAAIQAAEAAAAACIIAAAAEIAAAAA=</HashCode>
+      <HashCode>AEAAAAAAABAAAAEAAAAAQAAEAAAAACIYAAAAEIAAAAA=</HashCode>
       <FileName>SimEnvironment\GEngine.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -177,17 +160,24 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="MapController.SimEnvironment.Initialize" Collapsed="true">
-    <Position X="2.5" Y="3.5" Width="1.5" />
+    <Position X="12.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAIBAAAAAAAAgAAAAAADA=</HashCode>
       <FileName>SimEnvironment\Initialize.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MapController.Triangulate.DALIController" Collapsed="true">
-    <Position X="4.5" Y="5.75" Width="1.5" />
+    <Position X="10.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAECAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Triangulate\DALIController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LightControl.Occupant" Collapsed="true">
+    <Position X="7.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAABCACAAACAgAAAAQAQAAAAAAAAAEEAAAACEAAA=</HashCode>
+      <FileName>Occupant.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

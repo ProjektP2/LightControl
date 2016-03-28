@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fps.cs" />
+    <Compile Include="InfoDrawing.cs" />
     <Compile Include="Loop.cs" />
     <Compile Include="OccupantMove.cs" />
     <Compile Include="Quadtree\Bounds.cs" />

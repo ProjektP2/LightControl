@@ -27,7 +27,6 @@ namespace LightControl
         List<LightingUnit> LightUnitCoordinates;
         Occupant NewOccupant = new Occupant();
 
-
         private void CreateLightUnit()
         {
             LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30); // 
@@ -37,7 +36,6 @@ namespace LightControl
 
         public void Position(Point point)
         {
-
             NewOccupant.UpdatePositions(point.X, point.Y);
 
             ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(NewOccupant, LightUnitCoordinates);
@@ -51,6 +49,9 @@ namespace LightControl
         public Loop(Form form)
         {
             Window = form;
+            Window.KeyDown += new KeyEventHandler(this.Form1_KeyDown);
+            Window.KeyUp += new KeyEventHandler(this.Form1_KeyUp);
+            //Window.KeyPreview = true;
         }
         public void Start()
         {
@@ -67,17 +68,14 @@ namespace LightControl
 
         private void calculationLoop()
         {
-            do
+            while (Running)
             {
-                Application.DoEvents();
+              Application.DoEvents();
                 occupantPosition = occupantMove.PlayerMove(occupantPosition);
                 Position(occupantPosition);
                 gEngine.Drawing(occupantPosition, ActivatedLightingUnitsOnUser);
-
-            } while (Running);
-            Application.Exit();
+            }
         }
-
 
         public void Form1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -92,6 +90,5 @@ namespace LightControl
             Running = false;
             Application.Exit();
         }
-
     }
 }
