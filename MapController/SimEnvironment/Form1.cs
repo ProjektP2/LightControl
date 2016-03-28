@@ -34,6 +34,18 @@ namespace SimEnvironment
             }
         }
 
+        internal LightControl.Loop Loop1
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             //Starts when the Form i Loaded

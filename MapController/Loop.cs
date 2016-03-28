@@ -41,9 +41,81 @@ namespace LightControl
             tree = new QuadTree(bound, false, null);
         }
 
+        internal GEngine GEngine
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal Occupant Occupant
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal QuadTree QuadTree
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal OccupantMove OccupantMove
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal DetermineLightsToActivate DetermineLightsToActivate
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal LightUnitsCoords LightUnitsCoords
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         private void CreateLightUnit()
         {
-            LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30); // 
+            LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 40); // 
             LightUnitCoordinates = new List<LightingUnit>();
             lol2.GetLightUnitCoords(ref LightUnitCoordinates);
         }
