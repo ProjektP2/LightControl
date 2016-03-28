@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using SimEnvironment;
 using Triangulering;
+using TreeStructure;
 
 namespace LightControl
 {
@@ -24,8 +25,21 @@ namespace LightControl
         List<LightingUnit> ActivatedLightingUnitsOnUser = new List<LightingUnit>();
         List<LightingUnit> ActivatedLightingUnitsInPath = new List<LightingUnit>();
 
+        List<LightingUnit> nyList;
+        QuadTree tree;
         List<LightingUnit> LightUnitCoordinates;
         Occupant NewOccupant = new Occupant();
+
+        public Loop(Form form)
+        {
+            Window = form;
+            Window.KeyDown += new KeyEventHandler(this.Form1_KeyDown);
+            Window.KeyUp += new KeyEventHandler(this.Form1_KeyUp);
+            Window.KeyPreview = true;
+            nyList = new List<LightingUnit>();
+            Bounds bound = new Bounds(0, 0, GEngine.SimulationWidht, GEngine.SimulationHeigt);
+            tree = new QuadTree(bound, false, null);
+        }
 
         private void CreateLightUnit()
         {
@@ -37,22 +51,15 @@ namespace LightControl
         public void Position(Point point)
         {
             NewOccupant.UpdatePositions(point.X, point.Y);
-
-            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(NewOccupant, LightUnitCoordinates);
+            nyList = tree.RadiusSearchQuery(NewOccupant.Position1, 100);
+            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(NewOccupant, nyList);
+            //ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(NewOccupant, LightUnitCoordinates);
             ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(NewOccupant, LightUnitCoordinates);
 
             NewOccupant.Position1.x = NewOccupant.Position2.x;
             NewOccupant.Position1.y = NewOccupant.Position2.y;
         }
 
-
-        public Loop(Form form)
-        {
-            Window = form;
-            Window.KeyDown += new KeyEventHandler(this.Form1_KeyDown);
-            Window.KeyUp += new KeyEventHandler(this.Form1_KeyUp);
-            //Window.KeyPreview = true;
-        }
         public void Start()
         {
             occupantPosition = new Point(4 * 32, 4 * 32);
@@ -60,7 +67,11 @@ namespace LightControl
             occupantMove = new OccupantMove(Map);
 
             CreateLightUnit();
-
+            // Skal flyttes
+            foreach (var item in LightUnitCoordinates)
+            {
+                tree.InsertNode(new QuadTreeNode(item));
+            }
             gEngine.init();
             gEngine.LoadLevel(LightUnitCoordinates);
             calculationLoop();
