@@ -21,15 +21,13 @@ namespace SimEnvironment
         Rectangle sRect;
         Rectangle dRect;
         Graphics G;
-        Graphics GMap;
-        Graphics Glamps;
 
         Bitmap Map;
         Bitmap player;
         Bitmap teils;
         Bitmap lamp;
-        
         Bitmap BB;
+
         Bitmap MAPMAP;
         Bitmap Lamps;
         Bitmap Light;
@@ -37,7 +35,6 @@ namespace SimEnvironment
         Form window;
 
         PictureBox pb = new PictureBox();
-        Collision collision;
 
         Point SimulationPosition = new Point((Form1.width/2)-(GEngine.SimulationWidht/2), (Form1.height/2)-(GEngine.SimulationWidht/2));
 
@@ -52,11 +49,10 @@ namespace SimEnvironment
             pb.Visible = true;
             pb.Show();
             window.Controls.Add(pb);
+            
         }
-
         public void InitBitMaps()
         {
-            collision = new Collision(Map);
             BB = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
             MAPMAP = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
             Lamps = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
@@ -68,7 +64,7 @@ namespace SimEnvironment
         public void DrawMap()
         {
             
-            GMap = Graphics.FromImage(MAPMAP);
+            G = Graphics.FromImage(MAPMAP);
             for (int x = 0; x < Map.Width; x++)
             {
                 for (int y = 0; y < Map.Height; y++)
@@ -77,40 +73,40 @@ namespace SimEnvironment
                     // And draw to the window
                     Color PixelCode = Map.GetPixel(x, y);
                     string pixelColorStringValue =
-                        PixelCode.R.ToString("D3") + "" +
-                        PixelCode.G.ToString("D3") + "" +
-                        PixelCode.B.ToString("D3") + "";
+                        PixelCode.R.ToString("D3") +
+                        PixelCode.G.ToString("D3") +
+                        PixelCode.B.ToString("D3");
                     GetSurce(pixelColorStringValue);
                     dRect = new Rectangle((x * GEngine.TileSize), (y * GEngine.TileSize), GEngine.TileSize, GEngine.TileSize);
-                    GMap.DrawImage(teils, dRect, sRect, GraphicsUnit.Pixel);
+                    G.DrawImage(teils, dRect, sRect, GraphicsUnit.Pixel);
                 }
             }
-            GMap.Dispose();
+            G.Dispose();
             teils.Dispose();
         }
         public void DrawLamps(List<LightingUnit> LightUnitCoordinates)
         {
-            Glamps = Graphics.FromImage(Lamps);
+            G = Graphics.FromImage(Lamps);
             foreach (var item in LightUnitCoordinates)         
             {
                 int xx = Convert.ToInt32(item.x);
                 int yy = Convert.ToInt32(item.y);
                 sRect = new Rectangle(0, 0, 5, 5);
                 lamp.MakeTransparent(Color.CadetBlue);
-                Glamps.DrawImage(lamp, xx-2, yy-2, sRect, GraphicsUnit.Pixel);
+                G.DrawImage(lamp, xx-2, yy-2, sRect, GraphicsUnit.Pixel);
             }
-            Glamps.Dispose();
+            G.Dispose();
             lamp.Dispose();
         }
 
         public void DrawLight(List<LightingUnit> ActivatedLightingUnitsOnUser)
         {
-            
+            double R = _radius * _radius;
             //Lock Bitmap to get BitmapData
             int Width = Light.Width;
              PixelFormat pxf = PixelFormat.Format32bppArgb;
              Rectangle reccct = new Rectangle(0, 0, Light.Width, Light.Height);
-             BitmapData bmpData = Light.LockBits(reccct, ImageLockMode.ReadWrite, pxf);
+             BitmapData bmpData = Light.LockBits(reccct, ImageLockMode.WriteOnly, pxf);
              IntPtr ptr = bmpData.Scan0;
 
              int numBytes = bmpData.Stride * Light.Height;
@@ -121,32 +117,30 @@ namespace SimEnvironment
              {
                  rgbValues[i] = 200;
              }
-             foreach (var item in ActivatedLightingUnitsOnUser)
+            foreach (var item in ActivatedLightingUnitsOnUser)
              {
-                 double volume = 255 - (255 * (item.LightingLevel));
+                double volume = 255 - (255 * (item.LightingLevel));
                  int PlaceInArray;
                  for (double y = item.y - _radius; y < item.y + _radius; y++)
                  {
                      for (double x = item.x - _radius; x < item.x + _radius; x++)
                      {
-                        
-                        double R = _radius * _radius;
                          double Cirklensligning = ((x - item.x) * (x - item.x)) + ((y - item.y) * (y - item.y));
                          if (Cirklensligning <= R)
                          {
-                                PlaceInArray = Convert.ToInt32(((y * Width * 4) + x * 4) + 3);
+                                PlaceInArray = (int)(((y * Width * 4) + x * 4) + 3);
                                 double Alpha = volume + (Math.Sqrt(Cirklensligning) * 2); // 3 eller 4
                                 if (Alpha > 200)
                                 {
                                     Alpha = 200;
                                 }
-                            if (rgbValues[PlaceInArray] > (Byte)(Alpha))
-                            {
-                                //if (collision.CheckLightCollision(Convert.ToInt32(x), Convert.ToInt32(y)))
+                                else
                                 {
-                                    rgbValues[PlaceInArray] = (Byte)(Alpha);
+                                    if (rgbValues[PlaceInArray] > (Byte)(Alpha))
+                                    {
+                                        rgbValues[PlaceInArray] = (Byte)(Alpha);
+                                    }
                                 }
-                            }
                         }
                      }
                  }
@@ -170,7 +164,7 @@ namespace SimEnvironment
             G = Graphics.FromImage(BB);            
             //Map
             G.DrawImage(MAPMAP, 0, 0);
-            // Employer
+            // Occupant
             player.MakeTransparent(Color.CadetBlue);
             G.DrawImage(player, point.X-8, point.Y-8);
             //Lamps Drawing

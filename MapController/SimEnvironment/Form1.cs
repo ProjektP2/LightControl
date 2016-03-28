@@ -46,14 +46,6 @@ namespace SimEnvironment
             AllocConsole();
             loop.Start();
         }
-        public void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            loop.Form1_KeyDown(sender, e);
-        }
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
-        {
-            loop.Form1_KeyUp(sender, e);
-        }
 
         //Console Window to Debug 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -63,6 +55,16 @@ namespace SimEnvironment
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             loop.Form1_FormClosing(sender, e);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("hej");
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -19,6 +19,7 @@ namespace SimEnvironment
 
         GraphicsDraw graphicsDraw;
         Fps FpsCounter;
+        //InfoDrawing info;
 
         Bitmap Map;
         Form window;
@@ -33,6 +34,8 @@ namespace SimEnvironment
         {
             graphicsDraw = new GraphicsDraw(window, Map);
             FpsCounter = new Fps();
+            //info = new InfoDrawing(window);
+            //info.init();
         }
         //Load the Map from a picture
         public void LoadLevel(List<LightingUnit> LightUnitCoordinates)
@@ -47,6 +50,7 @@ namespace SimEnvironment
                 graphicsDraw.DrawLight(ActivatedLightingUnitsOnUser);
                 graphicsDraw.Draw(FpsCounter.fps, EmployerPosition);
                 FpsCounter.FPS();
+            //info.LightINFO(ActivatedLightingUnitsOnUser);
         }
     }
 }
