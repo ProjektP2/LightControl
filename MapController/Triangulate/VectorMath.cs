@@ -9,6 +9,18 @@ namespace Triangulering
 {
     class VectorMath
     {
+        internal Circle Circle
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         //Calculates the vector between two points StartingPosition (x1,y1) and EndingPosition (x2,y2).
         public static Coords CalculateVector(Coords StartingPosition, Coords EndingPosition)
         {

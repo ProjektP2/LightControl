@@ -30,6 +30,30 @@ namespace SimEnvironment
             Map = map;
         }
 
+        internal Fps Fps
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal GraphicsDraw GraphicsDraw
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         public void init()
         {
             graphicsDraw = new GraphicsDraw(window, Map);
