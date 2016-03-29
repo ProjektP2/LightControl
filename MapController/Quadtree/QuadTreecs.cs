@@ -170,17 +170,21 @@ namespace TreeStructure
                 {
                     if (item != null && item.bound.Intersects(circleBound))
                     {
-                        if(item.QuadNodesList.Count == 0)
-                           item.GetLightUnitInBound(ref list, circleBound);
+                        if (item.QuadNodesList.Count == 0)
+                            item.GetLightUnitInBound(ref list, circleBound);
                         else
-                            foreach (var listItem in item.QuadNodesList)
-                            {
-                                if (list.Contains(listItem.LightUnit) == false)
-                                {
-                                    list.Add(listItem.LightUnit);
-                                }
-                            }
+                            AddNewUnitsToList(ref item.QuadNodesList, ref list);
                     }
+                }
+            }
+        }
+        private void AddNewUnitsToList(ref List<QuadTreeNode> list, ref List<LightingUnit> unitList)
+        {
+            foreach (QuadTreeNode listItem in list)
+            {
+                if (unitList.Contains(listItem.LightUnit) == false)
+                {
+                    unitList.Add(listItem.LightUnit);
                 }
             }
         }
