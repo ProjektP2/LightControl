@@ -115,7 +115,7 @@ namespace LightControl
 
         private void CreateLightUnit()
         {
-            LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 40); // 
+            LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30); // 
             LightUnitCoordinates = new List<LightingUnit>();
             lol2.GetLightUnitCoords(ref LightUnitCoordinates);
         }
