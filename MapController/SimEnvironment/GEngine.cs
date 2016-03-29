@@ -17,48 +17,64 @@ namespace SimEnvironment
         public const int SimulationWidht = 640;
         public const int TileSize = 32;
 
-        GraphicsDraw grapihicsDraw;
+        GraphicsDraw graphicsDraw;
+        Fps FpsCounter;
+        //InfoDrawing info;
 
-        LightControl.Fps FpsCounter;
         Bitmap Map;
         Form window;
-
-
-        //Starting position
-
 
         public GEngine(Form form, Bitmap map)
         {
             window = form;
             Map = map;
         }
+
+        internal Fps Fps
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal GraphicsDraw GraphicsDraw
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         public void init()
         {
-            
-            grapihicsDraw = new GraphicsDraw(window, Map);
-            
-            FpsCounter = new LightControl.Fps();
+            graphicsDraw = new GraphicsDraw(window, Map);
+            FpsCounter = new Fps();
+            //info = new InfoDrawing(window);
+            //info.init();
         }
         //Load the Map from a picture
-        public void LoadLevel(List<LightingUnit> LightingUnits)
+        public void LoadLevel(List<LightingUnit> LightUnitCoordinates)
         {
-            //Fejlen er her et sted
-            grapihicsDraw.Begin();
-            grapihicsDraw.DrawMap();
-            
-            grapihicsDraw.DrawLamps(LightingUnits);
+            graphicsDraw.InitBitMaps();
+            graphicsDraw.DrawMap();
+            graphicsDraw.DrawLamps(LightUnitCoordinates);
             
         }
-        public void Drawing(Point EmployerPosition, List<LightingUnit> LightingUnits)
-        {
-            grapihicsDraw.Position();
-                grapihicsDraw.DrawLight(LightingUnits);
-                grapihicsDraw.Draw(FpsCounter.fps, EmployerPosition);
+        public void Drawing(Point EmployerPosition, List<LightingUnit> ActivatedLightingUnitsOnUser)
+        {  
+                graphicsDraw.DrawLight(ActivatedLightingUnitsOnUser);
+                graphicsDraw.Draw(FpsCounter.fps, EmployerPosition);
                 FpsCounter.FPS();
-
+            //info.LightINFO(ActivatedLightingUnitsOnUser);
         }
-        
-        //Move the player
-       
     }
 }

@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using Triangulering;
 using LightControl;
 
-namespace MapController.QuadTree
+namespace TreeStructure
 {
     class QuadTree
     {
         static int MaxNodes = 4;
-        static int MaxObjects = 1;
-        static int MaxNodeLevel = 4;
+        static int MaxObjects = 2;
+        static int MaxNodeLevel = 6;
 
         // *** OBS Bruges Kun Til Debug OBS ***
+        private int interations = 0;
         private bool Searched = false;
 
         private QuadTree Parent = null;
@@ -38,6 +39,30 @@ namespace MapController.QuadTree
             this.Parent = parent;
         }
 
+        internal Bounds Bounds
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal QuadTreeNode QuadTreeNode
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         public void InsertNode(QuadTreeNode node)
         {
             int index = -1;
@@ -52,6 +77,7 @@ namespace MapController.QuadTree
                 }
             }
             QuadNodesList.Add(node);
+            LeafNode = true;
             int numLightsInList = QuadNodesList.Count;
             if (numLightsInList > MaxObjects && MaxNodeLevel > currentLevel)
             {
@@ -72,6 +98,7 @@ namespace MapController.QuadTree
                     else
                         i++;
                 }
+                LeafNode = false;
             }
         }
 
@@ -130,31 +157,41 @@ namespace MapController.QuadTree
         }
         private Bounds GetCircleBound(Coords entityPosition, double Radius)
         {
-            int width = (int)Radius * 2;
-            int height = (int)Radius * 2;
+            int width = (int)Radius;
+            int height = (int)Radius;
             Bounds circleBound = new Bounds(entityPosition.x, entityPosition.y, width, height);
             return circleBound;
         }
         private void GetLightUnitInBound(ref List<LightingUnit> list, Bounds circleBound)
         {
-            if (bound.Contains(circleBound))
+            if (nodes[0] != null && bound.Intersects(circleBound))
             {
                 foreach (var item in nodes)
                 {
-                    if (item != null && circleBound.Intersects(item.bound))
+                    if (item != null && item.bound.Intersects(circleBound))
                     {
-                        Console.WriteLine("Added");
-                        list.Add(item.QuadNodesList[0].LightUnit);
-                    }
-                    if (nodes[0] != null)
-                    {
-                        foreach (var node in nodes)
-                        {
-                            node.GetLightUnitInBound(ref list, circleBound);
-                        }
+                        if (item.QuadNodesList.Count == 0)
+                            item.GetLightUnitInBound(ref list, circleBound);
+                        else
+                            AddNewUnitsToList(ref item.QuadNodesList, ref list);
                     }
                 }
             }
+        }
+        private void AddNewUnitsToList(ref List<QuadTreeNode> list, ref List<LightingUnit> unitList)
+        {
+            foreach (QuadTreeNode listItem in list)
+            {
+                if (unitList.Contains(listItem.LightUnit) == false)
+                {
+                    unitList.Add(listItem.LightUnit);
+                }
+            }
+        }
+
+        private void PrintBounds(Bounds one)
+        {
+            Console.WriteLine($"one {one.x} {one.y} {one.Width} {one.Height} {one.BottomRightX} {one.BottomRightY} {one.TopLeftX} {one.TopLeftY}");
         }
 
         public void Print()

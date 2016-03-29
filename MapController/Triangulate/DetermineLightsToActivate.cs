@@ -14,25 +14,71 @@ namespace Triangulering
                                                          //to be activated.
         private static double PredictedMovementScaling = 3; //The amount of times we scale the movement vector when predicting movement.
 
+        internal Triangulate Triangulate
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal VectorMath VectorMath
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal Triangulate Triangulate1
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal VectorMath VectorMath1
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         //Determines what lights need to be activated around the user. Not based on movement. 
         //Receives a list of coordinates for every lighting unit in a room (LightingUnitsCoordinates), as well as the last known position of the 
         //signal source (UserCoordinates). Calls "ExistsInCircle" to determine whether or not the lights in the room are close
         //enough to activate. If they are (if their coordinates exist in the circle around the user), the coordinates to the lighting
         //unit is stored in the LightingUnitsToActivate list (List<LightingUnits>), which is returned when every lighting unit has been checked.
         //Furthermore, the LightingLevel variable from the LightingUnit class is set by CalculateLightingLevel.
-        public static List<LightingUnit> LightsToActivateOnUser(Coords UserCoordinates, List<LightingUnit> LightingUnits)
+        public static List<LightingUnit> LightsToActivateOnUser(Occupant Occupant, List<LightingUnit> LightingUnits)
         {
             List<LightingUnit> LightingUnitsToActivateOnUser = new List<LightingUnit>();
 
             foreach (LightingUnit LightingUnitToCheck in LightingUnits)
             {
-                if (ExistsInCircle(UserCoordinates, LightingUnitToCheck))
+                if (ExistsInCircle(Occupant.LatestPosition(), LightingUnitToCheck))
                 {
-                    LightingUnitToCheck.LightingLevel = (CalculateLightingLevel(UserCoordinates, LightingUnitToCheck, Radius));
+                    LightingUnitToCheck.LightingLevel = (CalculateLightingLevel(Occupant.LatestPosition(), LightingUnitToCheck, Radius));
                     LightingUnitsToActivateOnUser.Add(LightingUnitToCheck);
                 }
-
-
             }
             return LightingUnitsToActivateOnUser;
         }
@@ -56,20 +102,22 @@ namespace Triangulering
             return 1- (DistanceBetweenPoints / distance);
         }
 
-        public static List<LightingUnit> LightsToActivateInPath(Coords StartingPosition, Coords EndingPosition, List<LightingUnit> LightingUnits)
+        public static List<LightingUnit> LightsToActivateInPath(Occupant Occupant, List<LightingUnit> LightingUnits)
         {
-            if (EndingPosition.x == 99999 && EndingPosition.y == 99999) //Makes sure we don't calculate a movement vector when we don't have
-                return null;                                            //two points
+            if (Occupant.IsPosition1Initialized == false && Occupant.IsPosition2Initialized == false)
+                return null;
+            //Makes sure we don't calculate a movement vector when we don't have
+            //two points
 
 
-            Coords MovementVector = VectorMath.CalculateVector(StartingPosition, EndingPosition); //Defines the movement vector
-            List<LightingUnit> LightingUnitsInPath = FindLightsInPath(EndingPosition, MovementVector, LightingUnits); 
-            List<LightingUnit> ReducedLightingUnitsInPath = ReduceLightingUnitsInPath(LightingUnitsInPath, EndingPosition, MovementVector);
+            Coords MovementVector = VectorMath.CalculateVector(Occupant.Position1, Occupant.Position2); //Defines the movement vector
+            List<LightingUnit> LightingUnitsInPath = FindLightsInPath(Occupant.Position2, MovementVector, LightingUnits); 
+            List<LightingUnit> ReducedLightingUnitsInPath = ReduceLightingUnitsInPath(LightingUnitsInPath, Occupant.Position2, MovementVector);
             List<LightingUnit> LightingUnitsToActivateInPath = new List<LightingUnit>(); //List to return
 
             foreach (LightingUnit LightingUnitToSave in ReducedLightingUnitsInPath)
             {
-                LightingUnitToSave.LightingLevel = (CalculateLightingLevel(EndingPosition, LightingUnitToSave, PredictedMovementScaling));
+                LightingUnitToSave.LightingLevel = (CalculateLightingLevel(Occupant.Position2, LightingUnitToSave, PredictedMovementScaling));
                 LightingUnitsToActivateInPath.Add(LightingUnitToSave);
             }
             return LightingUnitsToActivateInPath;

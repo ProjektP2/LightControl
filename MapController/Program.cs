@@ -11,6 +11,7 @@ namespace LightControl
 {
     static class Program
     {
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -20,7 +21,7 @@ namespace LightControl
             // This should be here
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run( new Form1());
+            Application.Run(new Form1());
 
             //Creating two instances of routers.
             Circle Router1 = new Circle();
@@ -49,7 +50,7 @@ namespace LightControl
             //We create an instance of a room occupant - this is the signal source. We set his starting position to be the 
             //first possible position.
             Occupant SignalSource = new Occupant();
-            SignalSource.SetStartingPosition(PossiblePositions[0]);
+            SignalSource.UpdatePositions(PossiblePositions[0]);
 
             //We now update the routers received signal strength as to simulate that the signal source has moved.
             Router1.SetSignalStrength(823);
