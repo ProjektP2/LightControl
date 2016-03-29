@@ -11,64 +11,85 @@ namespace Triangulering
 {
     class OccupantMove
     {
-        Collision collision;
-        
+        private Collision collision;
+        private Bitmap Map;
 
-        Bitmap Map;
         private int PlayerSpeed = 3;
-        bool right, left, up, down;
+        private bool right, left, up, down;
+
         public OccupantMove(Bitmap map)
         {
-            
             Map = map;
             collision = new Collision(Map);
         }
-
         public void NoPress(KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
-                right = false;
-            if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left)
-                left = false;
-            if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up)
-                up = false;
-            if (e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
-                down = false;
+            switch(e.KeyCode)
+            {
+                case Keys.D:
+                case Keys.Right:
+                    right = false;
+                    break;
+                case Keys.A:
+                case Keys.Left:
+                    left = false;
+                    break;
+                case Keys.W:
+                case Keys.Up:
+                    up = false;
+                    break;
+                case Keys.S:
+                case Keys.Down:
+                    down = false;
+                    break;
+            }
         }
         public void Press(KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up)
-                up = true;
-            if (e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
-                down = true;
-            if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left)
-                left = true;
-            if (e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
-                right = true;
+            switch (e.KeyCode)
+            {
+                case Keys.D:
+                case Keys.Right:
+                    right = true;
+                    break;
+                case Keys.A:
+                case Keys.Left:
+                    left = true;
+                    break;
+                case Keys.W:
+                case Keys.Up:
+                    up = true;
+                    break;
+                case Keys.S:
+                case Keys.Down:
+                    down = true;
+                    break;
+            }
         }
         public Point PlayerMove(Point EmployerPosition)
         {
-            if (up == true)
+            //Checks out if the direction is blocked 
+            if (up)
             {
-                //Checks out if the direction is blocked 
                 if (collision.CheckCollison(EmployerPosition.X, EmployerPosition.Y - PlayerSpeed, -6, 0, 6, 0))
                    EmployerPosition.Y -= PlayerSpeed;
             }
-            if (down == true)
+            if (down)
             {
                 if (collision.CheckCollison(EmployerPosition.X, EmployerPosition.Y + PlayerSpeed, -6, 2, 6, 2))
                     EmployerPosition.Y += PlayerSpeed;
             }
-            if (left == true)
+            if (left)
             {
                 if (collision.CheckCollison(EmployerPosition.X - PlayerSpeed, EmployerPosition.Y, -6, 0, -6, 2))
                     EmployerPosition.X -= PlayerSpeed;
             }
-            if (right == true)
+            if (right)
             {
                 if (collision.CheckCollison(EmployerPosition.X + PlayerSpeed, EmployerPosition.Y, 6, 0, 6, 2))
                     EmployerPosition.X += PlayerSpeed;
             }
+               
             return EmployerPosition;
         }
     }
