@@ -11,6 +11,17 @@ namespace Triangulering
 
     class Triangulate
     {
+        internal Circle Circle
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
 
         //Calculates the distance between two sets coordinates.
         //This value is a length, so it cannot be negative.

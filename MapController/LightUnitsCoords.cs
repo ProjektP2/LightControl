@@ -16,6 +16,17 @@ namespace LightControl
         public int Width { get; private set; }
         public double PixelDensity { get; set; }
 
+        internal LightingUnit LightingUnit
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
 
         public LightUnitsCoords(int height, int width, int pixelDensity) 
         {
@@ -23,12 +34,11 @@ namespace LightControl
             Width = width;
             PixelDensity = pixelDensity;
         }
-        int tal = 0;
         public void GetLightUnitCoords(ref List<LightingUnit> lightUnitCoords)
         {
-            for (int y = 30; y < Height-30; y++)
+            for (int y = 32; y < Height-32; y++)
             {
-                for (int x = 30; x < Width-30; x++)
+                for (int x = 32; x < Width-32; x++)
                 {
                     if (CheckCoords(x,y))
                     {

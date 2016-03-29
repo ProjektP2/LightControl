@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fps.cs" />
+    <Compile Include="InfoDrawing.cs" />
     <Compile Include="Loop.cs" />
     <Compile Include="OccupantMove.cs" />
     <Compile Include="Quadtree\Bounds.cs" />
@@ -54,7 +55,7 @@
     <Compile Include="Quadtree\QuadTreecs.cs" />
     <Compile Include="Quadtree\QuadTreeNode.cs" />
     <Compile Include="SimEnvironment\Collision.cs" />
-    <Compile Include="SimEnvironment\DrawGraphics.cs" />
+    <Compile Include="SimEnvironment\GraphicsDraw.cs" />
     <Compile Include="SimEnvironment\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

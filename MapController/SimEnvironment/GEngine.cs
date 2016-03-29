@@ -17,8 +17,9 @@ namespace SimEnvironment
         public const int SimulationWidht = 640;
         public const int TileSize = 32;
 
-        GraphicsDraw grapihicsDraw;
+        GraphicsDraw graphicsDraw;
         Fps FpsCounter;
+        //InfoDrawing info;
 
         Bitmap Map;
         Form window;
@@ -29,25 +30,51 @@ namespace SimEnvironment
             Map = map;
         }
 
+        internal Fps Fps
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal GraphicsDraw GraphicsDraw
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         public void init()
         {
-            grapihicsDraw = new GraphicsDraw(window, Map);
+            graphicsDraw = new GraphicsDraw(window, Map);
             FpsCounter = new Fps();
+            //info = new InfoDrawing(window);
+            //info.init();
         }
         //Load the Map from a picture
-        public void LoadLevel()
+        public void LoadLevel(List<LightingUnit> LightUnitCoordinates)
         {
-            grapihicsDraw.Begin();
-            grapihicsDraw.DrawMap();
-            grapihicsDraw.DrawLamps();
+            graphicsDraw.InitBitMaps();
+            graphicsDraw.DrawMap();
+            graphicsDraw.DrawLamps(LightUnitCoordinates);
             
         }
-        public void Drawing(Point EmployerPosition)
+        public void Drawing(Point EmployerPosition, List<LightingUnit> ActivatedLightingUnitsOnUser)
         {  
-                grapihicsDraw.DrawLight();
-                grapihicsDraw.Draw(FpsCounter.fps, EmployerPosition);
-                grapihicsDraw.Position();
+                graphicsDraw.DrawLight(ActivatedLightingUnitsOnUser);
+                graphicsDraw.Draw(FpsCounter.fps, EmployerPosition);
                 FpsCounter.FPS();
+            //info.LightINFO(ActivatedLightingUnitsOnUser);
         }
     }
 }

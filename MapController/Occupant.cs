@@ -110,8 +110,17 @@ namespace LightControl
             Console.ReadKey();
         }
 
+        internal SimEnvironment.Collision Collision
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
 
-
+            set
+            {
+            }
+        }
     }
 
 }

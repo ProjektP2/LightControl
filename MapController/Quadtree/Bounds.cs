@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using LightControl;
 
-namespace MapController.QuadTree
+namespace TreeStructure
 {
     class Bounds : Coords
     {
         public int Width;
         public int Height;
-        private int CenterX, CenterY;
-        private int TopRightX, TopRightY;
+        public int BottomRightX, BottomRightY;
+        public int TopLeftX, TopLeftY;
 
         public Bounds(double x, double y, int width, int height)
         {
@@ -20,21 +20,36 @@ namespace MapController.QuadTree
             this.y = y;
             Width = width;
             Height = height;
-            TopRightX = (int)x + width;
-            TopRightY = (int)y;
+            BottomRightX = (int)x + width;
+            BottomRightY = (int)y + height;
+            TopLeftX = (int)x - width;
+            TopLeftY = (int)y - height;
+
         }
 
         public bool Contains(Bounds bound)
         {
-            return bound.x >= x && bound.y >= y && 
-                bound.TopRightX <= TopRightX && 
-                bound.TopRightY <= TopRightY;
+            /*return bound.TopLeftX <= x && bound.TopLeftY <= y &&
+                bound.BottomRightX >= BottomRightX && 
+                bound.BottomRightY >= BottomRightY;*/
+            return (bound.x >= x && bound.y >= y &&
+                bound.x <= BottomRightX &&
+                bound.y <= BottomRightY);
+            //return true;
+
         }
 
         public bool Intersects(Bounds bound)
         {
-            return (bound.x >= TopRightX || bound.TopRightX <= x ||
-                bound.y >= TopRightY || bound.TopRightY <= y); 
+            /*return !((bound.BottomRightX <= x) ||
+                (bound.BottomRightY <= y) ||
+                (bound.TopLeftX >= BottomRightX) ||
+                (bound.TopLeftY >= BottomRightY)); */
+            return !((bound.BottomRightX <= x) ||
+                (bound.BottomRightY <= y) ||
+                (bound.TopLeftX >= BottomRightX) ||
+                (bound.TopLeftY >= BottomRightY));
+
         }
     }
 }
