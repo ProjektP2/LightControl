@@ -116,8 +116,8 @@ namespace SimEnvironment
         public void DrawLight(List<LightingUnit> ActivatedLightingUnitsOnUser)
         {
             byte minTrasnparency = 200;
-            byte[] rgbValues = new byte[_drawLightData.numBytes];
             _drawLightData = InitDrawLightData();
+            byte[] rgbValues = new byte[_drawLightData.numBytes];
             
             Marshal.Copy(_drawLightData.ptr, rgbValues, 0, _drawLightData.numBytes);
             InitRGBValues(_drawLightData.numBytes, minTrasnparency, ref rgbValues);
