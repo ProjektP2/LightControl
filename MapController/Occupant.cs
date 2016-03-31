@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using LightControl;
 using Triangulering;
 
-
 namespace LightControl
 {
     //This class is used to simulate an occupant - or rather, the source of a given signal that is received by the access points
@@ -36,7 +35,7 @@ namespace LightControl
         public Coords Position1 = new Coords();
         public Coords Position2 = new Coords();
         public Coords PositionVector = new Coords();
-        public double Velocity; //Should only have a public getter
+        public double Velocity { get; private set; }
         public string Identity;
 
         //Sets the identity of the signal source.
@@ -109,18 +108,6 @@ namespace LightControl
             Console.WriteLine($"Position vector: <{PositionVector.x},{PositionVector.y}>");
             Console.WriteLine($"Velocity of Occupant1: {Velocity}");
             Console.ReadKey();
-        }
-
-        internal SimEnvironment.Collision Collision
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
         }
     }
 
