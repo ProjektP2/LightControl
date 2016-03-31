@@ -8,22 +8,44 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using MapController.SimEnvironment;
-using LightControl;
 
 namespace SimEnvironment
 {
-    public partial class Form1 : Form
+    public partial class Form1:Form
     {
         public static int width = Screen.PrimaryScreen.WorkingArea.Width;
         public static int height = Screen.PrimaryScreen.WorkingArea.Height;
 
-        
+        LightControl.Loop loop;
         public Form1()
         {
             InitializeComponent();
         }
-        Loop loop;
+
+        internal LightControl.Loop Loop
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal LightControl.Loop Loop1
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             //Starts when the Form i Loaded
@@ -31,24 +53,30 @@ namespace SimEnvironment
             this.Focus();
             this.Width = width;
             this.Height = height;
-            loop = new Loop(this);
+            loop = new LightControl.Loop(this);
+
             AllocConsole();
-            loop.calculationLoop();
+            loop.Start();
         }
 
         //Console Window to Debug 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAsAttribute(UnmanagedType.Bool)]
         static extern bool AllocConsole();
-                
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            loop.Form1_FormClosing(sender, e);
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Stop Niko!");
+            MessageBox.Show("hej");
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
 
-        } 
-    } 
+        }
+    }
 }
