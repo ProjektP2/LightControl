@@ -11,86 +11,76 @@ namespace Triangulering
 {
     class OccupantMove
     {
-        private Collision collision;
-        private Bitmap Map;
-
+        Collision collision;
+        Bitmap Map;
+        private Form _window;
         private int PlayerSpeed = 3;
-        private bool right, left, up, down;
-
-        public OccupantMove(Bitmap map)
+        bool right, left, up, down;
+        public OccupantMove(Bitmap map, Form window)
         {
+            _window = window;
+            _window.KeyDown += new KeyEventHandler(this.Form1_KeyDown);
+            _window.KeyUp += new KeyEventHandler(this.Form1_KeyUp);
+            _window.KeyPreview = true;
             Map = map;
             collision = new Collision(Map);
         }
+
         public void NoPress(KeyEventArgs e)
         {
-            switch(e.KeyCode)
-            {
-                case Keys.D:
-                case Keys.Right:
-                    right = false;
-                    break;
-                case Keys.A:
-                case Keys.Left:
-                    left = false;
-                    break;
-                case Keys.W:
-                case Keys.Up:
-                    up = false;
-                    break;
-                case Keys.S:
-                case Keys.Down:
-                    down = false;
-                    break;
-            }
+            if (e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
+                right = false;
+            if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left)
+                left = false;
+            if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up)
+                up = false;
+            if (e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
+                down = false;
         }
         public void Press(KeyEventArgs e)
         {
-            switch (e.KeyCode)
-            {
-                case Keys.D:
-                case Keys.Right:
-                    right = true;
-                    break;
-                case Keys.A:
-                case Keys.Left:
-                    left = true;
-                    break;
-                case Keys.W:
-                case Keys.Up:
-                    up = true;
-                    break;
-                case Keys.S:
-                case Keys.Down:
-                    down = true;
-                    break;
-            }
+            if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up)
+                up = true;
+            if (e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
+                down = true;
+            if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left)
+                left = true;
+            if (e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
+                right = true;
         }
         public Point PlayerMove(Point EmployerPosition)
         {
-            //Checks out if the direction is blocked 
-            if (up)
+            if (up == true)
             {
+                //Checks out if the direction is blocked 
                 if (collision.CheckCollison(EmployerPosition.X, EmployerPosition.Y - PlayerSpeed, -6, 0, 6, 0))
                    EmployerPosition.Y -= PlayerSpeed;
             }
-            if (down)
+            if (down == true)
             {
                 if (collision.CheckCollison(EmployerPosition.X, EmployerPosition.Y + PlayerSpeed, -6, 2, 6, 2))
                     EmployerPosition.Y += PlayerSpeed;
             }
-            if (left)
+            if (left == true)
             {
                 if (collision.CheckCollison(EmployerPosition.X - PlayerSpeed, EmployerPosition.Y, -6, 0, -6, 2))
                     EmployerPosition.X -= PlayerSpeed;
             }
-            if (right)
+            if (right == true)
             {
                 if (collision.CheckCollison(EmployerPosition.X + PlayerSpeed, EmployerPosition.Y, 6, 0, 6, 2))
                     EmployerPosition.X += PlayerSpeed;
             }
-               
             return EmployerPosition;
+        }
+
+        public void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            Press(e);
+        }
+        public void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            NoPress(e);
         }
     }
 }
