@@ -16,7 +16,22 @@ namespace SimEnvironment
     {
         int _radius = 35;
 
+        private struct DrawLightData
+        {
+            public int numBytes;
+            public PixelFormat pixelFormat;
+            public Rectangle rectangle;
+            public BitmapData bmpData;
+            public IntPtr ptr;
+        }
+        private DrawLightData _drawLightData;
 
+        private struct RectCorners
+        {
+            public double TopLeftX, TopLeftY,
+                BottomRightX, BottomRightY;
+        }
+        private RectCorners _rectCorners;
 
         Rectangle sRect;
         Rectangle dRect;
@@ -49,7 +64,6 @@ namespace SimEnvironment
             pb.Visible = true;
             pb.Show();
             window.Controls.Add(pb);
-
         }
         public void InitBitMaps()
         {
@@ -57,12 +71,35 @@ namespace SimEnvironment
             MAPMAP = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
             Lamps = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
             Light = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
-            player = new Bitmap("Player3.png");
-            teils = new Bitmap("Teils.png");
-            lamp = new Bitmap("Lamp.png");
-            Console.WriteLine("look ma no exception");
+            player = LoadFileIntoBitMap("Player3.png");
+            teils = LoadFileIntoBitMap("Teils.png");
+            lamp = LoadFileIntoBitMap("Lamp.png");
+            //teils = new Bitmap("Teils.png");
+            //lamp = new Bitmap("Lamp.png");
         }
-        public void DrawMap()
+
+        private Bitmap LoadFileIntoBitMap(string fileName)
+        {
+            Bitmap bitmap = null;
+            try
+            {
+                bitmap = new Bitmap(fileName);
+            }
+            catch(NullReferenceException exception)
+            {
+                throw exception;
+            }
+            catch(ArgumentException exception)
+            {
+                throw exception;
+            }
+            catch(Exception exception)
+            {
+                throw exception;
+            }
+            return bitmap;
+        }
+        public void LoadMapIntoBitMap()
         {
 
             G = Graphics.FromImage(MAPMAP);
@@ -85,7 +122,7 @@ namespace SimEnvironment
             G.Dispose();
             teils.Dispose();
         }
-        public void DrawLamps(List<LightingUnit> LightUnitCoordinates)
+        public void LoadLampsIntoBitMap(List<LightingUnit> LightUnitCoordinates)
         {
             G = Graphics.FromImage(Lamps);
             foreach (var item in LightUnitCoordinates)
@@ -99,59 +136,90 @@ namespace SimEnvironment
             G.Dispose();
             lamp.Dispose();
         }
-
-        public void DrawLight(List<LightingUnit> ActivatedLightingUnitsOnUser)
+       
+        public void LoadLightIntoBitMap(List<LightingUnit> ActivatedLightingUnitsOnUser)
         {
-            double R = _radius * _radius;
-            //Lock Bitmap to get BitmapData
-            int Width = Light.Width;
-            PixelFormat pxf = PixelFormat.Format32bppArgb;
-            Rectangle reccct = new Rectangle(0, 0, Light.Width, Light.Height);
-            BitmapData bmpData = Light.LockBits(reccct, ImageLockMode.WriteOnly, pxf);
-            IntPtr ptr = bmpData.Scan0;
+            byte minTrasnparency = 200;
+            _drawLightData = InitDrawLightData();
+            byte[] rgbValues = new byte[_drawLightData.numBytes];
+            
+            Marshal.Copy(_drawLightData.ptr, rgbValues, 0, _drawLightData.numBytes);
+            InitRGBValues(_drawLightData.numBytes, minTrasnparency, ref rgbValues);
 
-            int numBytes = bmpData.Stride * Light.Height;
-            byte[] rgbValues = new byte[numBytes];
+            SetTransparency(ActivatedLightingUnitsOnUser, rgbValues, minTrasnparency);
+            
+            Marshal.Copy(rgbValues, 0, _drawLightData.ptr, _drawLightData.numBytes);
+            Light.UnlockBits(_drawLightData.bmpData);
+        }
 
-            Marshal.Copy(ptr, rgbValues, 0, numBytes);
-            for (int i = 3; i < rgbValues.Length; i += 4)
-            {
-                rgbValues[i] = 200;
-            }
+        private void SetTransparency(List<LightingUnit> ActivatedLightingUnitsOnUser, 
+            byte[] rgbValues, byte minTrasnparency)
+        {
             foreach (var item in ActivatedLightingUnitsOnUser)
             {
                 if (item.LightingLevel > 0)
-                { 
+                {
                     double volume = 255 - (255 * (item.LightingLevel));
-                    int PlaceInArray;
-                    for (double y = item.y - _radius; y < item.y + _radius; y++)
+                    SetAlphaPixel(item, rgbValues, volume, minTrasnparency);
+                }
+            }
+        }
+        
+        private void SetAlphaPixel(LightingUnit item, byte[] rgbValues, double volume, byte minTrasnparency)
+        {
+            int PlaceInArray;
+            int Width = Light.Width;
+            double R = _radius * _radius;
+            double Cirklensligning, Alpha;
+            InitRectCorners(item);
+            for (double y = _rectCorners.TopLeftY; y < _rectCorners.BottomRightY; y++)
+            {
+                for (double x = _rectCorners.TopLeftX; x < _rectCorners.BottomRightX; x++)
+                {
+                    Cirklensligning = ((x - item.x) * (x - item.x)) + ((y - item.y) * (y - item.y));
+                    if (Cirklensligning <= R)
                     {
-                        for (double x = item.x - _radius; x < item.x + _radius; x++)
-                        {
-                            double Cirklensligning = ((x - item.x) * (x - item.x)) + ((y - item.y) * (y - item.y));
-                            if (Cirklensligning <= R)
-                            {
-                                PlaceInArray = (int)(((y * Width * 4) + x * 4) + 3);
-                                double Alpha = volume + (Math.Sqrt(Cirklensligning) * 2); // 3 eller 4
-                                if (Alpha > 200)
-                                {
-                                    Alpha = 200;
-                                }
-                                else
-                                {
-                                    if (rgbValues[PlaceInArray] > (Byte)(Alpha))
-                                    {
-                                        rgbValues[PlaceInArray] = (Byte)(Alpha);
-                                    }
-                                }
-                            }
-                        }
+                        PlaceInArray = (int)(((y * Width * 4) + x * 4) + 3);
+                        Alpha = volume + (Math.Sqrt(Cirklensligning) * 2); // 3 eller 4
+                        if (Alpha > minTrasnparency)
+                            Alpha = minTrasnparency;
+                        else
+                            if (rgbValues[PlaceInArray] > (Byte)(Alpha))
+                                rgbValues[PlaceInArray] = (Byte)(Alpha);
                     }
                 }
             }
-            Marshal.Copy(rgbValues, 0, ptr, numBytes);
-            Light.UnlockBits(bmpData);
         }
+
+        private void InitRGBValues(int size, byte value, ref byte[] rgbValues)
+        {
+            int iterations = size;
+            for (int i = 3; i < iterations; i += 4)
+            {
+                rgbValues[i] = value;
+            }
+        }
+
+        private DrawLightData InitDrawLightData()
+        {
+            DrawLightData drawLightData = new DrawLightData();
+            drawLightData.pixelFormat = PixelFormat.Format32bppArgb;
+            drawLightData.rectangle = new Rectangle(0, 0, Light.Width, Light.Height);
+            drawLightData.bmpData = Light.LockBits(drawLightData.rectangle,
+                ImageLockMode.WriteOnly, drawLightData.pixelFormat);
+            drawLightData.ptr = drawLightData.bmpData.Scan0;
+            drawLightData.numBytes = drawLightData.bmpData.Stride * Light.Height;
+            return drawLightData;
+        }
+
+        private void InitRectCorners(LightingUnit item)
+        {
+            _rectCorners.TopLeftX = item.x - _radius;
+            _rectCorners.TopLeftY = item.y - _radius;
+            _rectCorners.BottomRightX = item.x + _radius;
+            _rectCorners.BottomRightY = item.y + _radius;
+        }
+
         private void GetSurce(string pixelColorStringValue)
         {
             switch (pixelColorStringValue)
