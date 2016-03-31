@@ -81,21 +81,5 @@ namespace Triangulering
 
             return (SubtractVectors(PminusA, ComponentP));
         }
-
-        public static Coords projectionLength(Coords Light, Coords ScalledVector, Coords occupant)
-        {
-            //A = lys B1,B2
-            //B = move B4,B5
-            // ((B1*B4)+(B2*B5))/(SQRT(B4^2+B5^2))^2
-            
-            Coords Vector = new Coords();
-            Coords LightVector = new Coords();
-            LightVector = SubtractVectors(Light,occupant);
-            double tal = ((LightVector.x * ScalledVector.x) + (LightVector.y * ScalledVector.y)) / 
-                (Math.Pow((Math.Sqrt(Math.Pow(ScalledVector.x, 2)+(Math.Pow(ScalledVector.y,2)))),2));
-            Vector.x = tal * ScalledVector.x;
-            Vector.y = tal * ScalledVector.y;
-            return (Vector);
-        }
     }
 }
