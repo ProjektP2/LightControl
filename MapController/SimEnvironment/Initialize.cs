@@ -32,28 +32,18 @@ namespace MapController.SimEnvironment
         }
         private GEngine _gEngine;
 
-        public List<LightingUnit> ActivatedLightingUnitsOnUser
-        {
-            get { return _activatedLightingUnitsOnUser; }
-            set { _activatedLightingUnitsOnUser = value; }
-        }
-        private List<LightingUnit> _activatedLightingUnitsOnUser;
-
         public Loop loop;
       
         public bool Running = true;
 
-        List<LightingUnit> LightUnitCoordinates;
+        public List<LightingUnit> LightUnitCoordinates = new List<LightingUnit>();
         List<LightingUnit> nyList;
         QuadTree tree;
         Occupant NewOccupant = new Occupant();
-        List<LightingUnit> AllLightingUnits = new List<LightingUnit>();
-        List<LightingUnit> ActivatedLightingUnitsInPath = new List<LightingUnit>();
 
         public Initialize(Form form)
         {
             Window = form;
-            ActivatedLightingUnitsOnUser = new List<LightingUnit>();
             nyList = new List<LightingUnit>();
             Bounds bound = new Bounds(0, 0, GEngine.SimulationWidht, GEngine.SimulationHeigt);
             tree = new QuadTree(bound, false, null);
@@ -62,9 +52,7 @@ namespace MapController.SimEnvironment
         {
             NewOccupant.UpdatePositions(point.X, point.Y);
             nyList = tree.RadiusSearchQuery(NewOccupant.Position1, 100);
-            ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(NewOccupant, nyList);
-            //ActivatedLightingUnitsOnUser = DetermineLightsToActivate.LightsToActivateOnUser(NewOccupant, LightUnitCoordinates);
-            ActivatedLightingUnitsInPath = DetermineLightsToActivate.LightsToActivateInPath(NewOccupant, LightUnitCoordinates);
+            DetermineLightsToActivate.FindUnitsToActivate(ref LightUnitCoordinates, NewOccupant);
 
             NewOccupant.Position1.x = NewOccupant.Position2.x;
             NewOccupant.Position1.y = NewOccupant.Position2.y;
