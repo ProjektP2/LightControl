@@ -17,43 +17,18 @@ namespace SimEnvironment
         public const int SimulationWidht = 640;
         public const int TileSize = 32;
 
-        GraphicsDraw graphicsDraw;
-        Fps FpsCounter;
+        public GraphicsDraw graphicsDraw;
+        public Fps FpsCounter;
         //InfoDrawing info;
 
-        Bitmap Map;
-        Form window;
+        public Bitmap Map;
+        public Form window;
 
         public GEngine(Form form, Bitmap map)
         {
             window = form;
             Map = map;
         }
-
-        internal Fps Fps
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
-        internal GraphicsDraw GraphicsDraw
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
         public void init()
         {
             graphicsDraw = new GraphicsDraw(window, Map);
@@ -67,13 +42,13 @@ namespace SimEnvironment
             graphicsDraw.InitBitMaps();
             graphicsDraw.DrawMap();
             graphicsDraw.DrawLamps(LightUnitCoordinates);
-            
+
         }
         public void Drawing(Point EmployerPosition, List<LightingUnit> ActivatedLightingUnitsOnUser)
-        {  
-                graphicsDraw.DrawLight(ActivatedLightingUnitsOnUser);
-                graphicsDraw.Draw(FpsCounter.fps, EmployerPosition);
-                FpsCounter.FPS();
+        {
+            graphicsDraw.DrawLight(ActivatedLightingUnitsOnUser);
+            graphicsDraw.Draw(FpsCounter.fps, EmployerPosition);
+            FpsCounter.FPS();
             //info.LightINFO(ActivatedLightingUnitsOnUser);
         }
     }
