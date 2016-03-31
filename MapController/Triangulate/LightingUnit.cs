@@ -19,9 +19,8 @@ namespace Triangulering
         static private int _address = 0;
         private double watts = 60; //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
         public double wantedLightLevel;
-        public double LightingLevel; //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres(forklaring følger))
-        List<int> groups = new List<int>(); //liste over grupper den enkelte light unit tilhører
-        double[] scene = new double[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0 }; //array af presets (her tænker jeg vi laver nogle standard scener 
+        public double LightingLevel; //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres(forklaring følger))//liste over grupper den enkelte light unit tilhører
+        double[] scene = new double[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }; //array af presets (her tænker jeg vi laver nogle standard scener 
         //der gælder for alle light units
 
 
@@ -40,7 +39,7 @@ namespace Triangulering
             //her skal vi have lavet en sikkerhedsforanstaltning der starter en ny liste når _address når 63
 
         }
-
+        /*
         public void addLightUnitToGroup(int groupToAdd) //tilføjer en lightingUnit til en gruppe
         {
 
@@ -86,7 +85,7 @@ namespace Triangulering
                 Console.WriteLine("Something went completely wrong trying to remove the light unit to another group");
             }
         }
-
+        */
 
         public double getWattUsageForLightUnitInHours()
         {
@@ -97,12 +96,12 @@ namespace Triangulering
             return wattUsageInInterval;
             //Console.WriteLine("{0} er adressen med {1} som wattbrug",Address,wattUsage);
         }
-
+        /*
         public void clearGroupsFromLightingUnit(LightingUnit LightingUnitToClearGroupsFrom) //blot en simpel funktion til at rense grupperne i en Light Unit
         {
             LightingUnitToClearGroupsFrom.groups.Clear();
         }
-
+        */
         public double goToMax()
         {
             getWattUsageForLightUnitInHours();

@@ -52,6 +52,11 @@ namespace LightControl
             }
         }
 
+        /*public List<LightingUnit> GroupFilter(int groupnumber)
+        {
+
+        ^*/
+
         public double Wattusage()
         {
             return totalWattUsage;
