@@ -12,7 +12,7 @@ namespace Triangulering
         private static double Radius = 200; //Lights that are further than 3 meters away from the user will not be activated.
         private static double MaxDistanceFromPath = 60; //The maximum distance lighting units can stray from the path of direction
                                                          //to be activated.
-        private static double PredictedMovementScaling = 800; //The amount of times we scale the movement vector when predicting movement.
+        private static double PredictedMovementScaling = 400; //The amount of times we scale the movement vector when predicting movement.
 
         internal Triangulate Triangulate
         {
@@ -181,7 +181,7 @@ namespace Triangulering
                     break;
                 }
 
-                if (OriginalUnit.Address == InPath[k].Address && OriginalUnit.LightingLevel < InPath[k].LightingLevel)
+                if (OriginalUnit.Address == InPath[k].Address && OriginalUnit.wantedLightLevel < InPath[k].LightingLevel)
                 {
                     OriginalUnit.wantedLightLevel = InPath[k].LightingLevel;
                 }
