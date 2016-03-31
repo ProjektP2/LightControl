@@ -12,7 +12,7 @@ namespace Triangulering
         private static double Radius = 200; //Lights that are further than 3 meters away from the user will not be activated.
         private static double MaxDistanceFromPath = 60; //The maximum distance lighting units can stray from the path of direction
                                                          //to be activated.
-        private static double PredictedMovementScaling = 200; //The amount of times we scale the movement vector when predicting movement.
+        private static double PredictedMovementScaling = 800; //The amount of times we scale the movement vector when predicting movement.
 
         internal Triangulate Triangulate
         {
@@ -112,10 +112,9 @@ namespace Triangulering
 
             Coords MovementVector = VectorMath.CalculateVector(Occupant.Position1, Occupant.Position2); //Defines the movement vector
             List<LightingUnit> LightingUnitsInPath = FindLightsInPath(Occupant.Position2, MovementVector, LightingUnits); 
-            List<LightingUnit> ReducedLightingUnitsInPath = ReduceLightingUnitsInPath(LightingUnitsInPath, Occupant.Position2, MovementVector);
             List<LightingUnit> LightingUnitsToActivateInPath = new List<LightingUnit>(); //List to return
 
-            foreach (LightingUnit LightingUnitToSave in ReducedLightingUnitsInPath)
+            foreach (LightingUnit LightingUnitToSave in LightingUnitsInPath)
             {
                 LightingUnitToSave.LightingLevel = (CalculateLightingLevel(Occupant.Position2, LightingUnitToSave, PredictedMovementScaling));
                 LightingUnitsToActivateInPath.Add(LightingUnitToSave);
@@ -129,49 +128,75 @@ namespace Triangulering
         {
             List<LightingUnit> LightingUnitsInPath = new List<LightingUnit>();
             //double DistanceFromPath;
-            Coords noget = new Coords();
+            Coords IntersectionPoint = new Coords();
             MovementVector.x *= PredictedMovementScaling;
             MovementVector.y *= PredictedMovementScaling;
             
             foreach (LightingUnit LightingUnitToCheck in LightingUnits)
             {
-                 noget = VectorMath.projectionLength(LightingUnitToCheck, MovementVector, EndingPosition);
+                 IntersectionPoint = VectorMath.projectionLength(LightingUnitToCheck, MovementVector, EndingPosition);
 
-                if (noget.x >= 0 && noget.x <= MovementVector.x || noget.x <= 0 && noget.x >= MovementVector.x)
+                if (IntersectionPoint.x >= 0 && IntersectionPoint.x <= MovementVector.x || IntersectionPoint.x <= 0 && IntersectionPoint.x >= MovementVector.x)
                 {
-                    if (noget.y >= 0 && noget.y <= MovementVector.y || noget.y <= 0 && noget.y >= MovementVector.y)
+                    if (IntersectionPoint.y >= 0 && IntersectionPoint.y <= MovementVector.y || IntersectionPoint.y <= 0 && IntersectionPoint.y >= MovementVector.y)
                     {
-                        Coords tttt = new Coords(LightingUnitToCheck.x, LightingUnitToCheck.y);
-                        if ((Triangulate.CalculateDistanceBetweenPoints(VectorMath.SubtractVectors(tttt, EndingPosition) , noget) < MaxDistanceFromPath))
+                        if ((Triangulate.CalculateDistanceBetweenPoints(VectorMath.SubtractVectors(LightingUnitToCheck.GetCoords(), EndingPosition) , IntersectionPoint) < MaxDistanceFromPath))
                         {
                             LightingUnitsInPath.Add(LightingUnitToCheck);
-                        }
-                        
+                        }    
                     }
                 }
             }
             return LightingUnitsInPath;
         }
 
-        //Checks to see if the lighting units that are in the line of direction (path) of the user are too far away. 
-        //If the lighting units are less than (Length of movement vector)*PredictedMovementScaling away from the last known 
-        //position of the user (EndingPosition), their coordinates are added to a new list ReducedLightingUnitsInPath, which is returned.
-        //Maybe this function could be implemented into FindLightsInPath by adding the condition from the if statement in this function
-        //to the if statement in FindLightsInPath. This would reduce the time complexity of the program by an order of magnitude.
-        //However, they are separate for now for the sake of readability.
-        private static List<LightingUnit> ReduceLightingUnitsInPath(List<LightingUnit> LightingUnitsInPath, Coords EndingPosition, Coords MovementVector)
+        private static void ConcatLightingUnits(ref List<LightingUnit> AllLightingUnits, List<LightingUnit> OnUser, List<LightingUnit> InPath)
         {
-            List<LightingUnit> ReducedLightingUnitsInPath = new List<LightingUnit>();
-            double LengthOfPredictedPath = VectorMath.LengthOfVector(MovementVector) * PredictedMovementScaling;
+            int i = 0;
+            int k = 0;
+            int j = 0;
 
-            foreach (LightingUnit LightingUnitToCheck in LightingUnitsInPath)
+            foreach (LightingUnit OriginalUnit in AllLightingUnits)
             {
-                if (Triangulate.CalculateDistanceBetweenPoints(LightingUnitToCheck,EndingPosition)<LengthOfPredictedPath)
+                if (i >= OnUser.Count)
                 {
-                    ReducedLightingUnitsInPath.Add(LightingUnitToCheck);
+                    break;
                 }
+
+                if (OriginalUnit.Address == OnUser[i].Address)
+                {
+                    OriginalUnit.wantedLightLevel = OnUser[i].LightingLevel;
+                }
+                else
+                {
+                    OriginalUnit.wantedLightLevel = 0;
+                }
+                i++;
             }
-            return ReducedLightingUnitsInPath;
+
+            foreach (LightingUnit OriginalUnit in AllLightingUnits)
+            {
+                if (k >= InPath.Count)
+                {
+                    break;
+                }
+
+                if (OriginalUnit.Address == InPath[k].Address && OriginalUnit.LightingLevel < InPath[k].LightingLevel)
+                {
+                    OriginalUnit.wantedLightLevel = InPath[k].LightingLevel;
+                }
+                else
+                {
+                    OriginalUnit.wantedLightLevel = 0;
+                }
+                k++;
+            }
+        }
+
+        public static void FindUnitsToActivate(ref List<LightingUnit> AllLightingUnits, Occupant Occupant)
+        {
+            ConcatLightingUnits(ref AllLightingUnits, LightsToActivateOnUser(Occupant, AllLightingUnits), 
+                                                      LightsToActivateInPath(Occupant, AllLightingUnits));
         }
     }
 }
