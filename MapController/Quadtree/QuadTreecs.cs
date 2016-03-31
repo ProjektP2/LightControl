@@ -39,30 +39,6 @@ namespace TreeStructure
             this.Parent = parent;
         }
 
-        internal Bounds Bounds
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
-        internal QuadTreeNode QuadTreeNode
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
         public void InsertNode(QuadTreeNode node)
         {
             int index = -1;
