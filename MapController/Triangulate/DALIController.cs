@@ -24,13 +24,13 @@ namespace LightControl
 
         public void IncrementLights(ref List<LightingUnit> NewLightList)
         {
-            for (int i = 0; i < NewLightList.Count; i++)
-            {
-                if (NewLightList[i].Address >= 128)
-                {
-                    NewLightList[i].goToMax();
-                }
-            }
+            //for (int i = 0; i < NewLightList.Count; i++)
+            //{
+            //    if (NewLightList[i].Address >= 128)
+            //    {
+            //        NewLightList[i].goToMax();
+            //    }
+            //}
             for (int i = 0; i < NewLightList.Count; i++)
             {
                 if (NewLightList[i].IsUnitOn == false)
