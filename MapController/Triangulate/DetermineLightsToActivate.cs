@@ -10,9 +10,9 @@ namespace Triangulering
     class DetermineLightsToActivate
     {
         private static double Radius = 200; //Lights that are further than 3 meters away from the user will not be activated.
-        private static double MaxDistanceFromPath = 1.5; //The maximum distance lighting units can stray from the path of direction
+        private static double MaxDistanceFromPath = 60; //The maximum distance lighting units can stray from the path of direction
                                                          //to be activated.
-        private static double PredictedMovementScaling = 3; //The amount of times we scale the movement vector when predicting movement.
+        private static double PredictedMovementScaling = 200; //The amount of times we scale the movement vector when predicting movement.
 
         internal Triangulate Triangulate
         {
@@ -128,15 +128,26 @@ namespace Triangulering
         private static List<LightingUnit> FindLightsInPath(Coords EndingPosition, Coords MovementVector, List<LightingUnit> LightingUnits)
         {
             List<LightingUnit> LightingUnitsInPath = new List<LightingUnit>();
-            double DistanceFromPath;
-
+            //double DistanceFromPath;
+            Coords noget = new Coords();
+            MovementVector.x *= PredictedMovementScaling;
+            MovementVector.y *= PredictedMovementScaling;
+            
             foreach (LightingUnit LightingUnitToCheck in LightingUnits)
             {
-                DistanceFromPath = VectorMath.LengthOfVector(VectorMath.PerpendicularVectorBetweenPointAndVector(MovementVector, LightingUnitToCheck, EndingPosition));
+                 noget = VectorMath.projectionLength(LightingUnitToCheck, MovementVector, EndingPosition);
 
-                if (DistanceFromPath < MaxDistanceFromPath)
+                if (noget.x >= 0 && noget.x <= MovementVector.x || noget.x <= 0 && noget.x >= MovementVector.x)
                 {
-                    LightingUnitsInPath.Add(LightingUnitToCheck);
+                    if (noget.y >= 0 && noget.y <= MovementVector.y || noget.y <= 0 && noget.y >= MovementVector.y)
+                    {
+                        Coords tttt = new Coords(LightingUnitToCheck.x, LightingUnitToCheck.y);
+                        if ((Triangulate.CalculateDistanceBetweenPoints(VectorMath.SubtractVectors(tttt, EndingPosition) , noget) < MaxDistanceFromPath))
+                        {
+                            LightingUnitsInPath.Add(LightingUnitToCheck);
+                        }
+                        
+                    }
                 }
             }
             return LightingUnitsInPath;
