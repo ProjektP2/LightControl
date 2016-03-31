@@ -9,18 +9,18 @@ namespace Triangulering
 {
     class LightingUnit : Coords
     {
-        double wattUsage = 0;
+        public bool IsUnitOn = true;
+        double wattUsageInInterval;
         DateTime Time1;
         DateTime Time2;
-        double stepInterval = 0.01; //intervallet hvormed der bliver ændret ved stepUp og stepDown
+        public int Address = 0;
         double maxLevel = 1.0; //max lysstyrke (basically en standard on knap)
-        double minLevel = 0.0; //min lysstyrke (basically en standard off knap)
+        double minLevel = 0.5; //min lysstyrke (basically en standard off knap)
         static private int _address = 0;
-        private double fadeRate = 0.5; //jeg har en ide med den her (kan måske undgåes at skulle sammenligne to lister for at fade lamperne ud efter brug)
         private double watts = 60; //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
-        public double LightingLevel = 0.0; //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres(forklaring følger))
-        List<int> groups = new List<int>(); //liste over grupper den enkelte light unit tilhører
-        double[] scene = new double[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0 }; //array af presets (her tænker jeg vi laver nogle standard scener 
+        public double wantedLightLevel;
+        public double LightingLevel; //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres(forklaring følger))//liste over grupper den enkelte light unit tilhører
+        double[] scene = new double[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }; //array af presets (her tænker jeg vi laver nogle standard scener 
         //der gælder for alle light units
 
 
@@ -39,7 +39,7 @@ namespace Triangulering
             //her skal vi have lavet en sikkerhedsforanstaltning der starter en ny liste når _address når 63
 
         }
-
+        /*
         public void addLightUnitToGroup(int groupToAdd) //tilføjer en lightingUnit til en gruppe
         {
 
@@ -85,28 +85,23 @@ namespace Triangulering
                 Console.WriteLine("Something went completely wrong trying to remove the light unit to another group");
             }
         }
+        */
 
-
-        public void getWattUsageForLightUnitInHours()
+        public double getWattUsageForLightUnitInHours()
         {
             Time2 = DateTime.Now;
             TimeSpan WattInterval = Time2 - Time1;
-            wattUsage = wattUsage + (WattInterval.TotalHours * LightingLevel * watts);
+            wattUsageInInterval = WattInterval.TotalHours * LightingLevel * watts;
             Time1 = Time2;
+            return wattUsageInInterval;
+            //Console.WriteLine("{0} er adressen med {1} som wattbrug",Address,wattUsage);
         }
-
+        /*
         public void clearGroupsFromLightingUnit(LightingUnit LightingUnitToClearGroupsFrom) //blot en simpel funktion til at rense grupperne i en Light Unit
         {
             LightingUnitToClearGroupsFrom.groups.Clear();
         }
-
-        public int Address
-        {
-            get { return Address; }
-            private set { _address = value; }
-        }
-
-
+        */
         public double goToMax()
         {
             getWattUsageForLightUnitInHours();
@@ -121,37 +116,17 @@ namespace Triangulering
             return LightingLevel;
         }
 
-        public double stepUp()
+        public void Extinguish() //sluk med det samme!!!
         {
             getWattUsageForLightUnitInHours();
-            LightingLevel = LightingLevel + stepInterval;
-            return LightingLevel;
+            IsUnitOn = false;
         }
 
-        public double stepDown()
+        public Coords GetCoords()
         {
-            getWattUsageForLightUnitInHours();
-            LightingLevel = LightingLevel - stepInterval;
-            return LightingLevel;
+            Coords ReturnCoords = new Coords(x, y);
+            return ReturnCoords;
         }
 
-        public void Extinguish(LightingUnit lightingUnitToExtinguish) //sluk med det samme!!!
-        {
-            getWattUsageForLightUnitInHours();
-            lightingUnitToExtinguish.LightingLevel = 0;
-        }
-        /*public double setLightLevel(double wantedLightLevel)
-        {
-            while (LightingLevel > wantedLightLevel)
-            {
-                stepDown();
-            }
-            while (LightingLevel < wantedLightLevel)
-            {
-                stepUp();
-            }
-            return LightingLevel;
-        }
-        */
     }
 }
