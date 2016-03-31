@@ -120,26 +120,29 @@ namespace SimEnvironment
             }
             foreach (var item in ActivatedLightingUnitsOnUser)
             {
-                double volume = 255 - (255 * (item.LightingLevel));
-                int PlaceInArray;
-                for (double y = item.y - _radius; y < item.y + _radius; y++)
-                {
-                    for (double x = item.x - _radius; x < item.x + _radius; x++)
+                if (item.LightingLevel > 0)
+                { 
+                    double volume = 255 - (255 * (item.LightingLevel));
+                    int PlaceInArray;
+                    for (double y = item.y - _radius; y < item.y + _radius; y++)
                     {
-                        double Cirklensligning = ((x - item.x) * (x - item.x)) + ((y - item.y) * (y - item.y));
-                        if (Cirklensligning <= R)
+                        for (double x = item.x - _radius; x < item.x + _radius; x++)
                         {
-                            PlaceInArray = (int)(((y * Width * 4) + x * 4) + 3);
-                            double Alpha = volume + (Math.Sqrt(Cirklensligning) * 2); // 3 eller 4
-                            if (Alpha > 200)
+                            double Cirklensligning = ((x - item.x) * (x - item.x)) + ((y - item.y) * (y - item.y));
+                            if (Cirklensligning <= R)
                             {
-                                Alpha = 200;
-                            }
-                            else
-                            {
-                                if (rgbValues[PlaceInArray] > (Byte)(Alpha))
+                                PlaceInArray = (int)(((y * Width * 4) + x * 4) + 3);
+                                double Alpha = volume + (Math.Sqrt(Cirklensligning) * 2); // 3 eller 4
+                                if (Alpha > 200)
                                 {
-                                    rgbValues[PlaceInArray] = (Byte)(Alpha);
+                                    Alpha = 200;
+                                }
+                                else
+                                {
+                                    if (rgbValues[PlaceInArray] > (Byte)(Alpha))
+                                    {
+                                        rgbValues[PlaceInArray] = (Byte)(Alpha);
+                                    }
                                 }
                             }
                         }

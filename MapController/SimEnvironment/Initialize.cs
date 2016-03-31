@@ -19,6 +19,9 @@ namespace MapController.SimEnvironment
         public Bitmap Map = new Bitmap("Map3.png");
         public Point occupantPosition;
 
+        public DALIController Controller = new DALIController();
+        InfoDrawing Info;
+
         public OccupantMove OccupantMove
         {
             get { return _occupantMove; }
@@ -54,6 +57,9 @@ namespace MapController.SimEnvironment
             nyList = tree.RadiusSearchQuery(NewOccupant.Position1, 100);
             DetermineLightsToActivate.FindUnitsToActivate(ref LightUnitCoordinates, NewOccupant);
 
+            Controller.IncrementLights(ref LightUnitCoordinates);
+            Info.WattUsageInfo(Controller.Wattusage());
+
             NewOccupant.Position1.x = NewOccupant.Position2.x;
             NewOccupant.Position1.y = NewOccupant.Position2.y;
         }
@@ -70,7 +76,11 @@ namespace MapController.SimEnvironment
             gEngine = new GEngine(Window, Map);
             loop = new Loop(Window);
             CreateLightUnit();
-            
+
+            Controller.InitGroups();
+            Info = new InfoDrawing(Window);
+            Info.initWattInfo();
+
             foreach (var item in LightUnitCoordinates)
             {
                 tree.InsertNode(new QuadTreeNode(item));
