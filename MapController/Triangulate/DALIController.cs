@@ -11,7 +11,7 @@ namespace LightControl
     {
         List<int>[] groups = new List<int>[16];
         static double totalWattUsage = 0;
-        double stepInterval = 0.02; //intervallet hvormed der bliver ændret ved stepUp og stepDown
+        double stepInterval = 0.025; //intervallet hvormed der bliver ændret ved stepUp og stepDown
         double fadeRate = 0.005;
 
         public void InitGroups()
