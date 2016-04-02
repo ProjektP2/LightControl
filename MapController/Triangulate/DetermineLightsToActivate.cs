@@ -76,7 +76,7 @@ namespace Triangulering
             {
                 if (ExistsInCircle(Occupant.LatestPosition(), LightingUnitToCheck))
                 {
-                    LightingUnitToCheck.LightingLevel = (CalculateLightingLevel(Occupant.LatestPosition(), LightingUnitToCheck, Radius));
+                    LightingUnitToCheck.wantedLightLevel = (CalculateLightingLevel(Occupant.LatestPosition(), LightingUnitToCheck, Radius));
                     LightingUnitsToActivateOnUser.Add(LightingUnitToCheck);
                 }
             }
@@ -116,7 +116,7 @@ namespace Triangulering
 
             foreach (LightingUnit LightingUnitToSave in LightingUnitsInPath)
             {
-                LightingUnitToSave.LightingLevel = (CalculateLightingLevel(Occupant.Position2, LightingUnitToSave, PredictedMovementScaling));
+                LightingUnitToSave.wantedLightLevel = (CalculateLightingLevel(Occupant.Position2, LightingUnitToSave, PredictedMovementScaling));
                 LightingUnitsToActivateInPath.Add(LightingUnitToSave);
             }
             return LightingUnitsToActivateInPath;
@@ -165,11 +165,11 @@ namespace Triangulering
 
                 if (OriginalUnit.Address == OnUser[i].Address)
                 {
-                    OriginalUnit.wantedLightLevel = OnUser[i].LightingLevel;
+                    OriginalUnit.wantedLightLevel = OnUser[i].wantedLightLevel;
                 }
                 else
                 {
-                    OriginalUnit.wantedLightLevel = 0;
+                    //OriginalUnit.wantedLightLevel = 0;
                 }
                 i++;
             }
@@ -181,13 +181,13 @@ namespace Triangulering
                     break;
                 }
 
-                if (OriginalUnit.Address == InPath[k].Address && OriginalUnit.wantedLightLevel < InPath[k].LightingLevel)
+                if (OriginalUnit.Address == InPath[k].Address && OriginalUnit.wantedLightLevel < InPath[k].wantedLightLevel)
                 {
-                    OriginalUnit.wantedLightLevel = InPath[k].LightingLevel;
+                    OriginalUnit.wantedLightLevel = InPath[k].wantedLightLevel;
                 }
                 else
                 {
-                    OriginalUnit.wantedLightLevel = 0;
+                    //OriginalUnit.wantedLightLevel = 0;
                 }
                 k++;
             }
@@ -195,6 +195,10 @@ namespace Triangulering
 
         public static void FindUnitsToActivate(ref List<LightingUnit> AllLightingUnits, Occupant Occupant)
         {
+            foreach (var item in AllLightingUnits)
+            {
+                item.wantedLightLevel = 0;
+            }
             ConcatLightingUnits(ref AllLightingUnits, LightsToActivateOnUser(Occupant, AllLightingUnits), 
                                                       LightsToActivateInPath(Occupant, AllLightingUnits));
         }
