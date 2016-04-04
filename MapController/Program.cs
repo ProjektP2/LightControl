@@ -24,7 +24,7 @@ namespace LightControl
             Application.Run(new Form1());
 
             //Creating two instances of routers.
-            Circle Router1 = new Circle();
+            /*Circle Router1 = new Circle();
             Circle Router2 = new Circle();
 
             //The routers contain a coordinate for their position in a room, and the strength of the signal they're receiving.
@@ -79,7 +79,7 @@ namespace LightControl
 
 
             //Giver fejl hvis den er slået til!
-            // Console.ReadKey();
+            // Console.ReadKey();*/
         }
     }
 }
