@@ -29,27 +29,17 @@ namespace TreeStructure
 
         public bool Contains(Bounds bound)
         {
-            /*return bound.TopLeftX <= x && bound.TopLeftY <= y &&
-                bound.BottomRightX >= BottomRightX && 
-                bound.BottomRightY >= BottomRightY;*/
             return (bound.x >= x && bound.y >= y &&
                 bound.x <= BottomRightX &&
                 bound.y <= BottomRightY);
-            //return true;
-
         }
 
         public bool Intersects(Bounds bound)
         {
-            /*return !((bound.BottomRightX <= x) ||
-                (bound.BottomRightY <= y) ||
-                (bound.TopLeftX >= BottomRightX) ||
-                (bound.TopLeftY >= BottomRightY)); */
             return !((bound.BottomRightX <= x) ||
                 (bound.BottomRightY <= y) ||
                 (bound.TopLeftX >= BottomRightX) ||
                 (bound.TopLeftY >= BottomRightY));
-
         }
     }
 }

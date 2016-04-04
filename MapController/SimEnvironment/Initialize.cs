@@ -18,6 +18,7 @@ namespace MapController.SimEnvironment
         private Form Window;
         public Bitmap Map = new Bitmap("Map3.png");
         public Point occupantPosition;
+        private Bounds _bound;
 
         public DALIController Controller = new DALIController();
         InfoDrawing Info;
@@ -48,13 +49,19 @@ namespace MapController.SimEnvironment
         {
             Window = form;
             nyList = new List<LightingUnit>();
-            Bounds bound = new Bounds(0, 0, GEngine.SimulationWidht, GEngine.SimulationHeigt);
-            tree = new QuadTree(bound, false, null);
+            _bound = new Bounds(0, 0, GEngine.SimulationWidht, GEngine.SimulationHeigt);
+            tree = new QuadTree(_bound);
         }
         public void Position(Point point)
         {
             NewOccupant.UpdatePositions(point.X, point.Y);
-            nyList = tree.RadiusSearchQuery(NewOccupant.Position1, 100);
+
+            Query query = new RadiusSearchQuery(100, _bound, tree);
+            StartTreeSearch startSearch = new StartTreeSearch();
+            List<LightingUnit> newlist = new List<LightingUnit>();
+
+            nyList = startSearch.SearchQuery(new Coords(NewOccupant.Position1.x, NewOccupant.Position1.y), query);
+
             DetermineLightsToActivate.FindUnitsToActivate(ref LightUnitCoordinates, NewOccupant);
 
             Controller.IncrementLights(ref LightUnitCoordinates);
@@ -81,10 +88,7 @@ namespace MapController.SimEnvironment
             Info = new InfoDrawing(Window);
             Info.initWattInfo();
 
-            foreach (var item in LightUnitCoordinates)
-            {
-                tree.InsertNode(new QuadTreeNode(item));
-            }
+            tree.CreateQuadTree(LightUnitCoordinates);
             gEngine.init();
             gEngine.LoadLevel(LightUnitCoordinates);
         }    
