@@ -44,7 +44,7 @@ namespace SimEnvironment
             graphicsDraw.LoadLampsIntoBitMap(LightUnitCoordinates);
 
         }
-        public void Drawing(Point EmployerPosition, List<LightingUnit> ActivatedLightingUnitsOnUser)
+        public void Drawing(Coords EmployerPosition, List<LightingUnit> ActivatedLightingUnitsOnUser)
         {
             graphicsDraw.LoadLightIntoBitMap(ActivatedLightingUnitsOnUser);
             graphicsDraw.Draw(FpsCounter.fps, EmployerPosition);
