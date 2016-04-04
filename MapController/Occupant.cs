@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing;
 using LightControl;
 using Triangulering;
 
@@ -14,10 +16,18 @@ namespace LightControl
     //to calculate the speed of which the signal source is moving between two points.
     class Occupant
     {
-        public Occupant()
+        Form _Window;
+        Bitmap _Map;
+        OccupantMove move;
+        public Occupant(Bitmap map, Form window, char key_forward, char key_backwards, char key_left, char key_right)
         {
+            _Window = window;
+            _Map = map;
             IsPosition1Initialized = false;
             IsPosition2Initialized = false;
+            Position2.x = 50;
+            Position2.y = 50;
+            move = new OccupantMove(_Map, _Window, key_forward, key_backwards, key_left, key_right);
         }
 
         public Coords LatestPosition()
@@ -75,7 +85,11 @@ namespace LightControl
             Coords CoordinatesToUpdateFrom = new Coords(x,y);
             UpdatePositions(CoordinatesToUpdateFrom);
         }
-
+        public void Update()
+        {
+            Coords ny = new Coords(Position2.x, Position2.y);
+            UpdatePositions(move.PlayerMove(ny));
+        }
         //Calculates the position vector given by the two coordinates.
         public void CalculatePositionVector()
         {

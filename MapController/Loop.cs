@@ -42,9 +42,8 @@ namespace LightControl
             while (Running)
             {
                 Application.DoEvents();
-                _initialization.occupantPosition = _initialization.OccupantMove.PlayerMove(_initialization.occupantPosition);
-                _initialization.Position(_initialization.occupantPosition);
-                _initialization.gEngine.Drawing(_initialization.occupantPosition, _initialization.LightUnitCoordinates);
+                _initialization.Position();
+                _initialization.gEngine.Drawing(_initialization.occupant.Position2, _initialization.LightUnitCoordinates);
             }
         }
         
