@@ -17,18 +17,18 @@ namespace MapController.SimEnvironment
     {
         private Form Window;
         public Bitmap Map = new Bitmap("Map3.png");
-        public Point occupantPosition;
+        //public Point occupantPosition;
         private Bounds _bound;
 
         public DALIController Controller = new DALIController();
         InfoDrawing Info;
 
-        public OccupantMove OccupantMove
+        public Occupant occupant
         {
-            get { return _occupantMove; }
-            set { _occupantMove = value; }
+            get { return _occupant; }
+            set { _occupant = value; }
         }
-        private OccupantMove _occupantMove;
+        private Occupant _occupant;
         public GEngine gEngine
         {
             get { return _gEngine; }
@@ -43,32 +43,32 @@ namespace MapController.SimEnvironment
         public List<LightingUnit> LightUnitCoordinates = new List<LightingUnit>();
         List<LightingUnit> nyList;
         QuadTree tree;
-        Occupant NewOccupant = new Occupant();
 
         public Initialize(Form form)
         {
             Window = form;
+            Window.KeyPreview = true;
             nyList = new List<LightingUnit>();
             _bound = new Bounds(0, 0, GEngine.SimulationWidht, GEngine.SimulationHeigt);
             tree = new QuadTree(_bound);
         }
-        public void Position(Point point)
+        public void Position()
         {
-            NewOccupant.UpdatePositions(point.X, point.Y);
-
+            //NewOccupant.UpdatePositions(point.X, point.Y);
+            _occupant.Update();
             Query query = new RadiusSearchQuery(100, _bound, tree);
             StartTreeSearch startSearch = new StartTreeSearch();
             List<LightingUnit> newlist = new List<LightingUnit>();
 
-            nyList = startSearch.SearchQuery(new Coords(NewOccupant.Position1.x, NewOccupant.Position1.y), query);
+            nyList = startSearch.SearchQuery(new Coords(_occupant.Position1.x, _occupant.Position1.y), query);
 
-            DetermineLightsToActivate.FindUnitsToActivate(ref LightUnitCoordinates, NewOccupant);
+            DetermineLightsToActivate.FindUnitsToActivate(ref LightUnitCoordinates, _occupant);
 
             Controller.IncrementLights(ref LightUnitCoordinates);
             Info.WattUsageInfo(Controller.Wattusage());
 
-            NewOccupant.Position1.x = NewOccupant.Position2.x;
-            NewOccupant.Position1.y = NewOccupant.Position2.y;
+            //NewOccupant.Position1.x = NewOccupant.Position2.x;
+            //NewOccupant.Position1.y = NewOccupant.Position2.y;
         }
         private void CreateLightUnit()
         {
@@ -78,8 +78,7 @@ namespace MapController.SimEnvironment
         }
         public void Start()
         {
-            occupantPosition = new Point(4 * 32, 4 * 32);
-            _occupantMove = new OccupantMove(Map, Window);
+            _occupant = new Occupant(Map, Window, 'W', 'S', 'A', 'D');
             gEngine = new GEngine(Window, Map);
             loop = new Loop(Window);
             CreateLightUnit();

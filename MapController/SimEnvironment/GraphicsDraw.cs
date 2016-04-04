@@ -231,14 +231,14 @@ namespace SimEnvironment
             }
         }
 
-        public void Draw(int fps, Point point)
+        public void Draw(int fps, Coords point)
         {
             G = Graphics.FromImage(BB);
             //Map
             G.DrawImage(MAPMAP, 0, 0);
             // Occupant
             player.MakeTransparent(Color.CadetBlue);
-            G.DrawImage(player, point.X - 8, point.Y - 8);
+            G.DrawImage(player, (int)point.x - 8, (int)point.y - 8);
             //Lamps Drawing
             G.DrawImage(Lamps, 0, 0);
             //Light Drawing
