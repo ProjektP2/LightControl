@@ -12,14 +12,16 @@ namespace Triangulering
     class OccupantMove
     {
         Collision collision;
-        
-
         Bitmap Map;
+        private Form _window;
         private int PlayerSpeed = 3;
         bool right, left, up, down;
-        public OccupantMove(Bitmap map)
+        public OccupantMove(Bitmap map, Form window)
         {
-            
+            _window = window;
+            _window.KeyDown += new KeyEventHandler(this.Form1_KeyDown);
+            _window.KeyUp += new KeyEventHandler(this.Form1_KeyUp);
+            _window.KeyPreview = true;
             Map = map;
             collision = new Collision(Map);
         }
@@ -70,6 +72,15 @@ namespace Triangulering
                     EmployerPosition.X += PlayerSpeed;
             }
             return EmployerPosition;
+        }
+
+        public void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            Press(e);
+        }
+        public void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            NoPress(e);
         }
     }
 }
