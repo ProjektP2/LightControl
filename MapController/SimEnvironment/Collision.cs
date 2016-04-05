@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using LightControl;
+
 namespace SimEnvironment
 {
     class Collision
@@ -64,10 +66,10 @@ namespace SimEnvironment
                 return false;
         }
         
-        public bool CheckCollison(double posx, double posy, int x1, int y1, int x2, int y2)
+        public bool CheckCollison(double posx, double posy, Coords leftCorner, Coords rightCorner)
         {
-            if (Check((int)posx, (int)posy, x1, y1) == true)
-                return Check((int)posx, (int)posy, x2, y2);
+            if (Check((int)posx, (int)posy, (int)leftCorner.x, (int)leftCorner.y) == true)
+                return Check((int)posx, (int)posy, (int)rightCorner.x, (int)rightCorner.y);
             else
                 return false;
         }
