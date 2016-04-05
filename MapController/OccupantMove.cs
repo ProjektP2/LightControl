@@ -21,6 +21,12 @@ namespace Triangulering
         Label labeltrack = new Label();
         private int PlayerSpeed;
         bool right, left, up, down;
+        // skal måske ændres det ser lidt grimt ud når med de her dependencies
+        private Coords _topLeftCorner = new Coords(-6, 0);
+        private Coords _topRightCorner = new Coords(6, 0);
+        private Coords _bottomLeftCorner = new Coords(-6, 2);
+        private Coords _bottomRightCorner = new Coords(6, 2);
+
         public OccupantMove(Bitmap map, Form window, char key_forward, char key_backwards, char key_left, char key_right)
         {
             _window = window;
@@ -105,22 +111,22 @@ namespace Triangulering
             if (up == true)
             {
                 //Checks out if the direction is blocked 
-                if (collision.CheckCollison(EmployerPosition.x, EmployerPosition.y - PlayerSpeed, -6, 0, 6, 0))
+                if (collision.CheckCollison(EmployerPosition.x, EmployerPosition.y - PlayerSpeed, _topLeftCorner, _topRightCorner))
                     EmployerPosition.y -= PlayerSpeed;
             }
             if (down == true)
             {
-                if (collision.CheckCollison(EmployerPosition.x, EmployerPosition.y + PlayerSpeed, -6, 2, 6, 2))
+                if (collision.CheckCollison(EmployerPosition.x, EmployerPosition.y + PlayerSpeed, _bottomLeftCorner, _bottomRightCorner))
                     EmployerPosition.y += PlayerSpeed;
             }
             if (left == true)
             {
-                if (collision.CheckCollison(EmployerPosition.x - PlayerSpeed, EmployerPosition.y, -6, 0, -6, 2))
+                if (collision.CheckCollison(EmployerPosition.x - PlayerSpeed, EmployerPosition.y, _topLeftCorner, _bottomLeftCorner))
                     EmployerPosition.x -= PlayerSpeed;
             }
             if (right == true)
             {
-                if (collision.CheckCollison(EmployerPosition.x + PlayerSpeed, EmployerPosition.y, 6, 0, 6, 2))
+                if (collision.CheckCollison(EmployerPosition.x + PlayerSpeed, EmployerPosition.y, _topRightCorner, _bottomRightCorner))
                     EmployerPosition.x += PlayerSpeed;
             }
             return EmployerPosition;
