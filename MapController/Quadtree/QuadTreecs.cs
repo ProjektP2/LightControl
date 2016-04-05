@@ -29,6 +29,18 @@ namespace TreeStructure
             this.bound = bound;
         }
 
+        internal QuadTreeNode QuadTreeNode
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         public void CreateQuadTree(List<LightingUnit> list)
         {
             foreach (var item in list)

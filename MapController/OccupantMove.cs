@@ -49,6 +49,18 @@ namespace Triangulering
 
         }
 
+        internal Collision Collision
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         private void trackBar1_Scroll()
         {
             PlayerSpeed = trackbar1.Value;

@@ -29,6 +29,19 @@ namespace SimEnvironment
             window = form;
             Map = map;
         }
+
+        internal GraphicsDraw GraphicsDraw
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         public void init()
         {
             graphicsDraw = new GraphicsDraw(window, Map);

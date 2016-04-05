@@ -44,6 +44,8 @@ namespace LightControl
 
         public Coords Position1 = new Coords();
         public Coords Position2 = new Coords();
+        public Coords WiFiPosition1 = new Coords();
+        public Coords WiFiPosition2 = new Coords();
         public Coords PositionVector = new Coords();
         public double Velocity { get; private set; }
         public string Identity;
@@ -90,6 +92,15 @@ namespace LightControl
             Coords ny = new Coords(Position2.x, Position2.y);
             UpdatePositions(move.PlayerMove(ny));
         }
+        public void UpdateWifiPosition(Coords Coordinates)
+        {
+
+            WiFiPosition1.x = WiFiPosition2.x;
+            WiFiPosition1.y = WiFiPosition2.y;
+            WiFiPosition2.x = Coordinates.x;
+            WiFiPosition2.y = Coordinates.y;
+        }
+
         //Calculates the position vector given by the two coordinates.
         public void CalculatePositionVector()
         {
