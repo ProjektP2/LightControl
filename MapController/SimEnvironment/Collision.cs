@@ -25,6 +25,7 @@ namespace SimEnvironment
                 //Determine which tiles is that can be walked on and not walked on
                 case "255020147": move = true; break;
                 case "255255000": move = false; break;
+                case "000255255": move = false; break;
                 default: move = false; break;
                     //Test
             }
