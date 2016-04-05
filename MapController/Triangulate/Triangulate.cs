@@ -64,11 +64,15 @@ namespace Triangulering
         }
 
         //Calculates 'P2', the set of coordinates that makes up the point where 'a' meets the line going between the two possible positions.
-        private static Coords CalculateP2(Coords Center1, Coords Center2, double DistanceBetweenCenters, double a)
+        private static Coords CalculateP2(Circle Center1, Circle Center2, double DistanceBetweenCenters, double a)
         {
             Coords P2 = new Coords();
-            P2.x = a * (Center2.x - Center1.x) / DistanceBetweenCenters;
-            P2.y = a * (Center2.y - Center1.y) / DistanceBetweenCenters;
+            if (Center1.Radius >= Center2.Radius)
+            {
+                P2.x = (a * (Center2.x - Center1.x) / DistanceBetweenCenters);
+                P2.y = (a * (Center2.y - Center1.y) / DistanceBetweenCenters);
+            }
+
             return P2;
         }
 
@@ -106,7 +110,7 @@ namespace Triangulering
             PositionsOfSignalSource = CalculatePositionOfSource(Circle1, Circle2, P2, DistanceBetweenCenters, h);
 
             //For debugging only****************************************
-            PrintEverythingForDebug(DistanceBetweenCenters, a, h, P2);
+            //PrintEverythingForDebug(DistanceBetweenCenters, a, h, P2);
             //For debugging only****************************************
 
             return PositionsOfSignalSource;
@@ -211,7 +215,7 @@ namespace Triangulering
         {
             DetermineSignalStrengthFromCoords(SignalSource, Router1, Router2);
             Coords[] PossiblePositions = TriangulateSignalSource(Router1, Router2);
-            SignalSource.UpdatePositions(ExcludeImpossiblePosition(SignalSource, Router1, Router2, PossiblePositions));
+            SignalSource.UpdateWifiPosition(ExcludeImpossiblePosition(SignalSource, Router1, Router2, PossiblePositions));
         }
 
     }

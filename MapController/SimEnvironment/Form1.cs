@@ -49,6 +49,18 @@ namespace SimEnvironment
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
 
-        } 
+        }
+
+        internal Initialize Initialize
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
     } 
 }

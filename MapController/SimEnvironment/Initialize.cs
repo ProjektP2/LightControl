@@ -17,7 +17,9 @@ namespace MapController.SimEnvironment
     {
         private Form Window;
         public Bitmap Map = new Bitmap("Map3.png");
-        //public Point occupantPosition;
+        public Circle Router1 = new Circle(0,100);
+        public Circle Router2 = new Circle(0,300);
+
         private Bounds _bound;
 
         public DALIController Controller = new DALIController();
@@ -56,6 +58,8 @@ namespace MapController.SimEnvironment
         {
             //NewOccupant.UpdatePositions(point.X, point.Y);
             _occupant.Update();
+            Triangulate.TriangulatePositionOfSignalSource(_occupant, Router1, Router2);
+
             Query query = new RadiusSearchQuery(100, _bound, tree);
             StartTreeSearch startSearch = new StartTreeSearch();
             List<LightingUnit> newlist = new List<LightingUnit>();
@@ -66,9 +70,9 @@ namespace MapController.SimEnvironment
 
             Controller.IncrementLights(ref LightUnitCoordinates);
             Info.WattUsageInfo(Controller.Wattusage());
-
-            //NewOccupant.Position1.x = NewOccupant.Position2.x;
-            //NewOccupant.Position1.y = NewOccupant.Position2.y;
+            Info.SignelInfo(Router1.Radius, Router2.Radius);
+            Info.BrugerWiFi(_occupant.WiFiPosition2);
+            Info.Brugerpos(_occupant.Position2);
         }
         private void CreateLightUnit()
         {
@@ -86,10 +90,13 @@ namespace MapController.SimEnvironment
             Controller.InitGroups();
             Info = new InfoDrawing(Window);
             Info.initWattInfo();
+            Info.initSignalInfo();
+            Info.InitBrugerPosWiFi();
+            Info.InitBrugerPos();
 
             tree.CreateQuadTree(LightUnitCoordinates);
             gEngine.init();
             gEngine.LoadLevel(LightUnitCoordinates);
-        }    
+        }
     } 
 }

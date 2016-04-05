@@ -11,6 +11,17 @@ namespace LightControl
 {
     static class Program
     {
+        public static Form1 Form1
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
 
         /// <summary>
         /// The main entry point for the application.
