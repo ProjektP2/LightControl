@@ -82,5 +82,10 @@ namespace Triangulering
             return ReturnCoords;
         }
 
+        public int CompareTo(LightingUnit next)
+        {
+            return next.wantedLightLevel.CompareTo(wantedLightLevel);
+        }
+
     }
 }
