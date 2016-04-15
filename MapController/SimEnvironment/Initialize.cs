@@ -96,7 +96,7 @@ namespace MapController.SimEnvironment
 
             tree.CreateQuadTree(LightUnitCoordinates);
             gEngine.init();
-            gEngine.LoadLevel(LightUnitCoordinates);
+            gEngine.LoadLevel(LightUnitCoordinates, Router1, Router2);
         }
     } 
 }

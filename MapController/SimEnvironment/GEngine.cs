@@ -46,14 +46,12 @@ namespace SimEnvironment
         {
             graphicsDraw = new GraphicsDraw(window, Map);
             FpsCounter = new Fps();
-            //info = new InfoDrawing(window);
-            //info.init();
         }
         //Load the Map from a picture
-        public void LoadLevel(List<LightingUnit> LightUnitCoordinates)
+        public void LoadLevel(List<LightingUnit> LightUnitCoordinates, Circle Router1, Circle Router2)
         {
             graphicsDraw.InitBitMaps();
-            graphicsDraw.LoadMapIntoBitMap();
+            graphicsDraw.LoadMapIntoBitMap(Router1, Router2);
             graphicsDraw.LoadLampsIntoBitMap(LightUnitCoordinates);
 
         }
