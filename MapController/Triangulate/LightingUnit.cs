@@ -40,53 +40,6 @@ namespace Triangulering
             //her skal vi have lavet en sikkerhedsforanstaltning der starter en ny liste når _address når 63
 
         }
-        /*
-        public void addLightUnitToGroup(int groupToAdd) //tilføjer en lightingUnit til en gruppe
-        {
-
-            if (groups.Contains(groupToAdd))
-            {
-                //her skal laves en rigtig exeption
-                Console.WriteLine("The lighting unit is already part of that group");
-            }
-
-            else if (groups.Count() >= 4)
-            {
-                //exeption
-                Console.WriteLine("There is currently no room to add another group please delete one before adding another");
-            }
-
-            else if (!groups.Contains(groupToAdd) && groups.Count() < 4) //her bliver 
-            {
-                groups.Add(groupToAdd);
-            }
-
-            else
-            {
-                Console.WriteLine("Something went completely wrong trying to add the light unit to another group");
-            }
-
-
-        }
-
-        public void removeLightUnitFromGroup(int groupToRemove) //fjerner en gruppe fra en LightingUnit
-        {
-            if (!groups.Contains(groupToRemove))
-            {
-                //igen her skal laves en bedre exeption
-                Console.WriteLine("The lighting unit is not a member of that group");
-            }
-            else if (groups.Contains(groupToRemove))
-            {
-                groups.Remove(groupToRemove);
-            }
-            else
-            {
-                //bedre exeption
-                Console.WriteLine("Something went completely wrong trying to remove the light unit to another group");
-            }
-        }
-        */
 
         public double getWattUsageForLightUnitInHours()
         {
