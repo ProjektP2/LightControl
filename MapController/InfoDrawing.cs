@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Triangulering;
 using System.Windows.Forms;
-using System.Drawing;
+using System.Runtime.InteropServices;
+using MapController.SimEnvironment;
+using LightControl;
+using Triangulering;
+using SimEnvironment;
 
 namespace LightControl
 
@@ -25,16 +31,17 @@ namespace LightControl
         Label Pos1 = new Label();
         Label Pos2 = new Label();
         TextBox tb = new TextBox();
-        Point p = new Point(50,50);
-        Point RouterP1 = new Point(50, 300);
-        Point WiFiPosP1 = new Point(150, 300);
-        Point PosP1 = new Point(250, 300);
+        Point p;
+        Point RouterP1;
+        Point WiFiPosP1;
+        Point PosP1;
         Point RouterP2;
         Point WiFiPosP2;
         Point PosP2;
         Label watts = new Label();
         public void initSignalInfo()
         {
+            RouterP1 = new Point(window.Width/4*3, window.Height / 7 + 50);
             RouterP2 = new Point(RouterP1.X, RouterP1.Y + Router1.Height);
             Router1.Location = RouterP1;
             Router2.Location = RouterP2;
@@ -49,7 +56,8 @@ namespace LightControl
         }
         public void InitBrugerPosWiFi()
         {
-            WiFiPosP2 = new Point(WiFiPosP1.X, WiFiPosP1.Y + WiFiPos1.Height);
+            WiFiPosP1 = new Point(RouterP1.X + window.Width / 15, RouterP1.Y);
+            WiFiPosP2 = new Point(RouterP1.X + window.Width / 15 , RouterP1.Y + WiFiPos1.Height);
             WiFiPos1.Location = WiFiPosP1;
             WiFiPos2.Location = WiFiPosP2;
             WiFiPos1.AutoSize = true;
@@ -63,6 +71,7 @@ namespace LightControl
         }
         public void InitBrugerPos()
         {
+            PosP1 = new Point(WiFiPosP1.X + window.Width / 15, RouterP1.Y);
             PosP2 = new Point(PosP1.X, PosP1.Y + Pos1.Height);
             Pos1.Location = PosP1;
             Pos2.Location = PosP2;
@@ -79,7 +88,7 @@ namespace LightControl
 
         public void initWattInfo()
         {
-            watts.Location = p;
+            watts.Location = new Point(window.Width/4 * 3, window.Height/7);
             watts.AutoSize = true;
             watts.Visible = true;
             watts.Show();

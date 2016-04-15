@@ -54,7 +54,7 @@ namespace MapController.SimEnvironment
             nyList = new List<LightingUnit>();
             _bound = new Bounds(0, 0, GEngine.SimulationWidht, GEngine.SimulationHeigt);
             tree = new QuadTree(_bound);
-            ControlPanel = new ControlPanel(Window, Controller, LightUnitCoordinates);
+            
         }
         public void Position()
         {
@@ -82,7 +82,7 @@ namespace MapController.SimEnvironment
             LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30); // 
             LightUnitCoordinates = new List<LightingUnit>();
             lol2.GetLightUnitCoords(ref LightUnitCoordinates);
-            Controller = new DALIController(LightUnitCoordinates);
+
 
         }
         public void Start()
@@ -91,8 +91,9 @@ namespace MapController.SimEnvironment
             gEngine = new GEngine(Window, Map);
             loop = new Loop(Window);
             CreateLightUnit();
-
+            Controller = new DALIController(LightUnitCoordinates);
             Controller.InitGroups();
+            ControlPanel = new ControlPanel(Window, Controller, LightUnitCoordinates);
 
             Info = new InfoDrawing(Window);
             Info.initWattInfo();
