@@ -22,7 +22,7 @@ namespace MapController.SimEnvironment
 
         private Bounds _bound;
 
-        public DALIController Controller = new DALIController();
+        public DALIController Controller;
         InfoDrawing Info;
 
         public Occupant occupant
@@ -79,6 +79,7 @@ namespace MapController.SimEnvironment
             LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30); // 
             LightUnitCoordinates = new List<LightingUnit>();
             lol2.GetLightUnitCoords(ref LightUnitCoordinates);
+            Controller = new DALIController(LightUnitCoordinates);
         }
         public void Start()
         {
@@ -86,7 +87,7 @@ namespace MapController.SimEnvironment
             gEngine = new GEngine(Window, Map);
             loop = new Loop(Window);
             CreateLightUnit();
-
+            
             Controller.InitGroups();
             Info = new InfoDrawing(Window);
             Info.initWattInfo();
