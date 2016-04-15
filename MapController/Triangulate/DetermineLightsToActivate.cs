@@ -104,6 +104,8 @@ namespace Triangulering
                     LightingUnitsToActivateOnUser.Add(LightingUnitToCheck);
                 }
             }
+
+            EnsureCorrectLightingLevels(LightingUnitsToActivateOnUser);
             return LightingUnitsToActivateOnUser;
         }
 
@@ -225,6 +227,21 @@ namespace Triangulering
             }
             ConcatLightingUnits(ref AllLightingUnits, LightsToActivateOnUser(Occupant, AllLightingUnits), 
                                                       LightsToActivateInPath(Occupant, AllLightingUnits));
+        }
+
+        private static void EnsureCorrectLightingLevels(List<LightingUnit> listToCheck)
+        {
+            double totalLightingLevel = 0;
+            LightingUnit unitToCorrect;
+
+            foreach (LightingUnit unit in listToCheck)
+                totalLightingLevel += unit.wantedLightLevel;
+
+            if (totalLightingLevel < 1)
+            {
+                unitToCorrect = listToCheck.Aggregate((i, j) => i.wantedLightLevel > j.wantedLightLevel ? i : j);
+                unitToCorrect.wantedLightLevel = 1;
+            }
         }
     }
 }
