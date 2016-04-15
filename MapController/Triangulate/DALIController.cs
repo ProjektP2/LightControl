@@ -94,10 +94,10 @@ namespace LightControl
                 {
                     item.LightingLevel = 0;
                 }
-                else if (item.wantedLightLevel <= item.LightingLevel + 0.01 || item.wantedLightLevel >= item.LightingLevel + 0.01)
+                /*else if (item.wantedLightLevel <= item.LightingLevel + 0.01 || item.wantedLightLevel >= item.LightingLevel + 0.01)
                 {
                     item.LightingLevel = item.wantedLightLevel;
-                }
+                }*/
                 else if (item.LightingLevel > item.wantedLightLevel)
                 {
                     totalWattUsage += item.getWattUsageForLightUnitInHours();
