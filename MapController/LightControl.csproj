@@ -56,6 +56,7 @@
     <Compile Include="Quadtree\QuadTreeNode.cs" />
     <Compile Include="Quadtree\Query.cs" />
     <Compile Include="SimEnvironment\Collision.cs" />
+    <Compile Include="SimEnvironment\ControlPanel.cs" />
     <Compile Include="SimEnvironment\GraphicsDraw.cs" />
     <Compile Include="SimEnvironment\Form1.cs">
       <SubType>Form</SubType>
