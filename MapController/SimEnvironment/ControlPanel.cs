@@ -23,7 +23,7 @@ namespace MapController.SimEnvironment
         List<LightingUnit> AllLights;
         List<Button> Buttons;
         NumericUpDown TextBoxForInput;
-        int currentindex;
+        int currentAddress;
         int StartButtonY;
         int StartButtonX;
         int newStartButtonX;
@@ -121,14 +121,13 @@ namespace MapController.SimEnvironment
             {
                 e.Handled = true;
                 TextBoxForInput.Visible = false;
-                LightingUnit CurrentUnit = DALIController.findUnitWithAddress(Convert.ToInt32(TextBoxForInput.Value));
-                currentindex = AllLights.IndexOf(CurrentUnit);
+                currentAddress = Convert.ToInt32(TextBoxForInput.Value);
 
                 CallOnAdressActions();
             }
         }
 
-        private void ShowGroups(object sender, EventArgs e)
+        private void ShowGroups()
         {
             RemoveClickEvents();
             for (int i = 0; i < Buttons.Count(); i++)
@@ -138,21 +137,29 @@ namespace MapController.SimEnvironment
             }
         }
 
+        private void GroupsForAdding(object sender, EventArgs e)
+        {
+            ShowGroups();
+            for(int i = 0; Buttons.Count() > i; i++)
+            {
+            }
+        }
+
 
 
         private void CallOnAdressActions()
         {
             Buttons[0].Visible = true;
             Buttons[0].Text = "Add to";
-            Buttons[0].Click += new EventHandler(ShowGroups);
+            Buttons[0].Click += new EventHandler(GroupsForAdding);
             Buttons[1].Visible = true;
             Buttons[1].Text = "Remove from";
-            Buttons[1].Click += new EventHandler(ShowGroups);
+            //Buttons[1].Click += new EventHandler(GroupsForRemoval);
             Buttons[2].Visible = true;
             Buttons[2].Text = "Go To Scene";
             //Buttons[2].Click += new EventHandler(ShowGroups);
             Buttons[3].Visible = true;
-            Buttons[3].Text = "Add to Group";
+            Buttons[3].Text = "Extinguish";
             //Buttons[3].Click += new EventHandler(ShowGroups);
 
 
