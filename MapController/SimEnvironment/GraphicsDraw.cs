@@ -244,7 +244,7 @@ namespace SimEnvironment
             }
         }
 
-        public void Draw(int fps, Coords point)
+        public void Draw(int fps, Coords point, Circle router1, Circle router2)
         {
             G = Graphics.FromImage(BB);
             //Map
@@ -260,6 +260,27 @@ namespace SimEnvironment
             G.DrawString("FPS:" + fps, window.Font, Brushes.Red, 590, 0);
             //Draw it to the window
             pb.Image = BB;
+            DrawSignalRadius(G, router1, router2, point);
+        }
+
+        public void DrawSignalRadius(Graphics g, Circle router1, Circle router2, Coords point)
+        {
+            int x1 = (int)router1.x - (int)router1.Radius;
+            int y1 = (int)router1.y - (int)router1.Radius;
+            int width1 = 2 * (int)router1.Radius;
+            int height1 = 2 * (int)router1.Radius;
+
+            int x2 = (int)router2.x - (int)router2.Radius;
+            int y2 = (int)router2.y - (int)router2.Radius;
+            int width2 = 2 * (int)router2.Radius;
+            int height2 = 2 * (int)router2.Radius;
+
+            Pen green = new Pen(Color.Green);
+            g.DrawEllipse(green, x1, y1, width1, height1);
+            g.DrawLine(green, (int)router1.x, (int)router1.y, (int)point.x, (int)point.y);
+            g.DrawEllipse(green, x2, y2, width2, height2);
+            g.DrawLine(green, (int)router2.x, (int)router2.y, (int)point.x, (int)point.y);
+
         }
     }
 }

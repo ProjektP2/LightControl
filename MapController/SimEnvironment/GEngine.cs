@@ -55,10 +55,10 @@ namespace SimEnvironment
             graphicsDraw.LoadLampsIntoBitMap(LightUnitCoordinates);
 
         }
-        public void Drawing(Coords EmployerPosition, List<LightingUnit> ActivatedLightingUnitsOnUser)
+        public void Drawing(Coords EmployerPosition, List<LightingUnit> ActivatedLightingUnitsOnUser, Circle router1, Circle router2)
         {
             graphicsDraw.LoadLightIntoBitMap(ActivatedLightingUnitsOnUser);
-            graphicsDraw.Draw(FpsCounter.fps, EmployerPosition);
+            graphicsDraw.Draw(FpsCounter.fps, EmployerPosition, router1, router2);
             FpsCounter.FPS();
             //info.LightINFO(ActivatedLightingUnitsOnUser);
         }
