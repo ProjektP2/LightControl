@@ -68,7 +68,7 @@ namespace MapController.SimEnvironment
 
             nyList = startSearch.SearchQuery(new Coords(_occupant.Position1.x, _occupant.Position1.y), query);
 
-            DetermineLightsToActivate.FindUnitsToActivate(ref LightUnitCoordinates, _occupant);
+            DetermineLightsToActivate.FindUnitsToActivate(LightUnitCoordinates, _occupant);
 
             Controller.IncrementLights(ref LightUnitCoordinates);
             Info.WattUsageInfo(Controller.Wattusage());
