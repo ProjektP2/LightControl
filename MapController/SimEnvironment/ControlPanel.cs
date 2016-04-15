@@ -38,7 +38,6 @@ namespace MapController.SimEnvironment
             DALIController = Controller;
             AllLights = Lights;
             InitializeControlPanelButtons();
-            Console.WriteLine(window.Width);
         }
 
         public void InitializeControlPanelButtons()
@@ -108,11 +107,7 @@ namespace MapController.SimEnvironment
             TextBoxForInput.Enter += new EventHandler(TextBoxForInput_Entered);
         }
 
-        /*private void TextBoxForInput_Enter(object sender, EventArgs e)
-        {
-            window.AcceptButton = Buttons[2];
-        }
-*/
+
         private void TextBoxForInput_Entered(object sender, EventArgs e)
         {
             TextBoxForInput.ResetText();
