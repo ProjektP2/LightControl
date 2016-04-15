@@ -176,7 +176,7 @@ namespace Triangulering
             return LightingUnitsInPath;
         }
 
-        private static void ConcatLightingUnits(ref List<LightingUnit> AllLightingUnits, List<LightingUnit> OnUser, List<LightingUnit> InPath)
+        private static void ConcatLightingUnits(List<LightingUnit> AllLightingUnits, List<LightingUnit> OnUser, List<LightingUnit> InPath)
         {
             int i = 0;
             int k = 0;
@@ -219,13 +219,13 @@ namespace Triangulering
             }
         }
 
-        public static void FindUnitsToActivate(ref List<LightingUnit> AllLightingUnits, Occupant Occupant)
+        public static void FindUnitsToActivate(List<LightingUnit> AllLightingUnits, Occupant Occupant)
         {
             foreach (var item in AllLightingUnits)
             {
                 item.wantedLightLevel = 0;
             }
-            ConcatLightingUnits(ref AllLightingUnits, LightsToActivateOnUser(Occupant, AllLightingUnits), 
+            ConcatLightingUnits(AllLightingUnits, LightsToActivateOnUser(Occupant, AllLightingUnits), 
                                                       LightsToActivateInPath(Occupant, AllLightingUnits));
         }
 
