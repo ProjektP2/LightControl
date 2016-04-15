@@ -19,6 +19,7 @@ namespace Triangulering
         static private int _address = 0;
         private double watts = 60; //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
         public double wantedLightLevel;
+        public double ForcedLightlevel;
         public double LightingLevel; //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres(forklaring følger))//liste over grupper den enkelte light unit tilhører
         double[] scene = new double[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }; //array af presets (her tænker jeg vi laver nogle standard scener 
         //der gælder for alle light units
