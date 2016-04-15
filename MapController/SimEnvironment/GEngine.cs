@@ -29,22 +29,33 @@ namespace SimEnvironment
             window = form;
             Map = map;
         }
+
+        internal GraphicsDraw GraphicsDraw
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         public void init()
         {
             graphicsDraw = new GraphicsDraw(window, Map);
             FpsCounter = new Fps();
-            //info = new InfoDrawing(window);
-            //info.init();
         }
         //Load the Map from a picture
-        public void LoadLevel(List<LightingUnit> LightUnitCoordinates)
+        public void LoadLevel(List<LightingUnit> LightUnitCoordinates, Circle Router1, Circle Router2)
         {
             graphicsDraw.InitBitMaps();
-            graphicsDraw.LoadMapIntoBitMap();
+            graphicsDraw.LoadMapIntoBitMap(Router1, Router2);
             graphicsDraw.LoadLampsIntoBitMap(LightUnitCoordinates);
 
         }
-        public void Drawing(Point EmployerPosition, List<LightingUnit> ActivatedLightingUnitsOnUser)
+        public void Drawing(Coords EmployerPosition, List<LightingUnit> ActivatedLightingUnitsOnUser)
         {
             graphicsDraw.LoadLightIntoBitMap(ActivatedLightingUnitsOnUser);
             graphicsDraw.Draw(FpsCounter.fps, EmployerPosition);

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing;
 using LightControl;
 using Triangulering;
 
@@ -14,10 +16,18 @@ namespace LightControl
     //to calculate the speed of which the signal source is moving between two points.
     class Occupant
     {
-        public Occupant()
+        Form _Window;
+        Bitmap _Map;
+        OccupantMove move;
+        public Occupant(Bitmap map, Form window, char key_forward, char key_backwards, char key_left, char key_right)
         {
+            _Window = window;
+            _Map = map;
             IsPosition1Initialized = false;
             IsPosition2Initialized = false;
+            Position2.x = 50;
+            Position2.y = 50;
+            move = new OccupantMove(_Map, _Window, key_forward, key_backwards, key_left, key_right);
         }
 
         public Coords LatestPosition()
@@ -34,6 +44,8 @@ namespace LightControl
 
         public Coords Position1 = new Coords();
         public Coords Position2 = new Coords();
+        public Coords WiFiPosition1 = new Coords();
+        public Coords WiFiPosition2 = new Coords();
         public Coords PositionVector = new Coords();
         public double Velocity { get; private set; }
         public string Identity;
@@ -74,6 +86,19 @@ namespace LightControl
         {
             Coords CoordinatesToUpdateFrom = new Coords(x,y);
             UpdatePositions(CoordinatesToUpdateFrom);
+        }
+        public void Update()
+        {
+            Coords ny = new Coords(Position2.x, Position2.y);
+            UpdatePositions(move.PlayerMove(ny));
+        }
+        public void UpdateWifiPosition(Coords Coordinates)
+        {
+
+            WiFiPosition1.x = WiFiPosition2.x;
+            WiFiPosition1.y = WiFiPosition2.y;
+            WiFiPosition2.x = Coordinates.x;
+            WiFiPosition2.y = Coordinates.y;
         }
 
         //Calculates the position vector given by the two coordinates.

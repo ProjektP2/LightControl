@@ -11,6 +11,17 @@ namespace LightControl
 {
     static class Program
     {
+        public static Form1 Form1
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
 
         /// <summary>
         /// The main entry point for the application.
@@ -24,7 +35,7 @@ namespace LightControl
             Application.Run(new Form1());
 
             //Creating two instances of routers.
-            Circle Router1 = new Circle();
+            /*Circle Router1 = new Circle();
             Circle Router2 = new Circle();
 
             //The routers contain a coordinate for their position in a room, and the strength of the signal they're receiving.
@@ -79,7 +90,7 @@ namespace LightControl
 
 
             //Giver fejl hvis den er slået til!
-            // Console.ReadKey();
+            // Console.ReadKey();*/
         }
     }
 }

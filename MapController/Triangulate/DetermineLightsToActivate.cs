@@ -62,6 +62,30 @@ namespace Triangulering
             }
         }
 
+        internal VectorMath VectorMath2
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal Triangulate Triangulate2
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         //Determines what lights need to be activated around the user. Not based on movement. 
         //Receives a list of coordinates for every lighting unit in a room (LightingUnitsCoordinates), as well as the last known position of the 
         //signal source (UserCoordinates). Calls "ExistsInCircle" to determine whether or not the lights in the room are close
