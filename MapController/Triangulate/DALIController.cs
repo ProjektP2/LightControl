@@ -72,6 +72,7 @@ namespace LightControl
 
                     if (item.IsUnitOn == false)
                     {
+                        totalWattUsage += item.getWattUsageForLightUnitInHours();
                         item.LightingLevel = 0;
                     }
 
@@ -92,6 +93,7 @@ namespace LightControl
             {
                 if (item.IsUnitOn == false)
                 {
+                    totalWattUsage += item.getWattUsageForLightUnitInHours();
                     item.LightingLevel = 0;
                 }
                 /*else if (item.wantedLightLevel <= item.LightingLevel + 0.01 || item.wantedLightLevel >= item.LightingLevel + 0.01)
