@@ -99,7 +99,7 @@ namespace SimEnvironment
             }
             return bitmap;
         }
-        public void LoadMapIntoBitMap()
+        public void LoadMapIntoBitMap(Circle Router1, Circle Router2)
         {
 
             G = Graphics.FromImage(MAPMAP);
@@ -119,9 +119,18 @@ namespace SimEnvironment
                     G.DrawImage(teils, dRect, sRect, GraphicsUnit.Pixel);
                 }
             }
+            LoadRouters(Router1);
+            LoadRouters(Router2);
             G.Dispose();
             teils.Dispose();
         }
+        private void LoadRouters(Circle Router)
+        {
+            sRect = new Rectangle(0, 64, GEngine.TileSize, GEngine.TileSize);
+            dRect = new Rectangle((int)Math.Floor(Router.x), ((int)Math.Floor(Router.y)), GEngine.TileSize, GEngine.TileSize);
+            G.DrawImage(teils, dRect, sRect, GraphicsUnit.Pixel);
+        }
+
         public void LoadLampsIntoBitMap(List<LightingUnit> LightUnitCoordinates)
         {
             G = Graphics.FromImage(Lamps);
@@ -172,15 +181,19 @@ namespace SimEnvironment
             double R = _radius * _radius;
             double Cirklensligning, Alpha;
             InitRectCorners(item);
-            for (double y = _rectCorners.TopLeftY; y < _rectCorners.BottomRightY; y++)
+            double leftY = _rectCorners.TopLeftY;
+            double rightY = _rectCorners.BottomRightY;
+            double leftX = _rectCorners.TopLeftX;
+            double rightX = _rectCorners.BottomRightX;
+            for (double y = leftY; y < rightY; y++)
             {
-                for (double x = _rectCorners.TopLeftX; x < _rectCorners.BottomRightX; x++)
+                for (double x = leftX; x < rightX; x++)
                 {
                     Cirklensligning = ((x - item.x) * (x - item.x)) + ((y - item.y) * (y - item.y));
                     if (Cirklensligning <= R)
                     {
                         PlaceInArray = (int)(((y * Width * 4) + x * 4) + 3);
-                        Alpha = volume + (Math.Sqrt(Cirklensligning) * 2); // 3 eller 4
+                        Alpha = volume + (Math.Sqrt(Cirklensligning) * 2);
                         if (Alpha > minTrasnparency)
                             Alpha = minTrasnparency;
                         else
@@ -227,7 +240,6 @@ namespace SimEnvironment
                 //Diffrent Color codes, reads diffrent locations on the tile bitmap
                 case "255020147": sRect = new Rectangle(0, 32, GEngine.TileSize, GEngine.TileSize); break;
                 case "255255000": sRect = new Rectangle(32, 32, GEngine.TileSize, GEngine.TileSize); break;
-                case "000255255": sRect = new Rectangle(0, 64, GEngine.TileSize, GEngine.TileSize); break;
                 default: new Rectangle(0, 0, GEngine.TileSize, GEngine.TileSize); break;
             }
         }
