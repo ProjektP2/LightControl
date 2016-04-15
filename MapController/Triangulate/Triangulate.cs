@@ -49,6 +49,16 @@ namespace Triangulering
             Router2.Radius = CalculateDistanceBetweenPoints(CoordinatesTouse, Router2);
         }
 
+        public static void RandomizeSignalStrength(Circle Router)
+        {
+            double DegreeOfRandomization = Router.Radius / 40;
+            double min = (Router.Radius - DegreeOfRandomization);
+            double max = (Router.Radius + DegreeOfRandomization);
+
+            Random random = new Random();
+            Router.Radius = random.NextDouble() * (max - min) + min;
+        }
+
         public static Coords ExcludeImpossiblePositions(Occupant Source, Coords[] PositionsOfSignalSource)
         {
             if (PositionsOfSignalSource[0].x < 0 || PositionsOfSignalSource[0].x > GEngine.SimulationWidht)
@@ -70,6 +80,8 @@ namespace Triangulering
             Occupant SignalSource, Circle Router1, Circle Router2)
         {
             DetermineSignalStrengthFromCoords(SignalSource, Router1, Router2);
+            RandomizeSignalStrength(Router1);
+            RandomizeSignalStrength(Router2);
             Coords[] PossiblePositions = FindCircleCircleIntersections(Router1, Router2);
             SignalSource.UpdateWifiPosition(ExcludeImpossiblePositions(SignalSource, PossiblePositions));
         }
