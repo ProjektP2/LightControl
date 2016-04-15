@@ -43,7 +43,8 @@ namespace LightControl
             {
                 Application.DoEvents();
                 _initialization.Position();
-                _initialization.gEngine.Drawing(_initialization.occupant.Position2, _initialization.LightUnitCoordinates);
+                _initialization.gEngine.Drawing(_initialization.occupant.Position2, _initialization.LightUnitCoordinates,
+                    _initialization.Router1, _initialization.Router2);
             }
         }
         
