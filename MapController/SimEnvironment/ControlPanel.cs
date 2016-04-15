@@ -12,6 +12,7 @@ using MapController.SimEnvironment;
 using LightControl;
 using Triangulering;
 using SimEnvironment;
+using System.Reflection;
 
 namespace MapController.SimEnvironment
 {
@@ -78,7 +79,6 @@ namespace MapController.SimEnvironment
             Buttons[2].Text = "Broadcast";
 
             Buttons[0].Click += new EventHandler(CallAddress);
-            Buttons[2].Click += new EventHandler(testButton2test_Click);
 
             TextBoxForInput = InitializeTextBox();
             TextBoxForInput.Location = new Point(StartButtonX, StartButtonY);
@@ -105,6 +105,8 @@ namespace MapController.SimEnvironment
             TextBoxForInput.Visible = true;
             TextBoxForInput.Text = "Input address:";
             TextBoxForInput.Enter += new EventHandler(TextBoxForInput_Entered);
+
+            RemoveClickEvents();
         }
 
 
@@ -119,24 +121,42 @@ namespace MapController.SimEnvironment
             {
                 e.Handled = true;
                 TextBoxForInput.Visible = false;
-                Buttons[1].Visible = true;
-                Buttons[2].Visible = true;
-                Buttons[0].Visible = true;
                 LightingUnit CurrentUnit = DALIController.findUnitWithAddress(Convert.ToInt32(TextBoxForInput.Value));
-                DALIController.AddUnitToGroup(CurrentUnit, 5);
-                CurrentUnit.ForcedLightlevel = 1;
-                Buttons[0].Text = "Call Address";
-                Buttons[1].Text = "Call Group";
-                Buttons[2].Text = "Broadcast";
-
-                Buttons[0].Click += new EventHandler(CallAddress);
-                Buttons[2].Click += new EventHandler(testButton2test_Click);
-
                 currentindex = AllLights.IndexOf(CurrentUnit);
 
+                CallOnAdressActions();
             }
         }
 
+        private void ShowGroups(object sender, EventArgs e)
+        {
+            RemoveClickEvents();
+            for (int i = 0; i < Buttons.Count(); i++)
+            {
+                Buttons[i].Visible = true;
+                Buttons[i].Text = "Group[" + i + "]"; 
+            }
+        }
+
+
+
+        private void CallOnAdressActions()
+        {
+            Buttons[0].Visible = true;
+            Buttons[0].Text = "Add to";
+            Buttons[0].Click += new EventHandler(ShowGroups);
+            Buttons[1].Visible = true;
+            Buttons[1].Text = "Remove from";
+            Buttons[1].Click += new EventHandler(ShowGroups);
+            Buttons[2].Visible = true;
+            Buttons[2].Text = "Go To Scene";
+            //Buttons[2].Click += new EventHandler(ShowGroups);
+            Buttons[3].Visible = true;
+            Buttons[3].Text = "Add to Group";
+            //Buttons[3].Click += new EventHandler(ShowGroups);
+
+
+        }
 
 
         private void testButton2test_Click(object sender, EventArgs e)
@@ -145,6 +165,21 @@ namespace MapController.SimEnvironment
             Button btn = (Button)sender;
             btn.Visible = true;
             Console.WriteLine("hej mor");
+        }
+
+
+        private void RemoveClickEvents()
+        {
+            foreach (var item in Buttons)
+            {
+                FieldInfo f1 = typeof(Control).GetField("EventClick",
+                BindingFlags.Static | BindingFlags.NonPublic);
+                object obj = f1.GetValue(item);
+                PropertyInfo pi = item.GetType().GetProperty("Events",
+                    BindingFlags.NonPublic | BindingFlags.Instance);
+                EventHandlerList list = (EventHandlerList)pi.GetValue(item, null);
+                list.RemoveHandler(obj, list[obj]);
+            }
         }
     }
 }
