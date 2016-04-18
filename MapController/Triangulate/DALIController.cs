@@ -14,6 +14,9 @@ namespace LightControl
         List<LightingUnit>[] groups = new List<LightingUnit>[17];
         public List<LightingUnit> UntouchedLights = new List<LightingUnit>();
         List<LightingUnit> LightsOff = new List<LightingUnit>();
+        public double[] scenes = new double[16] {5, 10, 20, 30, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 100};
+
+        
         static double totalWattUsage = 0;
         double stepInterval = 0.01; //intervallet hvormed der bliver ændret ved stepUp og stepDown
         double fadeRate = 0.005;
@@ -21,6 +24,40 @@ namespace LightControl
         public DALIController(List<LightingUnit> AllLightsInSystem)
         {
             AllLights = AllLightsInSystem;
+        }
+
+        public void RemoveUnitFromAllGroups(LightingUnit UnitToRemove)
+        {
+            foreach (var item in groups)
+            {
+                item.Remove(UnitToRemove);
+            }
+
+            UntouchedLights.Add(UnitToRemove);
+        }
+
+        public void RemoveUnitFromGroup(LightingUnit UnitToRemove, int GroupToRemoveFrom)
+        {
+            bool GroupsAreClear = true;
+            groups[GroupToRemoveFrom].Remove(UnitToRemove);
+            foreach (var item in groups)
+            {
+                if (item.Contains(UnitToRemove))
+                {
+                    GroupsAreClear = false;
+                }
+            }
+
+            if(GroupsAreClear == true)
+            {
+                UntouchedLights.Add(UnitToRemove);
+            }
+        }
+
+        public void AddressGoToScene(LightingUnit Unit, double scene)
+        {
+            AddUnitToGroup(Unit, 16);
+            Unit.ForcedLightlevel = scene;
         }
 
         public void InitGroups()
@@ -42,12 +79,9 @@ namespace LightControl
         {
             bool AddUnit = true;
 
-            for (int i = 0; i <= groups.Length - 1; i++)
+            if (groups[groupNumber].Contains(UnitToAdd))
             {
-                if (groups[i].Contains(UnitToAdd))
-                {
-                    AddUnit = false;
-                }
+                AddUnit = false;
             }
 
             if (AddUnit == true)
@@ -62,7 +96,7 @@ namespace LightControl
 
         }
 
-        public void IncrementLights(ref List<LightingUnit> NewLightList)
+        public void IncrementLights(List<LightingUnit> NewLightList)
         {
 
             foreach (var group in groups)
