@@ -30,7 +30,8 @@ namespace LightControl
         {
             foreach (var item in groups)
             {
-                item.Remove(UnitToRemove);
+                if(item.Contains(UnitToRemove))
+                    item.Remove(UnitToRemove);
             }
 
             UntouchedLights.Add(UnitToRemove);
@@ -72,6 +73,7 @@ namespace LightControl
         public LightingUnit findUnitWithAddress(int AddressToFind)
         {
             var index = AllLights.FindIndex(a => a.Address == AddressToFind);
+            Console.WriteLine(index);
             return AllLights[index];
         }
 

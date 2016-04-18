@@ -224,6 +224,14 @@ namespace MapController.SimEnvironment
             SetUpFirstButtons();
         }
 
+        private void ClearUnit(object sender, EventArgs e)
+        {
+            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
+            DALIController.RemoveUnitFromAllGroups(CurrentUnit);
+            currentAddress = -1;
+            SetUpFirstButtons();
+        }
+
         private void CallOnAdressActions()
         {
             Buttons[0].Visible = true;
@@ -238,8 +246,9 @@ namespace MapController.SimEnvironment
             Buttons[3].Visible = true;
             Buttons[3].Text = "Extinguish";
             //Buttons[3].Click += new EventHandler(ShowGroups);
-
-
+            Buttons[4].Visible = true;
+            Buttons[4].Text = "clear unit";
+            Buttons[4].Click += new EventHandler(ClearUnit);
         }
 
 
@@ -272,6 +281,7 @@ namespace MapController.SimEnvironment
                 BindingFlags.NonPublic | BindingFlags.Instance);
             EventHandlerList list2 = (EventHandlerList)pi2.GetValue(ExtraButton, null);
             list2.RemoveHandler(obj2, list2[obj2]);
+
         }
     }
 }
