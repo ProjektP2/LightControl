@@ -32,7 +32,7 @@ namespace LightControl
         public Loop(Form form)
         {
             Window = form;
-            Window.FormClosing += new FormClosingEventHandler(this.Form1_FormClosing);
+            Window.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
         }
 
         public void calculationLoop()
@@ -44,7 +44,7 @@ namespace LightControl
                 Application.DoEvents();
                 _initialization.Position();
                 _initialization.gEngine.Drawing(_initialization.occupant.Position2, _initialization.LightUnitCoordinates,
-                    _initialization.Router1, _initialization.Router2);
+                                                _initialization.Router1, _initialization.Router2);
             }
         }
         

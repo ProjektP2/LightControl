@@ -12,7 +12,15 @@ namespace SimEnvironment
 {
     class GEngine
     {
-        // Size of the const.
+        #region Constructors
+        public GEngine(Form form, Bitmap map)
+        {
+            window = form;
+            Map = map;
+        }
+        #endregion
+
+        #region Fields and Properties
         public const int SimulationHeigt = 640;
         public const int SimulationWidht = 640;
         public const int TileSize = 32;
@@ -24,29 +32,15 @@ namespace SimEnvironment
         public Bitmap Map;
         public Form window;
 
-        public GEngine(Form form, Bitmap map)
-        {
-            window = form;
-            Map = map;
-        }
+        #endregion
 
-        internal GraphicsDraw GraphicsDraw
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
+        #region Methods
         public void init()
         {
             graphicsDraw = new GraphicsDraw(window, Map);
             FpsCounter = new Fps();
         }
+
         //Load the Map from a picture
         public void LoadLevel(List<LightingUnit> LightUnitCoordinates, Circle Router1, Circle Router2)
         {
@@ -60,7 +54,7 @@ namespace SimEnvironment
             graphicsDraw.LoadLightIntoBitMap(ActivatedLightingUnitsOnUser);
             graphicsDraw.Draw(FpsCounter.fps, EmployerPosition, router1, router2);
             FpsCounter.FPS();
-            //info.LightINFO(ActivatedLightingUnitsOnUser);
         }
+        #endregion
     }
 }

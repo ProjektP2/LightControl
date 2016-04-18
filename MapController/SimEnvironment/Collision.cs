@@ -10,16 +10,23 @@ namespace SimEnvironment
 {
     class Collision
     {
+        #region Constructors
+        public Collision(Bitmap map)
+        {
+            Map = map;
+        }
+        #endregion
+
+        #region Fields and Properties
         Bitmap Map;
         double XX;
         double YY;
         int XPosX;
         int YPosY;
-        public Collision(Bitmap map)
-        {
-            Map = map;
-        }
-        private bool GetSurce(string pixelColorStringValue)
+        #endregion
+
+        #region Methods
+        private bool GetSource(string pixelColorStringValue)
         {
             bool move;
             switch (pixelColorStringValue)
@@ -29,8 +36,10 @@ namespace SimEnvironment
                 case "255255000": move = false; break;
                 default: move = false; break;
             }
+
             return move;
         }
+
         //Read color code from the Map
         private bool ReadFromMap(int x, int y)
         {
@@ -39,7 +48,7 @@ namespace SimEnvironment
             PixelCode.R.ToString("D3") + "" +
             PixelCode.G.ToString("D3") + "" +
             PixelCode.B.ToString("D3") + "";
-            return GetSurce(pixelColorStringValue);
+            return GetSource(pixelColorStringValue);
         }
 
         // Determine the position of the player on the map int teils.
@@ -53,7 +62,6 @@ namespace SimEnvironment
         //
         private bool Check(int posx, int posy, int x, int y)
         {
-
             CollisonPosition(posx + x, posy + y);
             return ReadFromMap(XPosX, YPosY);
         }
@@ -64,7 +72,7 @@ namespace SimEnvironment
             else
                 return false;
         }
-        
+
         public bool CheckCollison(double posx, double posy, Coords leftCorner, Coords rightCorner)
         {
             if (Check((int)posx, (int)posy, (int)leftCorner.x, (int)leftCorner.y) == true)
@@ -73,7 +81,7 @@ namespace SimEnvironment
                 return false;
         }
 
-
+        #endregion
 
     }
 }
