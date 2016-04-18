@@ -30,7 +30,8 @@ namespace LightControl
         {
             foreach (var item in groups)
             {
-                item.Remove(UnitToRemove);
+                if(item.Contains(UnitToRemove))
+                    item.Remove(UnitToRemove);
             }
 
             UntouchedLights.Add(UnitToRemove);
@@ -57,7 +58,7 @@ namespace LightControl
         public void AddressGoToScene(LightingUnit Unit, double scene)
         {
             AddUnitToGroup(Unit, 16);
-            Unit.ForcedLightlevel = scene;
+            Unit.ForcedLightlevel = scene/100;
         }
 
         public void InitGroups()
@@ -72,6 +73,7 @@ namespace LightControl
         public LightingUnit findUnitWithAddress(int AddressToFind)
         {
             var index = AllLights.FindIndex(a => a.Address == AddressToFind);
+            Console.WriteLine(index);
             return AllLights[index];
         }
 
@@ -120,6 +122,11 @@ namespace LightControl
                     {
                         totalWattUsage += item.getWattUsageForLightUnitInHours();
                         item.LightingLevel = item.LightingLevel + stepInterval;
+                    }
+
+                    else
+                    {
+                        item.LightingLevel = item.ForcedLightlevel;
                     }
                 }
             }
