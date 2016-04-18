@@ -206,8 +206,18 @@ namespace SimEnvironment
 
         private void InitRGBValues(int size, byte value, ref byte[] rgbValues)
         {
+            int i;
             int iterations = size;
-            for (int i = 3; i < iterations; i += 4)
+            int iterationsfirst = iterations - 20;
+            for (i = 3; i < iterationsfirst; i += 20)
+            {
+                rgbValues[i] = value;
+                rgbValues[i + 4] = value;
+                rgbValues[i + 8] = value;
+                rgbValues[i + 12] = value;
+                rgbValues[i + 16] = value;
+            }
+            for (; i < iterations; i+= 4)
             {
                 rgbValues[i] = value;
             }
