@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,6 +50,7 @@ namespace SimEnvironment
         Bitmap Light;
 
         Form window;
+        Stopwatch sw = new Stopwatch();
 
         PictureBox pb = new PictureBox();
 
@@ -148,6 +151,7 @@ namespace SimEnvironment
        
         public void LoadLightIntoBitMap(List<LightingUnit> ActivatedLightingUnitsOnUser)
         {
+            sw.Start();
             byte minTrasnparency = 200;
             _drawLightData = InitDrawLightData();
             byte[] rgbValues = new byte[_drawLightData.numBytes];
@@ -159,6 +163,9 @@ namespace SimEnvironment
             
             Marshal.Copy(rgbValues, 0, _drawLightData.ptr, _drawLightData.numBytes);
             Light.UnlockBits(_drawLightData.bmpData);
+            sw.Stop();
+            Console.WriteLine(sw.Elapsed);
+            sw.Reset();
         }
 
         private void SetTransparency(List<LightingUnit> ActivatedLightingUnitsOnUser, 
