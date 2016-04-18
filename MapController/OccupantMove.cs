@@ -21,7 +21,7 @@ namespace Triangulering
         Label labeltrack = new Label();
         private int PlayerSpeed;
         bool right, left, up, down;
-        // skal måske ændres det ser lidt grimt ud når med de her dependencies
+
         private Coords _topLeftCorner = new Coords(-6, 0);
         private Coords _topRightCorner = new Coords(6, 0);
         private Coords _bottomLeftCorner = new Coords(-6, 2);
@@ -48,23 +48,11 @@ namespace Triangulering
             labeltrack.Visible = true;
             _window.Controls.Add(labeltrack);
 
-            _window.KeyDown += new KeyEventHandler(this.Form1_KeyDown);
-            _window.KeyUp += new KeyEventHandler(this.Form1_KeyUp);
+            _window.KeyDown += new KeyEventHandler(Form1_KeyDown);
+            _window.KeyUp += new KeyEventHandler(Form1_KeyUp);
             Map = map;
             collision = new Collision(Map);
 
-        }
-
-        internal Collision Collision
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
         }
 
         private void trackBar1_Scroll()

@@ -14,27 +14,35 @@ namespace Triangulering
         DateTime Time1;
         DateTime Time2;
         public int Address = 0;
-        double maxLevel = 1.0; //max lysstyrke (basically en standard on knap)
-        double minLevel = 0.00; //min lysstyrke (basically en standard off knap)
+
+        //max lysstyrke (basically en standard on knap)
+        double maxLevel = 1.0;
+        
+        //min lysstyrke (basically en standard off knap)
+        double minLevel = 0.00;
         static private int _address = 0;
-        private double watts = 240; //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
+
+        //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
+        private double watts = 240; 
         public double wantedLightLevel;
         public double ForcedLightlevel;
-        public double LightingLevel; //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres
 
+        //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres
+        public double LightingLevel;
 
-        public LightingUnit() : this(0, 0) //for testing purposes only. will be deleted later
+        //for testing purposes only. will be deleted later
+        public LightingUnit() : this(0, 0) 
         {
         }
 
-        public LightingUnit(double X, double Y) //constructor for lightingUnit (modtager x og y og skaber en light unit med x, y samt en adresse/id
+        //constructor for lightingUnit (modtager x og y og skaber en light unit med x, y samt en adresse/id
+        public LightingUnit(double X, double Y) 
         {
             x = X;
             y = Y;
             Address = _address;
             _address++;
             Time1 = DateTime.Now;
-            //Console.WriteLine(_address);
             //her skal vi have lavet en sikkerhedsforanstaltning der starter en ny liste når _address når 63
 
         }
@@ -46,7 +54,6 @@ namespace Triangulering
             wattUsageInInterval = WattInterval.TotalHours * LightingLevel * watts;
             Time1 = Time2;
             return wattUsageInInterval;
-            //Console.WriteLine("{0} er adressen med {1} som wattbrug",Address,wattUsage);
         }
 
         public double goToMax()
@@ -63,7 +70,8 @@ namespace Triangulering
             return LightingLevel;
         }
 
-        public void Extinguish() //sluk med det samme!!!
+        //sluk med det samme
+        public void Extinguish() 
         {
             getWattUsageForLightUnitInHours();
             IsUnitOn = false;
@@ -75,6 +83,7 @@ namespace Triangulering
             return ReturnCoords;
         }
 
+        //Implements IComparable's CompareTo()
         public int CompareTo(LightingUnit next)
         {
             return next.wantedLightLevel.CompareTo(wantedLightLevel);

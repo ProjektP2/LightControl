@@ -19,6 +19,7 @@ namespace LightControl
         Form _Window;
         Bitmap _Map;
         OccupantMove move;
+
         public Occupant(Bitmap map, Form window, char key_forward, char key_backwards, char key_left, char key_right)
         {
             _Window = window;
@@ -105,9 +106,7 @@ namespace LightControl
         public void CalculatePositionVector()
         {
             if (IsPosition1Initialized == false || IsPosition2Initialized == false)
-            {
-                Console.WriteLine("Need two positions to calculate velocity.");
-            }
+                throw new ArgumentNullException("Two positions are needed to calculate a movement vector");
             else
             {
                 if (Position1 != null && Position2 != null)
