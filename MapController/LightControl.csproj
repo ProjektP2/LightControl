@@ -74,7 +74,8 @@
     <Compile Include="Triangulate\DetermineLightsToActivate.cs" />
     <Compile Include="Triangulate\LightingUnit.cs" />
     <Compile Include="Occupant.cs" />
-    <Compile Include="Triangulate\Triangulate.cs" />
+    <Compile Include="Triangulate\MoreExceptions.cs" />
+    <Compile Include="Triangulate\Triangulation.cs" />
     <Compile Include="Triangulate\VectorMath.cs" />
     <EmbeddedResource Include="SimEnvironment\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

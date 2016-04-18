@@ -20,6 +20,10 @@ namespace MapController.SimEnvironment
         public Circle Router1 = new Circle(0,100);
         public Circle Router2 = new Circle(0,300);
 
+        public DetermineLightsToActivate ActivateLights;
+
+        public Triangulation Triangulation;
+
         private Bounds _bound;
 
         public DALIController Controller;
@@ -54,13 +58,15 @@ namespace MapController.SimEnvironment
             nyList = new List<LightingUnit>();
             _bound = new Bounds(0, 0, GEngine.SimulationWidht, GEngine.SimulationHeigt);
             tree = new QuadTree(_bound);
+            Triangulation = new Triangulation(Router1, Router2);
+            ActivateLights = new DetermineLightsToActivate(200, 60, 400, Triangulation);
             
         }
         public void Position()
         {
             //NewOccupant.UpdatePositions(point.X, point.Y);
             _occupant.Update();
-            Triangulate.TriangulatePositionOfSignalSource(_occupant, Router1, Router2);
+            Triangulation.TriangulatePositionOfSignalSource(_occupant, Router1, Router2);
 
             Query query = new RadiusSearchQuery(100, _bound, tree);
             StartTreeSearch startSearch = new StartTreeSearch();
@@ -68,7 +74,7 @@ namespace MapController.SimEnvironment
 
             nyList = startSearch.SearchQuery(new Coords(_occupant.Position1.x, _occupant.Position1.y), query);
 
-            DetermineLightsToActivate.FindUnitsToActivate(LightUnitCoordinates, _occupant);
+            ActivateLights.FindUnitsToActivate(LightUnitCoordinates, _occupant);
 
             Controller.IncrementLights(ref LightUnitCoordinates);
             Info.WattUsageInfo(Controller.Wattusage());
