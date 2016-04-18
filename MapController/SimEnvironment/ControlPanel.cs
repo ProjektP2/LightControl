@@ -75,7 +75,6 @@ namespace MapController.SimEnvironment
             window.Controls.Add(ExtraButton);
             ExtraButton.Visible = false;
             SetUpFirstButtons();
-            TextBoxForInput = InitializeTextBox();
             TextBoxForInput.Location = new Point(StartButtonX, StartButtonY);
         }
 
@@ -97,6 +96,9 @@ namespace MapController.SimEnvironment
             Buttons[1].Text = "Call Group";
             Buttons[2].Text = "Broadcast";
 
+            TextBoxForInput = InitializeTextBox();
+
+
             Buttons[0].Click += new EventHandler(CallAddress);
         }
 
@@ -105,7 +107,7 @@ namespace MapController.SimEnvironment
             NumericUpDown CreatedTextBox = new NumericUpDown();
             window.Controls.Add(CreatedTextBox);
             CreatedTextBox.Visible = false;
-
+            CreatedTextBox.Maximum = DALIController.AllLights.Count();
             return CreatedTextBox;
         }
 
@@ -131,9 +133,14 @@ namespace MapController.SimEnvironment
 
         private void TextBoxForInput_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter)
+            if (e.KeyChar == (char)Keys.Enter && TextBoxForInput.Value > TextBoxForInput.Maximum-1)
             {
-                e.Handled = true;
+                TextBoxForInput.Value = 0;
+            }
+            else if (e.KeyChar == (char)Keys.Enter)
+            {
+                Console.WriteLine(TextBoxForInput.Maximum);
+                Console.WriteLine(TextBoxForInput.Value);
                 TextBoxForInput.Visible = false;
                 currentAddress = Convert.ToInt32(TextBoxForInput.Value);
 
@@ -232,6 +239,22 @@ namespace MapController.SimEnvironment
             SetUpFirstButtons();
         }
 
+        private void ExtinguishUnit(object sender, EventArgs e)
+        {
+            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
+            CurrentUnit.Extinguish();
+            currentAddress = -1;
+            SetUpFirstButtons();
+        }
+
+        private void TurnUnitOn(object sender, EventArgs e)
+        {
+            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
+            CurrentUnit.TurnOn();
+            currentAddress = -1;
+            SetUpFirstButtons();
+        }
+
         private void CallOnAdressActions()
         {
             Buttons[0].Visible = true;
@@ -245,10 +268,13 @@ namespace MapController.SimEnvironment
             Buttons[2].Click += new EventHandler(DisplayScenesToGoToForAddress);
             Buttons[3].Visible = true;
             Buttons[3].Text = "Extinguish";
-            //Buttons[3].Click += new EventHandler(ShowGroups);
+            Buttons[3].Click += new EventHandler(ExtinguishUnit);
             Buttons[4].Visible = true;
-            Buttons[4].Text = "clear unit";
+            Buttons[4].Text = "Clear unit";
             Buttons[4].Click += new EventHandler(ClearUnit);
+            Buttons[5].Visible = true;
+            Buttons[5].Text = "Clear unit";
+            Buttons[5].Click += new EventHandler(TurnUnitOn);
         }
 
 

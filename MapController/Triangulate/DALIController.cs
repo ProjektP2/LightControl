@@ -10,7 +10,7 @@ namespace LightControl
 {
     class DALIController
     {
-        List<LightingUnit> AllLights;
+        public List<LightingUnit> AllLights;
         List<LightingUnit>[] groups = new List<LightingUnit>[17];
         public List<LightingUnit> UntouchedLights = new List<LightingUnit>();
         List<LightingUnit> LightsOff = new List<LightingUnit>();
@@ -163,10 +163,6 @@ namespace LightControl
 
         }
 
-        /*public List<LightingUnit> GroupFilter(int groupnumber)
-        {
-
-        ^*/
 
         public double Wattusage()
         {
