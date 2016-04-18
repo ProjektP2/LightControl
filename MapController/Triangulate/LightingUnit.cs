@@ -15,14 +15,12 @@ namespace Triangulering
         DateTime Time2;
         public int Address = 0;
         double maxLevel = 1.0; //max lysstyrke (basically en standard on knap)
-        double minLevel = 0.5; //min lysstyrke (basically en standard off knap)
+        double minLevel = 0.00; //min lysstyrke (basically en standard off knap)
         static private int _address = 0;
-        private double watts = 60; //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
+        private double watts = 240; //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
         public double wantedLightLevel;
         public double ForcedLightlevel;
-        public double LightingLevel; //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres(forklaring følger))//liste over grupper den enkelte light unit tilhører
-        double[] scene = new double[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }; //array af presets (her tænker jeg vi laver nogle standard scener 
-        //der gælder for alle light units
+        public double LightingLevel; //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres
 
 
         public LightingUnit() : this(0, 0) //for testing purposes only. will be deleted later
@@ -50,12 +48,7 @@ namespace Triangulering
             return wattUsageInInterval;
             //Console.WriteLine("{0} er adressen med {1} som wattbrug",Address,wattUsage);
         }
-        /*
-        public void clearGroupsFromLightingUnit(LightingUnit LightingUnitToClearGroupsFrom) //blot en simpel funktion til at rense grupperne i en Light Unit
-        {
-            LightingUnitToClearGroupsFrom.groups.Clear();
-        }
-        */
+
         public double goToMax()
         {
             getWattUsageForLightUnitInHours();
