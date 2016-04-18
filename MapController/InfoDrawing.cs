@@ -108,7 +108,7 @@ namespace LightControl
             Pos2.Text = ("Bruger Y: " + p.y.ToString("F2"));
         }
 
-        public void SignelInfo(double radius1, double radius2)
+        public void SignalInfo(double radius1, double radius2)
         {
             Router1.Text = ("Router 1: " + radius1.ToString("F2"));
             Router2.Text = ("Router 2: " + radius2.ToString("F2"));
