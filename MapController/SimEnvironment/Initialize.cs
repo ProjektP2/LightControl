@@ -82,23 +82,22 @@ namespace MapController.SimEnvironment
 
             ActivateLights.FindUnitsToActivate(LightUnitCoordinates, _occupant);
 
-            Controller.IncrementLights(ref LightUnitCoordinates);
+            Controller.IncrementLights(LightUnitCoordinates);
             Info.WattUsageInfo(Controller.Wattusage());
 
-            Info.SignelInfo(Router1.Radius, Router2.Radius);
+            Info.SignalInfo(Router1.Radius, Router2.Radius);
             Info.BrugerWiFi(_occupant.WiFiPosition2);
             Info.Brugerpos(_occupant.Position2);
         }
         private void CreateLightUnit()
         {
-            LightUnitsCoords lol2 = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30); // 
+            LightUnitsCoords unitList = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30);
             LightUnitCoordinates = new List<LightingUnit>();
-            lol2.GetLightUnitCoords(ref LightUnitCoordinates);
-
-
+            unitList.GetLightUnitCoords(ref LightUnitCoordinates);
         }
         public void Start()
         {
+            //Initializations
             _occupant = new Occupant(Map, Window, 'W', 'S', 'A', 'D');
             gEngine = new GEngine(Window, Map);
             loop = new Loop(Window);
@@ -107,12 +106,14 @@ namespace MapController.SimEnvironment
             Controller.InitGroups();
             ControlPanel = new ControlPanel(Window, Controller, LightUnitCoordinates);
 
+            //Draw info
             Info = new InfoDrawing(Window);
             Info.initWattInfo();
             Info.initSignalInfo();
             Info.InitBrugerPosWiFi();
             Info.InitBrugerPos();
 
+            //Quadtree, initialize the graphics engine and load the visual level
             tree.CreateQuadTree(LightUnitCoordinates);
             gEngine.init();
             gEngine.LoadLevel(LightUnitCoordinates, Router1, Router2);
