@@ -12,21 +12,59 @@ namespace Triangulering
     //finding the intersection points between two circles, the radii of which are the received signal strengths.
     //Refer to chapter 10 for visual reference and mathematical understanding.
 
-    class Triangulate
+    class Triangulation
     {
+        #region Constructors
 
+        public Triangulation(Circle router1, Circle router2)
+        {
+            Router1 = router1;
+            Router2 = router2;
+        }
+        #endregion
+
+        #region Fields and Properties
+        private Circle _router1;
+        public Circle Router1
+        {
+            get { return _router1; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("Router cannot be null.");
+                else
+                    _router1 = value;
+            }
+        }
+
+        private Circle _router2;
+        public Circle Router2
+        {
+            get { return _router2; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("Router cannot be null.");
+                else
+                    _router2 = value;
+            }
+        }
+
+        #endregion
+
+        #region Methods
         //Calculates the distance between two sets coordinates.
         //This value is a length, so it cannot be negative.
-        public static double CalculateDistanceBetweenPoints(Coords Center1, Coords Center2)
+        public double CalculateDistanceBetweenPoints(Coords Router1, Coords Router2)
         {
-            double Distance = (Math.Sqrt((Math.Pow(Center1.x - Center2.x, 2)) + Math.Pow(Center1.y - Center2.y, 2)));
+            double Distance = (Math.Sqrt((Math.Pow(Router1.x - Router2.x, 2)) + Math.Pow(Router1.y - Router2.y, 2)));
             if (Distance < 0)
                 Distance = Distance * (-1);
 
             return (Distance);
         }
 
-        private static void PrintEverythingForDebug(double DistanceBetweenCenters, double a, double h, Coords P2)
+        private void PrintEverythingForDebug(double DistanceBetweenCenters, double a, double h, Coords P2)
         {
             Console.WriteLine($"Distance between the centers was calculated to: {Math.Round(DistanceBetweenCenters, 3)}");
             Console.WriteLine($"a was calculated to: {Math.Round(a, 3)}");
@@ -34,7 +72,7 @@ namespace Triangulering
             Console.WriteLine($"Coordinates of P2 were calculated to: ({Math.Round(P2.x, 3)},{Math.Round(P2.y, 3)})");
         }
 
-        public static void DetermineSignalStrengthFromCoords(Occupant SignalSource, Circle Router1, Circle Router2)
+        public void DetermineSignalStrengthFromCoords(Occupant SignalSource, Circle Router1, Circle Router2)
         {
             Coords CoordinatesTouse = new Coords();
 
@@ -49,7 +87,7 @@ namespace Triangulering
             Router2.Radius = CalculateDistanceBetweenPoints(CoordinatesTouse, Router2);
         }
 
-        public static void RandomizeSignalStrength(Circle Router)
+        public void RandomizeSignalStrength(Circle Router)
         {
             double DegreeOfRandomization = Router.Radius / 40;
             double min = (Router.Radius - DegreeOfRandomization);
@@ -59,7 +97,7 @@ namespace Triangulering
             Router.Radius = random.NextDouble() * (max - min) + min;
         }
 
-        public static Coords ExcludeImpossiblePositions(Occupant Source, Coords[] PositionsOfSignalSource)
+        public Coords ExcludeImpossiblePositions(Occupant Source, Coords[] PositionsOfSignalSource)
         {
             if (PositionsOfSignalSource[0].x < 0 || PositionsOfSignalSource[0].x > GEngine.SimulationWidht)
             {
@@ -76,7 +114,7 @@ namespace Triangulering
         }
 
         //Calls all functions in this class... returns the single possible position of the signal source.
-        public static void TriangulatePositionOfSignalSource(
+        public void TriangulatePositionOfSignalSource(
             Occupant SignalSource, Circle Router1, Circle Router2)
         {
             DetermineSignalStrengthFromCoords(SignalSource, Router1, Router2);
@@ -87,7 +125,7 @@ namespace Triangulering
         }
 
         // Find the points where the two circles intersect.
-        public static Coords[] FindCircleCircleIntersections(Circle Router1, Circle Router2)
+        public Coords[] FindCircleCircleIntersections(Circle Router1, Circle Router2)
         {
             Coords P2;
             Coords Intersection1;
@@ -121,5 +159,7 @@ namespace Triangulering
 
             return Intersections;
         }
+        #endregion
+
     }
 }
