@@ -57,7 +57,7 @@ namespace LightControl
         public void AddressGoToScene(LightingUnit Unit, double scene)
         {
             AddUnitToGroup(Unit, 16);
-            Unit.ForcedLightlevel = scene;
+            Unit.ForcedLightlevel = scene/100;
         }
 
         public void InitGroups()
@@ -120,6 +120,11 @@ namespace LightControl
                     {
                         totalWattUsage += item.getWattUsageForLightUnitInHours();
                         item.LightingLevel = item.LightingLevel + stepInterval;
+                    }
+
+                    else
+                    {
+                        item.LightingLevel = item.ForcedLightlevel;
                     }
                 }
             }

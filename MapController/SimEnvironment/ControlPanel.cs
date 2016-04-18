@@ -161,7 +161,7 @@ namespace MapController.SimEnvironment
             }
         }
 
-        private void DisplayGroupsForAdding(object sender, EventArgs e)
+        private void DisplayGroupsForAddingOfAddress(object sender, EventArgs e)
         {
             ShowGroups();
             for(int i = 0; Buttons.Count() > i; i++)
@@ -170,7 +170,7 @@ namespace MapController.SimEnvironment
             }
         }
 
-        private void DisplayGroupsForRemoval(object sender, EventArgs e)
+        private void DisplayGroupsForRemovalOfAddress(object sender, EventArgs e)
         {
             ShowGroups();
             ExtraButton.Visible = true;
@@ -182,12 +182,12 @@ namespace MapController.SimEnvironment
             }
         }
 
-        private void DisplayScenesToGoTo(object sender, EventArgs e)
+        private void DisplayScenesToGoToForAddress(object sender, EventArgs e)
         {
             ShowScenes();
             for (int i = 0; Buttons.Count() > i; i++)
             {
-                Buttons[i].Click += new EventHandler(RemoveAddressFromGroup);
+                Buttons[i].Click += new EventHandler(AddressGoToScene);
             }
         }
 
@@ -216,22 +216,25 @@ namespace MapController.SimEnvironment
             SetUpFirstButtons();
         }
 
-        private void AddressGoToScene()
+        private void AddressGoToScene(object sender, EventArgs e)
         {
-
+            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
+            DALIController.AddressGoToScene(CurrentUnit, DALIController.scenes[Buttons.IndexOf((Button)sender)]);
+            currentAddress = -1;
+            SetUpFirstButtons();
         }
 
         private void CallOnAdressActions()
         {
             Buttons[0].Visible = true;
             Buttons[0].Text = "Add to";
-            Buttons[0].Click += new EventHandler(DisplayGroupsForAdding);
+            Buttons[0].Click += new EventHandler(DisplayGroupsForAddingOfAddress);
             Buttons[1].Visible = true;
             Buttons[1].Text = "Remove from";
-            Buttons[1].Click += new EventHandler(DisplayGroupsForRemoval);
+            Buttons[1].Click += new EventHandler(DisplayGroupsForRemovalOfAddress);
             Buttons[2].Visible = true;
             Buttons[2].Text = "Go To Scene";
-            Buttons[2].Click += new EventHandler(DisplayScenesToGoTo);
+            Buttons[2].Click += new EventHandler(DisplayScenesToGoToForAddress);
             Buttons[3].Visible = true;
             Buttons[3].Text = "Extinguish";
             //Buttons[3].Click += new EventHandler(ShowGroups);
