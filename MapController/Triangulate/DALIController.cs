@@ -14,7 +14,7 @@ namespace LightControl
         List<LightingUnit>[] groups = new List<LightingUnit>[17];
         public List<LightingUnit> UntouchedLights = new List<LightingUnit>();
         List<LightingUnit> LightsOff = new List<LightingUnit>();
-        public double[] scenes = new double[16] {5, 10, 20, 30, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 100};
+        public double[] scenes = new double[16] {25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100};
 
         
         static double totalWattUsage = 0;
@@ -33,7 +33,7 @@ namespace LightControl
                 if(item.Contains(UnitToRemove))
                     item.Remove(UnitToRemove);
             }
-
+            UnitToRemove.ForcedLightlevel = 0;
             UntouchedLights.Add(UnitToRemove);
         }
 
@@ -51,13 +51,42 @@ namespace LightControl
 
             if(GroupsAreClear == true)
             {
+                UnitToRemove.ForcedLightlevel = 0;
                 UntouchedLights.Add(UnitToRemove);
             }
         }
 
+        public void Extinguishgroup(int groupnumber)
+        {
+            foreach (var Unit in groups[groupnumber])
+            {
+                Unit.Extinguish();
+            }
+        }
+
+        public void TurnOnGroup(int groupnumber)
+        {
+            foreach (var Unit in groups[groupnumber])
+            {
+                Unit.TurnOn();
+            }
+        }
+
+        public void GroupGoToScene(int groupNumber, double scene)
+        {
+            foreach (var Unit in groups[groupNumber])
+            {
+                AddressGoToScene(Unit, scene);
+            }
+        }
+
+        public void ClearGroup(int groupNumber)
+        {
+            groups[groupNumber].Clear();
+        }
+
         public void AddressGoToScene(LightingUnit Unit, double scene)
         {
-            AddUnitToGroup(Unit, 16);
             Unit.ForcedLightlevel = scene/100;
         }
 
