@@ -8,7 +8,7 @@ using MapController.Quadtree;
 
 namespace TreeStructure
 {
-    class Bounds : Coords
+    public class Bounds : Coords
     {
         public int Width;
         public int Height;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LightControl
 {
-    class Fps
+    public class Fps
     {
         int frameRendered = 0;
         public int fps = 0;

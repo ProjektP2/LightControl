@@ -23,7 +23,7 @@ namespace LightControl
     using Triangulering;
     using TreeStructure;
 
-        class Loop
+        public class Loop
     {
         public Form Window;
         private Initialize _initialization;

@@ -8,7 +8,7 @@ using Triangulering;
 
 namespace TreeStructure
 {
-    class QuadTreeNode
+    public class QuadTreeNode
     {
         public LightingUnit LightUnit;
         public QuadTreeNode(LightingUnit lightObject)

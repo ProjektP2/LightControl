@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 
 namespace SimEnvironment
 {
-    class GraphicsDraw
+    public class GraphicsDraw
     {
         int _radius = 35;
 

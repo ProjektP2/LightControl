@@ -6,7 +6,7 @@ using Triangulering;
 
 namespace TreeStructure
 {
-    abstract class Query : IBoundable
+    public abstract class Query : IBoundable
     {
         public Bounds MapBound { get; set; }
         public QuadTree Tree { get; set; }
@@ -21,7 +21,7 @@ namespace TreeStructure
         public abstract void CalculateBoundCoords(Coords Position, out Coords BottomRight, out Coords Topleft);
     }
     
-    class StartTreeSearch
+    public class StartTreeSearch
     {
         private List<LightingUnit> _unitList;
         public List<LightingUnit> SearchQuery(Coords position, params Query[] searches)
@@ -35,7 +35,7 @@ namespace TreeStructure
         }
     }
 
-    class RadiusSearchQuery : Query
+    public class RadiusSearchQuery : Query
     {
         int _radius;
         int _width, _height;
@@ -77,7 +77,7 @@ namespace TreeStructure
         }
     }
 
-    class VectorSearchQuery : Query
+    public class VectorSearchQuery : Query
     {
         private int _width;
         private int _height;
