@@ -83,7 +83,7 @@ namespace SimEnvironment
 
         private Bitmap LoadFileIntoBitMap(string fileName)
         {
-            Bitmap bitmap = null;
+            Bitmap bitmap;
             try
             {
                 bitmap = new Bitmap(fileName);
@@ -151,7 +151,6 @@ namespace SimEnvironment
        
         public void LoadLightIntoBitMap(List<LightingUnit> ActivatedLightingUnitsOnUser)
         {
-            sw.Start();
             byte minTrasnparency = 200;
             _drawLightData = InitDrawLightData();
             byte[] rgbValues = new byte[_drawLightData.numBytes];
@@ -163,9 +162,6 @@ namespace SimEnvironment
             
             Marshal.Copy(rgbValues, 0, _drawLightData.ptr, _drawLightData.numBytes);
             Light.UnlockBits(_drawLightData.bmpData);
-            sw.Stop();
-            Console.WriteLine(sw.Elapsed);
-            sw.Reset();
         }
 
         private void SetTransparency(List<LightingUnit> ActivatedLightingUnitsOnUser, 
@@ -215,14 +211,13 @@ namespace SimEnvironment
         {
             int i;
             int iterations = size;
-            int iterationsfirst = iterations - 20;
-            for (i = 3; i < iterationsfirst; i += 20)
+            int iterationsfirst = iterations - 16;
+            for (i = 3; i < iterationsfirst; i += 16)
             {
                 rgbValues[i] = value;
                 rgbValues[i + 4] = value;
                 rgbValues[i + 8] = value;
                 rgbValues[i + 12] = value;
-                rgbValues[i + 16] = value;
             }
             for (; i < iterations; i+= 4)
             {
