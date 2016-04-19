@@ -190,9 +190,10 @@ namespace SimEnvironment
             double rightX = _rectCorners.BottomRightX;
             for (double y = leftY; y < rightY; y++)
             {
+                double lasts = (y - item.y)*(y - item.y);
                 for (double x = leftX; x < rightX; x++)
                 {
-                    Cirklensligning = ((x - item.x) * (x - item.x)) + ((y - item.y) * (y - item.y));
+                    Cirklensligning = ((x - item.x) * (x - item.x)) + (lasts);
                     if (Cirklensligning <= R)
                     {
                         PlaceInArray = (int)(((y * Width * 4) + x * 4) + 3);
