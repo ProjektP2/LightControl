@@ -29,18 +29,6 @@ namespace TreeStructure
             this.bound = bound;
         }
 
-        internal QuadTreeNode QuadTreeNode
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
         public void CreateQuadTree(List<LightingUnit> list)
         {
             foreach (var item in list)
@@ -93,10 +81,10 @@ namespace TreeStructure
 
             int increasedNodeLevel = ++currentLevel;
 
-            Bounds boundTL = new Bounds(x, y, subWidth, subHeight);
-            Bounds boundTR = new Bounds(x + subWidth, y, subWidth, subHeight);
-            Bounds boundBL = new Bounds(x, y +  subHeight, subWidth, subHeight);
-            Bounds boundBR = new Bounds(x + subWidth, y + subHeight, subWidth, subHeight);
+            Bounds boundTL = new Bounds(new Coords(x,y), subWidth, subHeight);
+            Bounds boundTR = new Bounds(new Coords(x + subWidth, y), subWidth, subHeight);
+            Bounds boundBL = new Bounds(new Coords(x, y + subHeight), subWidth, subHeight);
+            Bounds boundBR = new Bounds(new Coords(x + subWidth, y + subHeight), subWidth, subHeight);
 
             nodes[0] = new QuadTree(boundTL);
             nodes[1] = new QuadTree(boundTR);
