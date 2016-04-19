@@ -10,7 +10,7 @@ using LightControl;
 
 namespace Triangulering
 {
-    class OccupantMove
+    public class OccupantMove
     {
         Collision collision;
         Bitmap Map;

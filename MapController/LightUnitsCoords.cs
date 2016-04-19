@@ -9,7 +9,7 @@ using SimEnvironment;
 
 namespace LightControl
 {
-    class LightUnitsCoords
+    public class LightUnitsCoords
     {
         // 32px = 1meter
         public int Height { get; private set; }

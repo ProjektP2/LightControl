@@ -16,7 +16,7 @@ using System.Reflection;
 
 namespace MapController.SimEnvironment
 {
-    class ControlPanel
+    public class ControlPanel
     {
         Form window;
         DALIController DALIController;

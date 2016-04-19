@@ -7,7 +7,7 @@ using LightControl;
 
 namespace Triangulering
 {
-    class LightingUnit : Coords
+    public class LightingUnit : Coords
     {
         public bool IsUnitOn = true;
         double wattUsageInInterval;

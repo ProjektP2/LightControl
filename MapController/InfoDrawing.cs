@@ -16,7 +16,7 @@ using SimEnvironment;
 namespace LightControl
 
 {
-    class InfoDrawing
+    public class InfoDrawing
     {
         Form window;
         public InfoDrawing(Form form)

@@ -9,7 +9,7 @@ using SimEnvironment;
 
 namespace LightControl
 {
-    static class Program
+    public static class Program
     {
 
         [STAThread]

@@ -12,7 +12,7 @@ using LightControl;
 
 namespace Triangulering
 {
-    class Circle : Coords
+    public class Circle : Coords
     {
         public double Radius;
 

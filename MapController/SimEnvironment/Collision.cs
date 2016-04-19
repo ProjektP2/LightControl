@@ -8,7 +8,7 @@ using LightControl;
 
 namespace SimEnvironment
 {
-    class Collision
+    public class Collision
     {
         #region Constructors
         public Collision(Bitmap map)

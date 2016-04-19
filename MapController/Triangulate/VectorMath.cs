@@ -7,7 +7,7 @@ using LightControl;
 
 namespace Triangulering
 {
-    class VectorMath
+    public class VectorMath
     {
         internal Circle Circle
         {

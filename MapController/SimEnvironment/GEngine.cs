@@ -10,7 +10,7 @@ using Triangulering;
 
 namespace SimEnvironment
 {
-    class GEngine
+    public class GEngine
     {
         #region Constructors
         public GEngine(Form form, Bitmap map)

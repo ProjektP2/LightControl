@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +14,7 @@ using System.Runtime.InteropServices;
 
 namespace SimEnvironment
 {
-    class GraphicsDraw
+    public class GraphicsDraw
     {
         int _radius = 35;
 
@@ -48,6 +50,7 @@ namespace SimEnvironment
         Bitmap Light;
 
         Form window;
+        Stopwatch sw = new Stopwatch();
 
         PictureBox pb = new PictureBox();
 
@@ -80,7 +83,7 @@ namespace SimEnvironment
 
         private Bitmap LoadFileIntoBitMap(string fileName)
         {
-            Bitmap bitmap = null;
+            Bitmap bitmap;
             try
             {
                 bitmap = new Bitmap(fileName);
@@ -187,9 +190,10 @@ namespace SimEnvironment
             double rightX = _rectCorners.BottomRightX;
             for (double y = leftY; y < rightY; y++)
             {
+                double lasts = (y - item.y)*(y - item.y);
                 for (double x = leftX; x < rightX; x++)
                 {
-                    Cirklensligning = ((x - item.x) * (x - item.x)) + ((y - item.y) * (y - item.y));
+                    Cirklensligning = ((x - item.x) * (x - item.x)) + (lasts);
                     if (Cirklensligning <= R)
                     {
                         PlaceInArray = (int)(((y * Width * 4) + x * 4) + 3);
@@ -206,8 +210,17 @@ namespace SimEnvironment
 
         private void InitRGBValues(int size, byte value, ref byte[] rgbValues)
         {
+            int i;
             int iterations = size;
-            for (int i = 3; i < iterations; i += 4)
+            int iterationsfirst = iterations - 16;
+            for (i = 3; i < iterationsfirst; i += 16)
+            {
+                rgbValues[i] = value;
+                rgbValues[i + 4] = value;
+                rgbValues[i + 8] = value;
+                rgbValues[i + 12] = value;
+            }
+            for (; i < iterations; i+= 4)
             {
                 rgbValues[i] = value;
             }

@@ -13,7 +13,7 @@ using System.Drawing;
 namespace MapController.SimEnvironment
 {
     //This class is used to organize the initialization of all objects required for simulating light control. 
-    class Initialize
+    public class Initialize
     {
 
         #region Fields and Properties
@@ -60,7 +60,7 @@ namespace MapController.SimEnvironment
             Window = form;
             Window.KeyPreview = true;
             nyList = new List<LightingUnit>();
-            _bound = new Bounds(0, 0, GEngine.SimulationWidht, GEngine.SimulationHeigt);
+            _bound = new Bounds(new Coords(0,0), GEngine.SimulationWidht, GEngine.SimulationHeigt);
             tree = new QuadTree(_bound);
             Triangulation = new Triangulation(Router1, Router2);
             ActivateLights = new DetermineLightsToActivate(200, 60, 400, Triangulation);

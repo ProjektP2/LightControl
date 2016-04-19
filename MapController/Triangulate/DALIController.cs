@@ -8,7 +8,7 @@ using Triangulering;
 
 namespace LightControl
 {
-    class DALIController
+    public class DALIController
     {
         public List<LightingUnit> AllLights;
         List<LightingUnit>[] groups = new List<LightingUnit>[17];
