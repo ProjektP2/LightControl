@@ -20,6 +20,10 @@ namespace LightControl
         Bitmap _Map;
         OccupantMove move;
 
+        public Occupant()
+        {
+                
+        }
         public Occupant(Bitmap map, Form window, char key_forward, char key_backwards, char key_left, char key_right)
         {
             _Window = window;

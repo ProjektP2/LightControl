@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightControl", "MapController\LightControl.csproj", "{F2DFB5B2-9C74-4EE2-BAC9-FB597C91B52A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangulationTest", "TriangulationTest\TriangulationTest.csproj", "{4C56A081-4467-4ED4-AB3C-C110DAEB320B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightControlTest", "TriangulationTest\LightControlTest.csproj", "{4C56A081-4467-4ED4-AB3C-C110DAEB320B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
