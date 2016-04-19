@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MapController.Triangulate
 {
-    class MoreExceptions
+    public class MoreExceptions
     {
     }
 }

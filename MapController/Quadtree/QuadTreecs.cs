@@ -5,7 +5,7 @@ using LightControl;
 
 namespace TreeStructure
 {
-    class QuadTree
+    public class QuadTree
     {
         static int MaxNodes = 4;
         static int MaxObjects = 2;

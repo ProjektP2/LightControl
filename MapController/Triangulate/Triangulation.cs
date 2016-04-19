@@ -12,7 +12,7 @@ namespace Triangulering
     //finding the intersection points between two circles, the radii of which are the received signal strengths.
     //Refer to chapter 10 for visual reference and mathematical understanding.
 
-    class Triangulation
+    public class Triangulation
     {
         #region Constructors
 

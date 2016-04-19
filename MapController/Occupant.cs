@@ -14,7 +14,7 @@ namespace LightControl
     //(instances of the Circle class, in this case.)
     //Contains two positions and an ID. The ID is never set so far. The two coordinates are used by the method CalculateVelocity
     //to calculate the speed of which the signal source is moving between two points.
-    class Occupant
+    public class Occupant
     {
         Form _Window;
         Bitmap _Map;

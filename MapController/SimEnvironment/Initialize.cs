@@ -13,7 +13,7 @@ using System.Drawing;
 namespace MapController.SimEnvironment
 {
     //This class is used to organize the initialization of all objects required for simulating light control. 
-    class Initialize
+    public class Initialize
     {
 
         #region Fields and Properties

@@ -7,7 +7,7 @@ using LightControl;
 
 namespace MapController.Quadtree
 {
-    interface IBoundable
+    public interface IBoundable
     {
         void CalculateBoundCoords(Coords Position, out Coords BottomRight, out Coords Topleft);
     }
