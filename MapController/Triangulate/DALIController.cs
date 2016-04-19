@@ -10,7 +10,7 @@ namespace LightControl
 {
     class DALIController
     {
-        List<LightingUnit> AllLights;
+        public List<LightingUnit> AllLights;
         List<LightingUnit>[] groups = new List<LightingUnit>[17];
         public List<LightingUnit> UntouchedLights = new List<LightingUnit>();
         List<LightingUnit> LightsOff = new List<LightingUnit>();
@@ -30,7 +30,8 @@ namespace LightControl
         {
             foreach (var item in groups)
             {
-                item.Remove(UnitToRemove);
+                if(item.Contains(UnitToRemove))
+                    item.Remove(UnitToRemove);
             }
 
             UntouchedLights.Add(UnitToRemove);
@@ -57,7 +58,7 @@ namespace LightControl
         public void AddressGoToScene(LightingUnit Unit, double scene)
         {
             AddUnitToGroup(Unit, 16);
-            Unit.ForcedLightlevel = scene;
+            Unit.ForcedLightlevel = scene/100;
         }
 
         public void InitGroups()
@@ -72,6 +73,7 @@ namespace LightControl
         public LightingUnit findUnitWithAddress(int AddressToFind)
         {
             var index = AllLights.FindIndex(a => a.Address == AddressToFind);
+            Console.WriteLine(index);
             return AllLights[index];
         }
 
@@ -121,6 +123,11 @@ namespace LightControl
                         totalWattUsage += item.getWattUsageForLightUnitInHours();
                         item.LightingLevel = item.LightingLevel + stepInterval;
                     }
+
+                    else
+                    {
+                        item.LightingLevel = item.ForcedLightlevel;
+                    }
                 }
             }
             foreach (var item in UntouchedLights)
@@ -156,10 +163,6 @@ namespace LightControl
 
         }
 
-        /*public List<LightingUnit> GroupFilter(int groupnumber)
-        {
-
-        ^*/
 
         public double Wattusage()
         {

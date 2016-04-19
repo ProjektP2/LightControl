@@ -77,6 +77,12 @@ namespace Triangulering
             IsUnitOn = false;
         }
 
+        public void TurnOn()
+        {
+            getWattUsageForLightUnitInHours();
+            IsUnitOn = true;
+        }
+
         public Coords GetCoords()
         {
             Coords ReturnCoords = new Coords(x, y);

@@ -75,7 +75,6 @@ namespace MapController.SimEnvironment
             window.Controls.Add(ExtraButton);
             ExtraButton.Visible = false;
             SetUpFirstButtons();
-            TextBoxForInput = InitializeTextBox();
             TextBoxForInput.Location = new Point(StartButtonX, StartButtonY);
         }
 
@@ -97,6 +96,9 @@ namespace MapController.SimEnvironment
             Buttons[1].Text = "Call Group";
             Buttons[2].Text = "Broadcast";
 
+            TextBoxForInput = InitializeTextBox();
+
+
             Buttons[0].Click += new EventHandler(CallAddress);
         }
 
@@ -105,7 +107,7 @@ namespace MapController.SimEnvironment
             NumericUpDown CreatedTextBox = new NumericUpDown();
             window.Controls.Add(CreatedTextBox);
             CreatedTextBox.Visible = false;
-
+            CreatedTextBox.Maximum = DALIController.AllLights.Count();
             return CreatedTextBox;
         }
 
@@ -131,9 +133,14 @@ namespace MapController.SimEnvironment
 
         private void TextBoxForInput_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter)
+            if (e.KeyChar == (char)Keys.Enter && TextBoxForInput.Value > TextBoxForInput.Maximum-1)
             {
-                e.Handled = true;
+                TextBoxForInput.Value = 0;
+            }
+            else if (e.KeyChar == (char)Keys.Enter)
+            {
+                Console.WriteLine(TextBoxForInput.Maximum);
+                Console.WriteLine(TextBoxForInput.Value);
                 TextBoxForInput.Visible = false;
                 currentAddress = Convert.ToInt32(TextBoxForInput.Value);
 
@@ -161,7 +168,7 @@ namespace MapController.SimEnvironment
             }
         }
 
-        private void DisplayGroupsForAdding(object sender, EventArgs e)
+        private void DisplayGroupsForAddingOfAddress(object sender, EventArgs e)
         {
             ShowGroups();
             for(int i = 0; Buttons.Count() > i; i++)
@@ -170,7 +177,7 @@ namespace MapController.SimEnvironment
             }
         }
 
-        private void DisplayGroupsForRemoval(object sender, EventArgs e)
+        private void DisplayGroupsForRemovalOfAddress(object sender, EventArgs e)
         {
             ShowGroups();
             ExtraButton.Visible = true;
@@ -182,12 +189,12 @@ namespace MapController.SimEnvironment
             }
         }
 
-        private void DisplayScenesToGoTo(object sender, EventArgs e)
+        private void DisplayScenesToGoToForAddress(object sender, EventArgs e)
         {
             ShowScenes();
             for (int i = 0; Buttons.Count() > i; i++)
             {
-                Buttons[i].Click += new EventHandler(RemoveAddressFromGroup);
+                Buttons[i].Click += new EventHandler(AddressGoToScene);
             }
         }
 
@@ -216,27 +223,58 @@ namespace MapController.SimEnvironment
             SetUpFirstButtons();
         }
 
-        private void AddressGoToScene()
+        private void AddressGoToScene(object sender, EventArgs e)
         {
+            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
+            DALIController.AddressGoToScene(CurrentUnit, DALIController.scenes[Buttons.IndexOf((Button)sender)]);
+            currentAddress = -1;
+            SetUpFirstButtons();
+        }
 
+        private void ClearUnit(object sender, EventArgs e)
+        {
+            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
+            DALIController.RemoveUnitFromAllGroups(CurrentUnit);
+            currentAddress = -1;
+            SetUpFirstButtons();
+        }
+
+        private void ExtinguishUnit(object sender, EventArgs e)
+        {
+            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
+            CurrentUnit.Extinguish();
+            currentAddress = -1;
+            SetUpFirstButtons();
+        }
+
+        private void TurnUnitOn(object sender, EventArgs e)
+        {
+            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
+            CurrentUnit.TurnOn();
+            currentAddress = -1;
+            SetUpFirstButtons();
         }
 
         private void CallOnAdressActions()
         {
             Buttons[0].Visible = true;
             Buttons[0].Text = "Add to";
-            Buttons[0].Click += new EventHandler(DisplayGroupsForAdding);
+            Buttons[0].Click += new EventHandler(DisplayGroupsForAddingOfAddress);
             Buttons[1].Visible = true;
             Buttons[1].Text = "Remove from";
-            Buttons[1].Click += new EventHandler(DisplayGroupsForRemoval);
+            Buttons[1].Click += new EventHandler(DisplayGroupsForRemovalOfAddress);
             Buttons[2].Visible = true;
             Buttons[2].Text = "Go To Scene";
-            Buttons[2].Click += new EventHandler(DisplayScenesToGoTo);
+            Buttons[2].Click += new EventHandler(DisplayScenesToGoToForAddress);
             Buttons[3].Visible = true;
             Buttons[3].Text = "Extinguish";
-            //Buttons[3].Click += new EventHandler(ShowGroups);
-
-
+            Buttons[3].Click += new EventHandler(ExtinguishUnit);
+            Buttons[4].Visible = true;
+            Buttons[4].Text = "Clear unit";
+            Buttons[4].Click += new EventHandler(ClearUnit);
+            Buttons[5].Visible = true;
+            Buttons[5].Text = "Clear unit";
+            Buttons[5].Click += new EventHandler(TurnUnitOn);
         }
 
 
@@ -269,6 +307,7 @@ namespace MapController.SimEnvironment
                 BindingFlags.NonPublic | BindingFlags.Instance);
             EventHandlerList list2 = (EventHandlerList)pi2.GetValue(ExtraButton, null);
             list2.RemoveHandler(obj2, list2[obj2]);
+
         }
     }
 }
