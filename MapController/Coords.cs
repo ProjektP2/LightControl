@@ -9,7 +9,7 @@ namespace LightControl
     //Simple class containing two doubles. The class is used to represent a set of coordinates.
     //Default coordinates is set to (0,0)
 
-    class Coords
+    public class Coords
     {
         public double x, y;
 

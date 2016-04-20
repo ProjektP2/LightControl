@@ -4,20 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using LightControl;
+
 namespace SimEnvironment
 {
-    class Collision
+    public class Collision
     {
+        #region Constructors
+        public Collision(Bitmap map)
+        {
+            Map = map;
+        }
+        #endregion
+
+        #region Fields and Properties
         Bitmap Map;
         double XX;
         double YY;
         int XPosX;
         int YPosY;
-        public Collision(Bitmap map)
-        {
-            Map = map;
-        }
-        private bool GetSurce(string pixelColorStringValue)
+        #endregion
+
+        #region Methods
+        private bool GetSource(string pixelColorStringValue)
         {
             bool move;
             switch (pixelColorStringValue)
@@ -26,10 +35,11 @@ namespace SimEnvironment
                 case "255020147": move = true; break;
                 case "255255000": move = false; break;
                 default: move = false; break;
-                    //Test
             }
+
             return move;
         }
+
         //Read color code from the Map
         private bool ReadFromMap(int x, int y)
         {
@@ -38,7 +48,7 @@ namespace SimEnvironment
             PixelCode.R.ToString("D3") + "" +
             PixelCode.G.ToString("D3") + "" +
             PixelCode.B.ToString("D3") + "";
-            return GetSurce(pixelColorStringValue);
+            return GetSource(pixelColorStringValue);
         }
 
         // Determine the position of the player on the map int teils.
@@ -52,7 +62,6 @@ namespace SimEnvironment
         //
         private bool Check(int posx, int posy, int x, int y)
         {
-
             CollisonPosition(posx + x, posy + y);
             return ReadFromMap(XPosX, YPosY);
         }
@@ -63,16 +72,16 @@ namespace SimEnvironment
             else
                 return false;
         }
-        
-        public bool CheckCollison(int posx, int posy, int x1, int y1, int x2, int y2)
+
+        public bool CheckCollison(double posx, double posy, Coords leftCorner, Coords rightCorner)
         {
-            if (Check(posx, posy, x1, y1) == true)
-                return Check(posx, posy, x2, y2);
+            if (Check((int)posx, (int)posy, (int)leftCorner.x, (int)leftCorner.y) == true)
+                return Check((int)posx, (int)posy, (int)rightCorner.x, (int)rightCorner.y);
             else
                 return false;
         }
 
-
+        #endregion
 
     }
 }

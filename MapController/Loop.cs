@@ -23,7 +23,7 @@ namespace LightControl
     using Triangulering;
     using TreeStructure;
 
-        class Loop
+        public class Loop
     {
         public Form Window;
         private Initialize _initialization;
@@ -32,7 +32,7 @@ namespace LightControl
         public Loop(Form form)
         {
             Window = form;
-            Window.FormClosing += new FormClosingEventHandler(this.Form1_FormClosing);
+            Window.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
         }
 
         public void calculationLoop()
@@ -42,9 +42,9 @@ namespace LightControl
             while (Running)
             {
                 Application.DoEvents();
-                _initialization.occupantPosition = _initialization.OccupantMove.PlayerMove(_initialization.occupantPosition);
-                _initialization.Position(_initialization.occupantPosition);
-                _initialization.gEngine.Drawing(_initialization.occupantPosition, _initialization.LightUnitCoordinates);
+                _initialization.Position();
+                _initialization.gEngine.Drawing(_initialization.occupant.Position2, _initialization.LightUnitCoordinates,
+                                                _initialization.Router1, _initialization.Router2);
             }
         }
         

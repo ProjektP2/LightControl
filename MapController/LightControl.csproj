@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=3.2.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.2.0\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,9 +56,12 @@
     <Compile Include="OccupantMove.cs" />
     <Compile Include="Quadtree\Bounds.cs" />
     <Compile Include="LightUnitsCoords.cs" />
+    <Compile Include="Quadtree\IBoundable.cs" />
     <Compile Include="Quadtree\QuadTreecs.cs" />
     <Compile Include="Quadtree\QuadTreeNode.cs" />
+    <Compile Include="Quadtree\Query.cs" />
     <Compile Include="SimEnvironment\Collision.cs" />
+    <Compile Include="SimEnvironment\ControlPanel.cs" />
     <Compile Include="SimEnvironment\GraphicsDraw.cs" />
     <Compile Include="SimEnvironment\Form1.cs">
       <SubType>Form</SubType>
@@ -72,7 +79,8 @@
     <Compile Include="Triangulate\DetermineLightsToActivate.cs" />
     <Compile Include="Triangulate\LightingUnit.cs" />
     <Compile Include="Occupant.cs" />
-    <Compile Include="Triangulate\Triangulate.cs" />
+    <Compile Include="Triangulate\MoreExceptions.cs" />
+    <Compile Include="Triangulate\Triangulation.cs" />
     <Compile Include="Triangulate\VectorMath.cs" />
     <EmbeddedResource Include="SimEnvironment\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -87,6 +95,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

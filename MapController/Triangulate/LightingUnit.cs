@@ -7,85 +7,45 @@ using LightControl;
 
 namespace Triangulering
 {
-    class LightingUnit : Coords
+    public class LightingUnit : Coords
     {
         public bool IsUnitOn = true;
         double wattUsageInInterval;
         DateTime Time1;
         DateTime Time2;
         public int Address = 0;
-        double maxLevel = 1.0; //max lysstyrke (basically en standard on knap)
-        double minLevel = 0.5; //min lysstyrke (basically en standard off knap)
+
+        //max lysstyrke (basically en standard on knap)
+        double maxLevel = 1.0;
+        
+        //min lysstyrke (basically en standard off knap)
+        public double minLevel = 0.30;
         static private int _address = 0;
-        private double watts = 60; //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
+
+        //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
+        private double watts = 240; 
         public double wantedLightLevel;
-        public double LightingLevel; //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres(forklaring følger))//liste over grupper den enkelte light unit tilhører
-        double[] scene = new double[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }; //array af presets (her tænker jeg vi laver nogle standard scener 
-        //der gælder for alle light units
+        public double ForcedLightlevel;
 
+        //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres
+        public double LightingLevel;
 
-        public LightingUnit() : this(0, 0) //for testing purposes only. will be deleted later
+        //for testing purposes only. will be deleted later
+        public LightingUnit() : this(0, 0) 
         {
         }
 
-        public LightingUnit(double X, double Y) //constructor for lightingUnit (modtager x og y og skaber en light unit med x, y samt en adresse/id
+        //constructor for lightingUnit (modtager x og y og skaber en light unit med x, y samt en adresse/id
+        public LightingUnit(double X, double Y) 
         {
             x = X;
             y = Y;
             Address = _address;
             _address++;
             Time1 = DateTime.Now;
-            //Console.WriteLine(_address);
             //her skal vi have lavet en sikkerhedsforanstaltning der starter en ny liste når _address når 63
 
         }
-        /*
-        public void addLightUnitToGroup(int groupToAdd) //tilføjer en lightingUnit til en gruppe
-        {
-
-            if (groups.Contains(groupToAdd))
-            {
-                //her skal laves en rigtig exeption
-                Console.WriteLine("The lighting unit is already part of that group");
-            }
-
-            else if (groups.Count() >= 4)
-            {
-                //exeption
-                Console.WriteLine("There is currently no room to add another group please delete one before adding another");
-            }
-
-            else if (!groups.Contains(groupToAdd) && groups.Count() < 4) //her bliver 
-            {
-                groups.Add(groupToAdd);
-            }
-
-            else
-            {
-                Console.WriteLine("Something went completely wrong trying to add the light unit to another group");
-            }
-
-
-        }
-
-        public void removeLightUnitFromGroup(int groupToRemove) //fjerner en gruppe fra en LightingUnit
-        {
-            if (!groups.Contains(groupToRemove))
-            {
-                //igen her skal laves en bedre exeption
-                Console.WriteLine("The lighting unit is not a member of that group");
-            }
-            else if (groups.Contains(groupToRemove))
-            {
-                groups.Remove(groupToRemove);
-            }
-            else
-            {
-                //bedre exeption
-                Console.WriteLine("Something went completely wrong trying to remove the light unit to another group");
-            }
-        }
-        */
 
         public double getWattUsageForLightUnitInHours()
         {
@@ -94,14 +54,8 @@ namespace Triangulering
             wattUsageInInterval = WattInterval.TotalHours * LightingLevel * watts;
             Time1 = Time2;
             return wattUsageInInterval;
-            //Console.WriteLine("{0} er adressen med {1} som wattbrug",Address,wattUsage);
         }
-        /*
-        public void clearGroupsFromLightingUnit(LightingUnit LightingUnitToClearGroupsFrom) //blot en simpel funktion til at rense grupperne i en Light Unit
-        {
-            LightingUnitToClearGroupsFrom.groups.Clear();
-        }
-        */
+
         public double goToMax()
         {
             getWattUsageForLightUnitInHours();
@@ -116,16 +70,29 @@ namespace Triangulering
             return LightingLevel;
         }
 
-        public void Extinguish() //sluk med det samme!!!
+        //sluk med det samme
+        public void Extinguish() 
         {
             getWattUsageForLightUnitInHours();
             IsUnitOn = false;
+        }
+
+        public void TurnOn()
+        {
+            getWattUsageForLightUnitInHours();
+            IsUnitOn = true;
         }
 
         public Coords GetCoords()
         {
             Coords ReturnCoords = new Coords(x, y);
             return ReturnCoords;
+        }
+
+        //Implements IComparable's CompareTo()
+        public int CompareTo(LightingUnit next)
+        {
+            return next.wantedLightLevel.CompareTo(wantedLightLevel);
         }
 
     }
