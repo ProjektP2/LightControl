@@ -37,6 +37,7 @@ namespace LightControl
             UntouchedLights.Add(UnitToRemove);
         }
 
+
         public void RemoveUnitFromGroup(LightingUnit UnitToRemove, int GroupToRemoveFrom)
         {
             bool GroupsAreClear = true;
@@ -80,9 +81,38 @@ namespace LightControl
             }
         }
 
+        public void BroadcastOnAllUnits()
+        {
+            foreach (var Unit in AllLights)
+            {
+                AddUnitToGroup(Unit, 16);
+            }
+        }
+
         public void ClearGroup(int groupNumber)
         {
+            UntouchedLights.AddRange(groups[groupNumber]);
+            foreach (var item in UntouchedLights)
+            {
+                Console.WriteLine(item.Address);
+            }
+
             groups[groupNumber].Clear();
+        }
+
+        public void ClearBroadcastGroup()
+        {
+            ClearGroup(16);
+        }
+
+        public void ClearAllGroups()
+        {
+            foreach (var item in groups)
+            {
+                item.Clear();
+            }
+            UntouchedLights.Clear();
+            UntouchedLights.AddRange(AllLights);
         }
 
         public void AddressGoToScene(LightingUnit Unit, double scene)
@@ -103,7 +133,7 @@ namespace LightControl
         {
             var index = AllLights.FindIndex(a => a.Address == AddressToFind);
             Console.WriteLine(index);
-            return AllLights[index];
+            return AllLights[index];       
         }
 
         public void AddUnitToGroup(LightingUnit UnitToAdd, int groupNumber)
@@ -120,15 +150,16 @@ namespace LightControl
                 groups[groupNumber].Add(UnitToAdd);
             }
 
-            if (UntouchedLights.Contains(UnitToAdd))
-            {
-                UntouchedLights.Remove(UnitToAdd);
-            }
-
+            UntouchedLights.Remove(UnitToAdd);
         }
 
         public void IncrementLights(List<LightingUnit> NewLightList)
         {
+
+            foreach (var item in AllLights)
+            {
+                totalWattUsage += item.getWattUsageForLightUnitInHours();
+            }
 
             foreach (var group in groups)
             {
@@ -137,19 +168,21 @@ namespace LightControl
 
                     if (item.IsUnitOn == false)
                     {
-                        totalWattUsage += item.getWattUsageForLightUnitInHours();
                         item.LightingLevel = 0;
+                    }
+
+                    else if (item.LightingLevel < item.minLevel && item.wantedLightLevel > 0)
+                    {
+                        item.LightingLevel = item.minLevel;
                     }
 
                     else if (item.LightingLevel > item.ForcedLightlevel)
                     {
-                        totalWattUsage += item.getWattUsageForLightUnitInHours();
                         item.LightingLevel = item.LightingLevel - fadeRate;
                     }
 
                     else if (item.LightingLevel < item.ForcedLightlevel)
                     {
-                        totalWattUsage += item.getWattUsageForLightUnitInHours();
                         item.LightingLevel = item.LightingLevel + stepInterval;
                     }
 
@@ -163,32 +196,28 @@ namespace LightControl
             {
                 if (item.IsUnitOn == false)
                 {
-                    totalWattUsage += item.getWattUsageForLightUnitInHours();
                     item.LightingLevel = 0;
                 }
-                /*else if (item.wantedLightLevel <= item.LightingLevel + 0.01 || item.wantedLightLevel >= item.LightingLevel + 0.01)
+
+                else if (item.LightingLevel < item.minLevel && item.wantedLightLevel > 0)
                 {
-                    item.LightingLevel = item.wantedLightLevel;
-                }*/
+                    item.LightingLevel = item.minLevel;
+                }
+
                 else if (item.LightingLevel > item.wantedLightLevel)
                 {
-                    totalWattUsage += item.getWattUsageForLightUnitInHours();
                     item.LightingLevel = item.LightingLevel - fadeRate;
                 }
 
                 else if (item.LightingLevel < item.wantedLightLevel)
                 {
-                    totalWattUsage += item.getWattUsageForLightUnitInHours();
                     item.LightingLevel = item.LightingLevel + stepInterval;
                 }
+                else
+                {
+                    item.LightingLevel = item.wantedLightLevel;
+                }
             }
-
-
-            /*foreach (var item in groups[0])
-            {
-                Console.WriteLine(item.Address);
-            }
-            */
 
         }
 

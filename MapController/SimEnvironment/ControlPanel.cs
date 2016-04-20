@@ -101,6 +101,7 @@ namespace MapController.SimEnvironment
 
             Buttons[0].Click += new EventHandler(CallAddress);
             Buttons[1].Click += new EventHandler(CallGroup);
+            Buttons[2].Click += new EventHandler(CallBroadCast);
         }
 
         private NumericUpDown InitializeTextBox()
@@ -110,6 +111,18 @@ namespace MapController.SimEnvironment
             CreatedTextBox.Visible = false;
             CreatedTextBox.Maximum = DALIController.AllLights.Count();
             return CreatedTextBox;
+        }
+
+        private void AddAllUnitsToBroadcast(object sender, EventArgs e)
+        {
+            DALIController.BroadcastOnAllUnits();
+        }
+
+        private void CallBroadCast(object sender, EventArgs e)
+        {
+            RemoveClickEvents();
+            currentGroup = 16;
+            CallOnBroadcastActions();
         }
 
         private void CallGroup(object sender, EventArgs e)
@@ -126,6 +139,7 @@ namespace MapController.SimEnvironment
             currentGroup = Buttons.IndexOf((Button)sender);
             CallOnGroupActions();
         }
+
 
         private void CallAddress(object sender, EventArgs e)
         {
@@ -352,6 +366,44 @@ namespace MapController.SimEnvironment
 
         }
 
+        private void CallOnBroadcastActions()
+        {
+            foreach (var item in Buttons)
+            {
+                item.Visible = false;
+            }
+            RemoveClickEvents();
+            Buttons[0].Visible = true;
+            Buttons[0].Text = "Go to scene";
+            Buttons[0].Click += new EventHandler(DisplayScenesForGroupToGoTo);
+            Buttons[0].Click += new EventHandler(AddAllUnitsToBroadcast);
+            Buttons[1].Visible = true;
+            Buttons[1].Text = "Extinguish";
+            Buttons[1].Click += new EventHandler(ExtinguishGroup);
+            Buttons[1].Click += new EventHandler(AddAllUnitsToBroadcast);
+            Buttons[2].Visible = true;
+            Buttons[2].Text = "Turn on";
+            Buttons[2].Click += new EventHandler(turnGroupOn);
+            Buttons[2].Click += new EventHandler(AddAllUnitsToBroadcast);
+            Buttons[3].Visible = true;
+            Buttons[3].Text = "Clear broadcast";
+            Buttons[3].Click += new EventHandler(ClearBroadcast);
+            Buttons[4].Visible = true;
+            Buttons[4].Text = "Clear all groups";
+            Buttons[4].Click += new EventHandler(ClearAllGroups);
+        }
+
+        private void ClearAllGroups(object sender, EventArgs e)
+        {
+            DALIController.ClearAllGroups();
+            SetUpFirstButtons();
+        }
+
+        private void ClearBroadcast(object sender, EventArgs e)
+        {
+            DALIController.ClearBroadcastGroup();
+            SetUpFirstButtons();
+        }
 
         private void testButton2test_Click(object sender, EventArgs e)
         {
