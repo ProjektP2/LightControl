@@ -44,8 +44,7 @@ namespace LightControl
                 Position();
                 UpdateLights();
                 DisplayInfo();
-                _init.gEngine.Drawing(_init.occupant.Position2, _init.LightUnitCoordinates,
-                                                _init.Router1, _init.Router2);
+                DrawEverything();
             }
         }
 
@@ -77,6 +76,12 @@ namespace LightControl
             _init.Info.SignalInfo(_init.Router1.Radius, _init.Router2.Radius);
             _init.Info.BrugerWiFi(_init.occupant.WiFiPosition2);
             _init.Info.Brugerpos(_init.occupant.Position2);
+        }
+
+        public void DrawEverything()
+        {
+            _init.gEngine.Drawing(_init.occupant.Position2, _init.LightUnitCoordinates,
+                                                _init.Router1, _init.Router2);
         }
 
         public void Form1_FormClosing(object sender, FormClosingEventArgs e)

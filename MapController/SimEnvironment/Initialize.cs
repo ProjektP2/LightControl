@@ -25,7 +25,7 @@ namespace MapController.SimEnvironment
         public DetermineLightsToActivate ActivateLights;
 
         private Triangulation _triangulate;
-        public Triangulation Triangulate {
+        public Triangulation Triangulate { 
             get { return _triangulate; }
             set { _triangulate = value; }
         }
