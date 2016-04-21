@@ -25,6 +25,7 @@ namespace SimEnvironment
         }
         Loop loop;
         Initialize init;
+
         private void Form1_Load(object sender, EventArgs e)
         {
             //Starts when the Form i Loaded
