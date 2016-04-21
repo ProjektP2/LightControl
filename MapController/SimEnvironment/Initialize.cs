@@ -106,7 +106,6 @@ namespace MapController.SimEnvironment
             //Initializations
             _occupant = new Occupant(Map, Window, 'W', 'S', 'A', 'D');
             gEngine = new GEngine(Window, Map);
-            loop = new Loop(Window);
             CreateLightUnit();
             Controller = new DALIController(LightUnitCoordinates);
             Controller.InitGroups();
