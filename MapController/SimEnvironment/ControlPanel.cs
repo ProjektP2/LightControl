@@ -21,18 +21,18 @@ namespace MapController.SimEnvironment
         Form window;
         DALIController DALIController;
         List<LightingUnit> AllLights;
-        List<Button> Buttons;
-        NumericUpDown TextBoxForInput;
+        List<Button> _buttons;
+        NumericUpDown _textBoxForInput;
         Button ExtraButton;
-        int currentAddress;
-        int currentGroup;
-        int StartButtonY;
-        int StartButtonX;
-        int newStartButtonX;
-        int newStartButtonY;
-        int boundX;
-        int ButtonHeight;
-        int ButtonLength;
+        int _currentAddress;
+        int _currentGroup;
+        int _startButtonY;
+        int _startButtonX;
+        int _newstartButtonX;
+        int _newStartButtonY;
+        int _boundX;
+        int _buttonHeight;
+        int _buttonLength;
 
 
         public ControlPanel(Form form, DALIController Controller, List<LightingUnit> Lights)
@@ -45,38 +45,38 @@ namespace MapController.SimEnvironment
 
         public void InitializeControlPanelButtons()
         {
-            boundX = (window.Width/2-GEngine.SimulationWidht/2);
-            ButtonHeight = window.Height / 33;
-            StartButtonX = boundX / 25;
-            StartButtonY = window.Height / 7;
-            ButtonLength = boundX/ 5;
-            newStartButtonX = StartButtonX;
-            newStartButtonY = StartButtonY;
-            Buttons = new List<Button>();
+            _boundX = (window.Width/2-GEngine.SimulationWidht/2);
+            _buttonHeight = window.Height / 33;
+            _startButtonX = _boundX / 25;
+            _startButtonY = window.Height / 7;
+            _buttonLength = _boundX/ 5;
+            _newstartButtonX = _startButtonX;
+            _newStartButtonY = _startButtonY;
+            _buttons = new List<Button>();
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    Button newButton = new Button();
-                    Buttons.Add(newButton);
-                    newButton.Location = new System.Drawing.Point(newStartButtonX, newStartButtonY);
-                    newButton.Size = new System.Drawing.Size(ButtonLength, ButtonHeight);
-                    window.Controls.Add(newButton);
-                    double DistanceBetweenButtonsHorisontally = ButtonLength * 1.2;
-                    newStartButtonX += (int)Math.Floor(DistanceBetweenButtonsHorisontally);
-                    newButton.Visible = false;
+                    Button _newButton = new Button();
+                    _buttons.Add(_newButton);
+                    _newButton.Location = new System.Drawing.Point(_newstartButtonX, _newStartButtonY);
+                    _newButton.Size = new System.Drawing.Size(_buttonLength, _buttonHeight);
+                    window.Controls.Add(_newButton);
+                    double DistanceBetweenButtonsHorisontally = _buttonLength * 1.2;
+                    _newstartButtonX += (int)Math.Floor(DistanceBetweenButtonsHorisontally);
+                    _newButton.Visible = false;
                 }
-                newStartButtonX = StartButtonX;
-                double DistanceBetweenButtonsVertically = ButtonHeight * 1.5;
-                newStartButtonY += (int)Math.Floor(DistanceBetweenButtonsVertically);
+                _newstartButtonX = _startButtonX;
+                double DistanceBetweenButtonsVertically = _buttonHeight * 1.5;
+                _newStartButtonY += (int)Math.Floor(DistanceBetweenButtonsVertically);
             }
             ExtraButton = new Button();
-            ExtraButton.Location = new Point(StartButtonX, StartButtonY + (6 * ButtonHeight));
-            ExtraButton.Size = new Size(ButtonLength, ButtonHeight);
+            ExtraButton.Location = new Point(_startButtonX, _startButtonY + (6 * _buttonHeight));
+            ExtraButton.Size = new Size(_buttonLength, _buttonHeight);
             window.Controls.Add(ExtraButton);
             ExtraButton.Visible = false;
             SetUpFirstButtons();
-            TextBoxForInput.Location = new Point(StartButtonX, StartButtonY);
+            _textBoxForInput.Location = new Point(_startButtonX, _startButtonY);
         }
 
 
@@ -86,22 +86,22 @@ namespace MapController.SimEnvironment
             RemoveClickEvents();
             for (int i = 0; i < 3; i++)
             {
-                Buttons[i].Visible = true;
+                _buttons[i].Visible = true;
             }
-            for (int i = 3; i < Buttons.Count(); i++)
+            for (int i = 3; i < _buttons.Count(); i++)
             {
-                Buttons[i].Visible = false;
+                _buttons[i].Visible = false;
             }
             ExtraButton.Visible = false;
-            Buttons[0].Text = "Call Address";
-            Buttons[1].Text = "Call Group";
-            Buttons[2].Text = "Broadcast";
+            _buttons[0].Text = "Call Address";
+            _buttons[1].Text = "Call Group";
+            _buttons[2].Text = "Broadcast";
 
-            TextBoxForInput = InitializeTextBox();
+            _textBoxForInput = InitializeTextBox();
 
-            Buttons[0].Click += new EventHandler(CallAddress);
-            Buttons[1].Click += new EventHandler(CallGroup);
-            Buttons[2].Click += new EventHandler(CallBroadCast);
+            _buttons[0].Click += new EventHandler(CallAddress);
+            _buttons[1].Click += new EventHandler(CallGroup);
+            _buttons[2].Click += new EventHandler(CallBroadCast);
         }
 
         private NumericUpDown InitializeTextBox()
@@ -121,7 +121,7 @@ namespace MapController.SimEnvironment
         private void CallBroadCast(object sender, EventArgs e)
         {
             RemoveClickEvents();
-            currentGroup = 16;
+            _currentGroup = 16;
             CallOnBroadcastActions();
         }
 
@@ -129,49 +129,49 @@ namespace MapController.SimEnvironment
         {
             RemoveClickEvents();
             ShowGroups();
-            foreach (var Button in Buttons)
+            foreach (Button Button in _buttons)
             {
                 Button.Click += new EventHandler(SaveGroup);
             }
         }
         private void SaveGroup(object sender, EventArgs e)
         {
-            currentGroup = Buttons.IndexOf((Button)sender);
+            _currentGroup = _buttons.IndexOf((Button)sender);
             CallOnGroupActions();
         }
 
 
         private void CallAddress(object sender, EventArgs e)
         {
-            foreach (var item in Buttons)
+            foreach (Button Button in _buttons)
             {
-                item.Visible = false;
+                Button.Visible = false;
             }
-            TextBoxForInput.KeyPress += new KeyPressEventHandler(TextBoxForInput_KeyPress);
-            TextBoxForInput.Location = new Point(StartButtonX, StartButtonY + ButtonHeight);
-            TextBoxForInput.Visible = true;
-            TextBoxForInput.Enter += new EventHandler(TextBoxForInput_Entered);
+            _textBoxForInput.KeyPress += new KeyPressEventHandler(TextBoxForInput_KeyPress);
+            _textBoxForInput.Location = new Point(_startButtonX, _startButtonY + _buttonHeight);
+            _textBoxForInput.Visible = true;
+            _textBoxForInput.Enter += new EventHandler(TextBoxForInput_Entered);
 
             RemoveClickEvents();
         }
 
         private void TextBoxForInput_Entered(object sender, EventArgs e)
         {
-            TextBoxForInput.ResetText();
+            _textBoxForInput.ResetText();
         }
 
         private void TextBoxForInput_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter && TextBoxForInput.Value > TextBoxForInput.Maximum-1)
+            if (e.KeyChar == (char)Keys.Enter && _textBoxForInput.Value > _textBoxForInput.Maximum-1)
             {
-                TextBoxForInput.Value = 0;
+                _textBoxForInput.Value = 0;
             }
             else if (e.KeyChar == (char)Keys.Enter)
             {
-                Console.WriteLine(TextBoxForInput.Maximum);
-                Console.WriteLine(TextBoxForInput.Value);
-                TextBoxForInput.Visible = false;
-                currentAddress = Convert.ToInt32(TextBoxForInput.Value);
+                Console.WriteLine(_textBoxForInput.Maximum);
+                Console.WriteLine(_textBoxForInput.Value);
+                _textBoxForInput.Visible = false;
+                _currentAddress = Convert.ToInt32(_textBoxForInput.Value);
 
                 CallOnAdressActions();
             }
@@ -180,29 +180,29 @@ namespace MapController.SimEnvironment
         private void ShowGroups()
         {
             RemoveClickEvents();
-            for (int i = 0; i < Buttons.Count(); i++)
+            for (int i = 0; i < _buttons.Count(); i++)
             {
-                Buttons[i].Visible = true;
-                Buttons[i].Text = "Group[" + i + "]"; 
+                _buttons[i].Visible = true;
+                _buttons[i].Text = "Group[" + i + "]"; 
             }
         }
 
         private void ShowScenes()
         {
             RemoveClickEvents();
-            for (int i = 0; i < Buttons.Count(); i++)
+            for (int i = 0; i < _buttons.Count(); i++)
             {
-                Buttons[i].Visible = true;
-                Buttons[i].Text = string.Format("Scene {0}: {1}%", i, DALIController.scenes[i]);
+                _buttons[i].Visible = true;
+                _buttons[i].Text = string.Format("Scene {0}: {1}%", i, DALIController.scenes[i]);
             }
         }
 
         private void DisplayGroupsForAddingOfAddress(object sender, EventArgs e)
         {
             ShowGroups();
-            for(int i = 0; Buttons.Count() > i; i++)
+            for(int i = 0; _buttons.Count() > i; i++)
             {
-                Buttons[i].Click += new EventHandler(addAddressToGroup);
+                _buttons[i].Click += new EventHandler(AddAddressToGroup);
             }
         }
 
@@ -212,101 +212,101 @@ namespace MapController.SimEnvironment
             ExtraButton.Visible = true;
             ExtraButton.Text = "All";
             ExtraButton.Click += new EventHandler(RemoveAddressFromAllGroups);
-            for (int i = 0; Buttons.Count() > i; i++)
+            for (int i = 0; _buttons.Count() > i; i++)
             {
-                Buttons[i].Click += new EventHandler(RemoveAddressFromGroup);
+                _buttons[i].Click += new EventHandler(RemoveAddressFromGroup);
             }
         }
 
         private void DisplayScenesToGoToForAddress(object sender, EventArgs e)
         {
             ShowScenes();
-            for (int i = 0; Buttons.Count() > i; i++)
+            for (int i = 0; _buttons.Count() > i; i++)
             {
-                Buttons[i].Click += new EventHandler(AddressGoToScene);
+                _buttons[i].Click += new EventHandler(AddressGoToScene);
             }
         }
 
         private void RemoveAddressFromAllGroups(object sender, EventArgs e)
         {
-            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
+            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
             DALIController.RemoveUnitFromAllGroups(CurrentUnit);
-            currentAddress = -1;
+            _currentAddress = -1;
             SetUpFirstButtons();
         }
 
-        private void addAddressToGroup(object sender, EventArgs e)
+        private void AddAddressToGroup(object sender, EventArgs e)
         {
-            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
-            DALIController.AddUnitToGroup(CurrentUnit, Buttons.IndexOf((Button)sender));
-            currentAddress = -1;
+            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
+            DALIController.AddUnitToGroup(CurrentUnit, _buttons.IndexOf((Button)sender));
+            _currentAddress = -1;
             SetUpFirstButtons();
 
         }
 
         private void RemoveAddressFromGroup(object sender, EventArgs e)
         {
-            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
-            DALIController.RemoveUnitFromGroup(CurrentUnit, Buttons.IndexOf((Button)sender));
-            currentAddress = -1;
+            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
+            DALIController.RemoveUnitFromGroup(CurrentUnit, _buttons.IndexOf((Button)sender));
+            _currentAddress = -1;
             SetUpFirstButtons();
         }
 
         private void AddressGoToScene(object sender, EventArgs e)
         {
-            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
-            DALIController.AddressGoToScene(CurrentUnit, DALIController.scenes[Buttons.IndexOf((Button)sender)]);
+            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
+            DALIController.AddressGoToScene(CurrentUnit, DALIController.scenes[_buttons.IndexOf((Button)sender)]);
             DALIController.AddUnitToGroup(CurrentUnit, 16);
-            currentAddress = -1;
+            _currentAddress = -1;
             SetUpFirstButtons();
         }
 
         private void ClearUnit(object sender, EventArgs e)
         {
-            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
+            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
             DALIController.RemoveUnitFromAllGroups(CurrentUnit);
-            currentAddress = -1;
+            _currentAddress = -1;
             SetUpFirstButtons();
         }
 
         private void ClearGroup(object sender, EventArgs e)
         {
-            DALIController.ClearGroup(currentGroup);
+            DALIController.ClearGroup(_currentGroup);
             SetUpFirstButtons();
         }
 
         private void ExtinguishUnit(object sender, EventArgs e)
         {
-            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
+            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
             CurrentUnit.Extinguish();
-            currentAddress = -1;
+            _currentAddress = -1;
             SetUpFirstButtons();
         }
 
         private void ExtinguishGroup(object sender, EventArgs e)
         {
-            DALIController.Extinguishgroup(currentGroup);
+            DALIController.Extinguishgroup(_currentGroup);
             SetUpFirstButtons();
         }
 
         private void TurnUnitOn(object sender, EventArgs e)
         {
-            LightingUnit CurrentUnit = DALIController.findUnitWithAddress(currentAddress);
+            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
             CurrentUnit.TurnOn();
-            currentAddress = -1;
+            _currentAddress = -1;
             SetUpFirstButtons();
         }
 
-        private void turnGroupOn(object sender, EventArgs e)
+        private void TurnGroupOn(object sender, EventArgs e)
         {
-            DALIController.TurnOnGroup(currentGroup);
+            DALIController.TurnOnGroup(_currentGroup);
             SetUpFirstButtons();
         }
 
         private void DisplayScenesForGroupToGoTo(object sender, EventArgs e)
         {
             ShowScenes();
-            foreach (var Button in Buttons)
+            foreach (Button Button in _buttons)
             {
                 Button.Click += new EventHandler(GroupGoToScene);
             }
@@ -314,83 +314,83 @@ namespace MapController.SimEnvironment
 
         private void GroupGoToScene(object sender, EventArgs e)
         {
-            DALIController.GroupGoToScene(currentGroup, DALIController.scenes[Buttons.IndexOf((Button)sender)]);
-            currentGroup = -1;
+            DALIController.GroupGoToScene(_currentGroup, DALIController.scenes[_buttons.IndexOf((Button)sender)]);
+            _currentGroup = -1;
             SetUpFirstButtons();
         }
 
         private void CallOnAdressActions()
         {
-            Buttons[0].Visible = true;
-            Buttons[0].Text = "Add to";
-            Buttons[0].Click += new EventHandler(DisplayGroupsForAddingOfAddress);
-            Buttons[1].Visible = true;
-            Buttons[1].Text = "Remove from";
-            Buttons[1].Click += new EventHandler(DisplayGroupsForRemovalOfAddress);
-            Buttons[2].Visible = true;
-            Buttons[2].Text = "Go to scene";
-            Buttons[2].Click += new EventHandler(DisplayScenesToGoToForAddress);
-            Buttons[3].Visible = true;
-            Buttons[3].Text = "Extinguish";
-            Buttons[3].Click += new EventHandler(ExtinguishUnit);
-            Buttons[4].Visible = true;
-            Buttons[4].Text = "Turn unit on";
-            Buttons[4].Click += new EventHandler(TurnUnitOn);
-            Buttons[5].Visible = true;
-            Buttons[5].Text = "Clear unit";
-            Buttons[5].Click += new EventHandler(ClearUnit);
+            _buttons[0].Visible = true;
+            _buttons[0].Text = "Add to";
+            _buttons[0].Click += new EventHandler(DisplayGroupsForAddingOfAddress);
+            _buttons[1].Visible = true;
+            _buttons[1].Text = "Remove from";
+            _buttons[1].Click += new EventHandler(DisplayGroupsForRemovalOfAddress);
+            _buttons[2].Visible = true;
+            _buttons[2].Text = "Go to scene";
+            _buttons[2].Click += new EventHandler(DisplayScenesToGoToForAddress);
+            _buttons[3].Visible = true;
+            _buttons[3].Text = "Extinguish";
+            _buttons[3].Click += new EventHandler(ExtinguishUnit);
+            _buttons[4].Visible = true;
+            _buttons[4].Text = "Turn unit on";
+            _buttons[4].Click += new EventHandler(TurnUnitOn);
+            _buttons[5].Visible = true;
+            _buttons[5].Text = "Clear unit";
+            _buttons[5].Click += new EventHandler(ClearUnit);
         }
 
         private void CallOnGroupActions()
         {
-            foreach (var item in Buttons)
+            foreach (Button Button in _buttons)
             {
-                item.Visible = false;
+                Button.Visible = false;
             }
             RemoveClickEvents();
-            Buttons[0].Visible = true;
-            Buttons[0].Text = "Go to scene";
-            Buttons[0].Click += new EventHandler(DisplayScenesForGroupToGoTo);
-            Buttons[1].Visible = true;
-            Buttons[1].Text = "Extinguish";
-            Buttons[1].Click += new EventHandler(ExtinguishGroup);
-            Buttons[2].Visible = true;
-            Buttons[2].Text = "Turn on";
-            Buttons[2].Click += new EventHandler(turnGroupOn);
-            Buttons[3].Visible = true;
-            Buttons[3].Text = "Clear";
-            Buttons[3].Click += new EventHandler(ClearGroup);
-            //Buttons[4].Visible = true;
-            //Buttons[4].Text = "Info";
-            //Buttons[4].Click += new EventHandler(TurnUnitOn);
+            _buttons[0].Visible = true;
+            _buttons[0].Text = "Go to scene";
+            _buttons[0].Click += new EventHandler(DisplayScenesForGroupToGoTo);
+            _buttons[1].Visible = true;
+            _buttons[1].Text = "Extinguish";
+            _buttons[1].Click += new EventHandler(ExtinguishGroup);
+            _buttons[2].Visible = true;
+            _buttons[2].Text = "Turn on";
+            _buttons[2].Click += new EventHandler(TurnGroupOn);
+            _buttons[3].Visible = true;
+            _buttons[3].Text = "Clear";
+            _buttons[3].Click += new EventHandler(ClearGroup);
+            //_buttons[4].Visible = true;
+            //_buttons[4].Text = "Info";
+            //_buttons[4].Click += new EventHandler(TurnUnitOn);
 
         }
 
         private void CallOnBroadcastActions()
         {
-            foreach (var item in Buttons)
+            foreach (Button Button in _buttons)
             {
-                item.Visible = false;
+                Button.Visible = false;
             }
             RemoveClickEvents();
-            Buttons[0].Visible = true;
-            Buttons[0].Text = "Go to scene";
-            Buttons[0].Click += new EventHandler(DisplayScenesForGroupToGoTo);
-            Buttons[0].Click += new EventHandler(AddAllUnitsToBroadcast);
-            Buttons[1].Visible = true;
-            Buttons[1].Text = "Extinguish";
-            Buttons[1].Click += new EventHandler(ExtinguishGroup);
-            Buttons[1].Click += new EventHandler(AddAllUnitsToBroadcast);
-            Buttons[2].Visible = true;
-            Buttons[2].Text = "Turn on";
-            Buttons[2].Click += new EventHandler(turnGroupOn);
-            Buttons[2].Click += new EventHandler(AddAllUnitsToBroadcast);
-            Buttons[3].Visible = true;
-            Buttons[3].Text = "Clear broadcast";
-            Buttons[3].Click += new EventHandler(ClearBroadcast);
-            Buttons[4].Visible = true;
-            Buttons[4].Text = "Clear all groups";
-            Buttons[4].Click += new EventHandler(ClearAllGroups);
+            _buttons[0].Visible = true;
+            _buttons[0].Text = "Go to scene";
+            _buttons[0].Click += new EventHandler(DisplayScenesForGroupToGoTo);
+            _buttons[0].Click += new EventHandler(AddAllUnitsToBroadcast);
+            _buttons[1].Visible = true;
+            _buttons[1].Text = "Extinguish";
+            _buttons[1].Click += new EventHandler(ExtinguishGroup);
+            _buttons[1].Click += new EventHandler(AddAllUnitsToBroadcast);
+            _buttons[2].Visible = true;
+            _buttons[2].Text = "Turn on";
+            _buttons[2].Click += new EventHandler(TurnGroupOn);
+            _buttons[2].Click += new EventHandler(AddAllUnitsToBroadcast);
+            _buttons[3].Visible = true;
+            _buttons[3].Text = "Clear broadcast";
+            _buttons[3].Click += new EventHandler(ClearBroadcast);
+            _buttons[4].Visible = true;
+            _buttons[4].Text = "Clear all groups";
+            _buttons[4].Click += new EventHandler(ClearAllGroups);
         }
 
         private void ClearAllGroups(object sender, EventArgs e)
@@ -405,25 +405,16 @@ namespace MapController.SimEnvironment
             SetUpFirstButtons();
         }
 
-        private void testButton2test_Click(object sender, EventArgs e)
-        {
-            DALIController.AddUnitToGroup(DALIController.findUnitWithAddress(80), 0);
-            Button btn = (Button)sender;
-            btn.Visible = true;
-            Console.WriteLine("hej mor");
-        }
-
-
         private void RemoveClickEvents()
         {
-            foreach (var item in Buttons)
+            foreach (Button Button in _buttons)
             {
                 FieldInfo f1 = typeof(Control).GetField("EventClick",
                 BindingFlags.Static | BindingFlags.NonPublic);
-                object obj = f1.GetValue(item);
-                PropertyInfo pi = item.GetType().GetProperty("Events",
+                object obj = f1.GetValue(Button);
+                PropertyInfo pi = Button.GetType().GetProperty("Events",
                     BindingFlags.NonPublic | BindingFlags.Instance);
-                EventHandlerList list = (EventHandlerList)pi.GetValue(item, null);
+                EventHandlerList list = (EventHandlerList)pi.GetValue(Button, null);
                 list.RemoveHandler(obj, list[obj]);
             }
 

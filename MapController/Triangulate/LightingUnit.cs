@@ -10,20 +10,20 @@ namespace Triangulering
     public class LightingUnit : Coords
     {
         public bool IsUnitOn = true;
-        double wattUsageInInterval;
-        DateTime Time1;
-        DateTime Time2;
+        double _wattUsageInInterval;
+        DateTime _oldTime;
+        DateTime _newTime;
         public int Address = 0;
 
         //max lysstyrke (basically en standard on knap)
-        double maxLevel = 1.0;
+        double _maxLevel = 1.0;
         
         //min lysstyrke (basically en standard off knap)
         public double minLevel = 0.30;
         static private int _address = 0;
 
         //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
-        private double watts = 240; 
+        private double _watts = 240; 
         public double wantedLightLevel;
         public double ForcedLightlevel;
 
@@ -42,24 +42,24 @@ namespace Triangulering
             y = Y;
             Address = _address;
             _address++;
-            Time1 = DateTime.Now;
+            _oldTime = DateTime.Now;
             //her skal vi have lavet en sikkerhedsforanstaltning der starter en ny liste når _address når 63
 
         }
 
         public double getWattUsageForLightUnitInHours()
         {
-            Time2 = DateTime.Now;
-            TimeSpan WattInterval = Time2 - Time1;
-            wattUsageInInterval = WattInterval.TotalHours * LightingLevel * watts;
-            Time1 = Time2;
-            return wattUsageInInterval;
+            _newTime = DateTime.Now;
+            TimeSpan WattInterval = _newTime - _oldTime;
+            _wattUsageInInterval = WattInterval.TotalHours * LightingLevel * _watts;
+            _oldTime = _newTime;
+            return _wattUsageInInterval;
         }
 
         public double goToMax()
         {
             getWattUsageForLightUnitInHours();
-            LightingLevel = maxLevel;
+            LightingLevel = _maxLevel;
             return LightingLevel;
         }
 
