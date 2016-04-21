@@ -30,7 +30,7 @@ namespace TreeStructure
         public void InitializeBoundable(IBoundable boundable)
         {
             _boundable = boundable;
-            boundable.CalculateBoundCoords(_position, out BottomRight, out TopLeft);
+            boundable.CalculateBoundCoords(_position, out TopLeft, out BottomRight);
         }
         public bool Contains(Bounds bound)
         {
