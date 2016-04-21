@@ -29,10 +29,10 @@ namespace LightControl
         private Initialize _init;
         public bool Running = true;
 
-        public Loop(Form form)
+        public Loop(Form form, Initialize Initialized)
         {
             Window = form;
-            _init = new Initialize(Window);
+            _init = Initialized;
             Window.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
         }
 
