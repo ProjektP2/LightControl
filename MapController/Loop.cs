@@ -38,7 +38,6 @@ namespace LightControl
 
         public void calculationLoop()
         {
-            _init.Start();
             while (Running)
             {
                 Application.DoEvents();
