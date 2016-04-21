@@ -19,7 +19,7 @@ namespace Triangulering
         double maxLevel = 1.0;
         
         //min lysstyrke (basically en standard off knap)
-        double minLevel = 0.00;
+        public double minLevel = 0.30;
         static private int _address = 0;
 
         //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
