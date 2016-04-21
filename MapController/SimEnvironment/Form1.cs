@@ -24,6 +24,7 @@ namespace SimEnvironment
             InitializeComponent();
         }
         Loop loop;
+        Initialize init;
         private void Form1_Load(object sender, EventArgs e)
         {
             //Starts when the Form i Loaded
@@ -31,8 +32,10 @@ namespace SimEnvironment
             this.Focus();
             this.Width = width;
             this.Height = height;
-            loop = new Loop(this);
+            init = new Initialize(this);
+            loop = new Loop(this, init);
             AllocConsole();
+            init.Start();
             loop.calculationLoop();
         }
 
