@@ -26,28 +26,60 @@ namespace LightControl
         public class Loop
     {
         public Form Window;
-        private Initialize _initialization;
+        private Initialize _init;
         public bool Running = true;
-        
+
         public Loop(Form form)
         {
             Window = form;
+            _init = new Initialize(Window);
             Window.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
         }
 
         public void calculationLoop()
         {
-            _initialization = new Initialize(Window);
-            _initialization.Start();
+            _init.Start();
             while (Running)
             {
                 Application.DoEvents();
-                _initialization.Position();
-                _initialization.gEngine.Drawing(_initialization.occupant.Position2, _initialization.LightUnitCoordinates,
-                                                _initialization.Router1, _initialization.Router2);
+                Position();
+                UpdateLights();
+                DisplayInfo();
+                _init.gEngine.Drawing(_init.occupant.Position2, _init.LightUnitCoordinates,
+                                                _init.Router1, _init.Router2);
             }
         }
-        
+
+        public void Position()
+        {
+            //Moves the player
+            _init.occupant.Update();
+
+            //Updates the occupants WiFi position
+            _init.Triangulate.TriangulatePositionOfSignalSource(_init.occupant, _init.Router1, _init.Router2);
+
+        }
+
+        public void UpdateLights()
+        {
+            Query query = new RadiusSearchQuery(100, _init.Bound, _init.Tree);
+            StartTreeSearch startSearch = new StartTreeSearch();
+            _init.NyList = startSearch.SearchQuery(new Coords(_init.occupant.WiFiPosition1.x, _init.occupant.WiFiPosition1.y), query);
+
+            _init.ActivateLights.FindUnitsToActivate(_init.LightUnitCoordinates, _init.occupant);
+
+            _init.Controller.IncrementLights(_init.LightUnitCoordinates);
+        }
+
+        public void DisplayInfo()
+        {
+            _init.Info.WattUsageInfo(_init.Controller.Wattusage());
+
+            _init.Info.SignalInfo(_init.Router1.Radius, _init.Router2.Radius);
+            _init.Info.BrugerWiFi(_init.occupant.WiFiPosition2);
+            _init.Info.Brugerpos(_init.occupant.Position2);
+        }
+
         public void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Running = false;
