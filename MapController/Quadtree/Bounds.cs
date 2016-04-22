@@ -30,7 +30,7 @@ namespace TreeStructure
         public void InitializeBoundable(IBoundable boundable)
         {
             _boundable = boundable;
-            boundable.CalculateBoundCoords(_position, out BottomRight, out TopLeft);
+            boundable.CalculateBoundCoords(_position, out TopLeft, out BottomRight);
         }
         public bool Contains(Bounds bound)
         {
@@ -41,40 +41,15 @@ namespace TreeStructure
 
         public bool Intersects(Bounds bound)
         {
-            bool boundCheck = !((bound.BottomRight.x <= _position.x) ||
-                         (bound.BottomRight.y <= _position.y) ||
-                         (bound.TopLeft.x >= _position.x + Width) ||
-                         (bound.TopLeft.y >= _position.y + Height));
-            if (!boundCheck)
-            {
-                bool debug1 = (bound.BottomRight.x >= _position.x + Width);
-                bool debug2 = (bound.BottomRight.y >= _position.y + Height);
-                bool debug3 = (bound.TopLeft.x <= _position.x);
-                bool debug4 = (bound.TopLeft.y <= _position.y);
-                boundCheck = !(debug1 || debug2 || debug3 || debug4);
-            }
-            return boundCheck;
-            /*
-            if (bound._boundable?.GetType() == typeof (VectorSearchQuery))
-            {
-                bool debug1 = !(bound.BottomRight.x <= _position.x);
-                bool debug2 = !(bound.BottomRight.y <= _position.y);
-                bool debug3 = !(bound.TopLeft.x >= _position.x + Width);
-                bool debug4 = !(bound.TopLeft.y >= _position.y + Height);
-                bool debug1 = (bound.BottomRight.x >= _position.x + Width);
-                bool debug2 = (bound.BottomRight.y >= _position.y + Height);
-                bool debug3 = (bound.TopLeft.x <= _position.x);
-                bool debug4 = (bound.TopLeft.y <= _position.y);
-                return !(debug1 || debug2 || debug3 || debug4);
-                //return true;
-            }
-            else
-            {
-                return !((bound.BottomRight.x <= _position.x) ||
-                         (bound.BottomRight.y <= _position.y) ||
-                         (bound.TopLeft.x >= _position.x + Width) ||
-                         (bound.TopLeft.y >= _position.y + Height));
-            } */
+            BottomRight = new Coords(_position.x + Width, _position.y + Height);
+            TopLeft = new Coords(_position.x, _position.y);
+
+            bool boundCheck = !((bound.BottomRight.y < TopLeft.y) || (bound.TopLeft.y > BottomRight.y) ||
+                               (bound.BottomRight.x < TopLeft.x) || (bound.TopLeft.x > BottomRight.x));
+
+            bool boundCheck2 = ((bound.BottomRight.x > BottomRight.x) || (bound.BottomRight.y > BottomRight.y));
+
+            return boundCheck || boundCheck2;
         }
     }
 }

@@ -11,15 +11,15 @@ namespace LightControl
     public class DALIController
     {
         public List<LightingUnit> AllLights;
-        List<LightingUnit>[] groups = new List<LightingUnit>[17];
+        List<LightingUnit>[] _groups = new List<LightingUnit>[17];
         public List<LightingUnit> UntouchedLights = new List<LightingUnit>();
-        List<LightingUnit> LightsOff = new List<LightingUnit>();
-        public double[] scenes = new double[16] {25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100};
+        public double[] scenes = new double[16] {0, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100};
+
 
         
-        static double totalWattUsage = 0;
-        double stepInterval = 0.01; //intervallet hvormed der bliver ændret ved stepUp og stepDown
-        double fadeRate = 0.005;
+        static double _totalWattUsage = 0;
+        double _stepInterval = 0.01; //intervallet hvormed der bliver ændret ved stepUp og stepDown
+        double _fadeRate = 0.005;
 
         public DALIController(List<LightingUnit> AllLightsInSystem)
         {
@@ -28,10 +28,10 @@ namespace LightControl
 
         public void RemoveUnitFromAllGroups(LightingUnit UnitToRemove)
         {
-            foreach (var item in groups)
+            foreach (List<LightingUnit> group in _groups)
             {
-                if(item.Contains(UnitToRemove))
-                    item.Remove(UnitToRemove);
+                if(group.Contains(UnitToRemove))
+                    group.Remove(UnitToRemove);
             }
             UnitToRemove.ForcedLightlevel = 0;
             UntouchedLights.Add(UnitToRemove);
@@ -41,10 +41,10 @@ namespace LightControl
         public void RemoveUnitFromGroup(LightingUnit UnitToRemove, int GroupToRemoveFrom)
         {
             bool GroupsAreClear = true;
-            groups[GroupToRemoveFrom].Remove(UnitToRemove);
-            foreach (var item in groups)
+            _groups[GroupToRemoveFrom].Remove(UnitToRemove);
+            foreach (List<LightingUnit> group in _groups)
             {
-                if (item.Contains(UnitToRemove))
+                if (group.Contains(UnitToRemove))
                 {
                     GroupsAreClear = false;
                 }
@@ -59,7 +59,7 @@ namespace LightControl
 
         public void Extinguishgroup(int groupnumber)
         {
-            foreach (var Unit in groups[groupnumber])
+            foreach (LightingUnit Unit in _groups[groupnumber])
             {
                 Unit.Extinguish();
             }
@@ -67,7 +67,7 @@ namespace LightControl
 
         public void TurnOnGroup(int groupnumber)
         {
-            foreach (var Unit in groups[groupnumber])
+            foreach (LightingUnit Unit in _groups[groupnumber])
             {
                 Unit.TurnOn();
             }
@@ -75,7 +75,7 @@ namespace LightControl
 
         public void GroupGoToScene(int groupNumber, double scene)
         {
-            foreach (var Unit in groups[groupNumber])
+            foreach (LightingUnit Unit in _groups[groupNumber])
             {
                 AddressGoToScene(Unit, scene);
             }
@@ -83,7 +83,7 @@ namespace LightControl
 
         public void BroadcastOnAllUnits()
         {
-            foreach (var Unit in AllLights)
+            foreach (LightingUnit Unit in AllLights)
             {
                 AddUnitToGroup(Unit, 16);
             }
@@ -91,13 +91,8 @@ namespace LightControl
 
         public void ClearGroup(int groupNumber)
         {
-            UntouchedLights.AddRange(groups[groupNumber]);
-            foreach (var item in UntouchedLights)
-            {
-                Console.WriteLine(item.Address);
-            }
-
-            groups[groupNumber].Clear();
+            UntouchedLights.AddRange(_groups[groupNumber]);
+            _groups[groupNumber].Clear();
         }
 
         public void ClearBroadcastGroup()
@@ -107,9 +102,9 @@ namespace LightControl
 
         public void ClearAllGroups()
         {
-            foreach (var item in groups)
+            foreach (List<LightingUnit> group in _groups)
             {
-                item.Clear();
+                group.Clear();
             }
             UntouchedLights.Clear();
             UntouchedLights.AddRange(AllLights);
@@ -123,15 +118,15 @@ namespace LightControl
         public void InitGroups()
         {
             UntouchedLights.AddRange(AllLights);
-            for (int i = 0; i <= groups.Length-1; i++)
+            for (int i = 0; i <= _groups.Length-1; i++)
             {
-                groups[i] = new List<LightingUnit>();
+                _groups[i] = new List<LightingUnit>();
             }
         }
 
-        public LightingUnit findUnitWithAddress(int AddressToFind)
+        public LightingUnit FindUnitWithAddress(int AddressToFind)
         {
-            var index = AllLights.FindIndex(a => a.Address == AddressToFind);
+            int index = AllLights.FindIndex(a => a.Address == AddressToFind);
             Console.WriteLine(index);
             return AllLights[index];       
         }
@@ -140,14 +135,14 @@ namespace LightControl
         {
             bool AddUnit = true;
 
-            if (groups[groupNumber].Contains(UnitToAdd))
+            if (_groups[groupNumber].Contains(UnitToAdd))
             {
                 AddUnit = false;
             }
 
             if (AddUnit == true)
             {
-                groups[groupNumber].Add(UnitToAdd);
+                _groups[groupNumber].Add(UnitToAdd);
             }
 
             UntouchedLights.Remove(UnitToAdd);
@@ -156,66 +151,66 @@ namespace LightControl
         public void IncrementLights(List<LightingUnit> NewLightList)
         {
 
-            foreach (var item in AllLights)
+            foreach (LightingUnit Unit in AllLights)
             {
-                totalWattUsage += item.getWattUsageForLightUnitInHours();
+                _totalWattUsage += Unit.getWattUsageForLightUnitInHours();
             }
 
-            foreach (var group in groups)
+            foreach (List<LightingUnit> group in _groups)
             {
-                foreach (var item in group)
+                foreach (LightingUnit Unit in group)
                 {
 
-                    if (item.IsUnitOn == false)
+                    if (Unit.IsUnitOn == false)
                     {
-                        item.LightingLevel = 0;
+                        Unit.LightingLevel = 0;
                     }
 
-                    else if (item.LightingLevel < item.minLevel && item.wantedLightLevel > 0)
+                    else if (Unit.LightingLevel < Unit.minLevel && Unit.wantedLightLevel > 0)
                     {
-                        item.LightingLevel = item.minLevel;
+                        Unit.LightingLevel = Unit.minLevel;
                     }
 
-                    else if (item.LightingLevel > item.ForcedLightlevel)
+                    else if (Unit.LightingLevel > Unit.ForcedLightlevel)
                     {
-                        item.LightingLevel = item.LightingLevel - fadeRate;
+                        Unit.LightingLevel = Unit.LightingLevel - _fadeRate;
                     }
 
-                    else if (item.LightingLevel < item.ForcedLightlevel)
+                    else if (Unit.LightingLevel < Unit.ForcedLightlevel)
                     {
-                        item.LightingLevel = item.LightingLevel + stepInterval;
+                        Unit.LightingLevel = Unit.LightingLevel + _stepInterval;
                     }
 
                     else
                     {
-                        item.LightingLevel = item.ForcedLightlevel;
+                        Unit.LightingLevel = Unit.ForcedLightlevel;
                     }
                 }
             }
-            foreach (var item in UntouchedLights)
+            foreach (LightingUnit Unit in UntouchedLights)
             {
-                if (item.IsUnitOn == false)
+                if (Unit.IsUnitOn == false)
                 {
-                    item.LightingLevel = 0;
+                    Unit.LightingLevel = 0;
                 }
 
-                else if (item.LightingLevel < item.minLevel && item.wantedLightLevel > 0)
+                else if (Unit.LightingLevel < Unit.minLevel && Unit.wantedLightLevel > 0)
                 {
-                    item.LightingLevel = item.minLevel;
+                    Unit.LightingLevel = Unit.minLevel;
                 }
 
-                else if (item.LightingLevel > item.wantedLightLevel)
+                else if (Unit.LightingLevel > Unit.wantedLightLevel)
                 {
-                    item.LightingLevel = item.LightingLevel - fadeRate;
+                    Unit.LightingLevel = Unit.LightingLevel - _fadeRate;
                 }
 
-                else if (item.LightingLevel < item.wantedLightLevel)
+                else if (Unit.LightingLevel < Unit.wantedLightLevel)
                 {
-                    item.LightingLevel = item.LightingLevel + stepInterval;
+                    Unit.LightingLevel = Unit.LightingLevel + _stepInterval;
                 }
                 else
                 {
-                    item.LightingLevel = item.wantedLightLevel;
+                    Unit.LightingLevel = Unit.wantedLightLevel;
                 }
             }
 
@@ -224,7 +219,7 @@ namespace LightControl
 
         public double Wattusage()
         {
-            return totalWattUsage;
+            return _totalWattUsage;
         }
     }
 }

@@ -9,6 +9,6 @@ namespace MapController.Quadtree
 {
     public interface IBoundable
     {
-        void CalculateBoundCoords(Coords Position, out Coords BottomRight, out Coords Topleft);
+        void CalculateBoundCoords(Coords Position, out Coords TopLeft, out Coords BottomRight);
     }
 }

@@ -60,6 +60,8 @@
     <Compile Include="Quadtree\QuadTreecs.cs" />
     <Compile Include="Quadtree\QuadTreeNode.cs" />
     <Compile Include="Quadtree\Query.cs" />
+    <Compile Include="Quadtree\RadiusSeachQuery.cs" />
+    <Compile Include="Quadtree\VectorSearchQuery.cs" />
     <Compile Include="SimEnvironment\Collision.cs" />
     <Compile Include="SimEnvironment\ControlPanel.cs" />
     <Compile Include="SimEnvironment\GraphicsDraw.cs" />
@@ -95,6 +97,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
