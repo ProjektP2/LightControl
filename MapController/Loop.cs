@@ -72,7 +72,7 @@ namespace LightControl
 
         public void DisplayInfo()
         {
-            _init.Info.WattUsageInfo(_init.Controller.Wattusage());
+            _init.Info.WattUsageInfo(_init.Controller);
 
             _init.Info.SignalInfo(_init.Router1.Radius, _init.Router2.Radius);
             _init.Info.BrugerWiFi(_init.occupant.WiFiPosition2);

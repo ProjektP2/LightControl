@@ -114,13 +114,56 @@ namespace LightControl
             Router2.Text = ("Router 2: " + radius2.ToString("F2"));
         }
 
-        public void WattUsageInfo(double WattsUsed)
+        double FirstMeassurementOfWattUsage;
+        double SecondMeassurementOfWattUsage;
+        double FirstMeassurementOfMaxWattUsage;
+        double SecondMeassurementOfMaxWattUsage;
+        double Increase;
+        double IncreaseAtMax;
+        long NewStartTime = Environment.TickCount;
+
+        public void WattUsageInfo(DALIController Control)
         {
             if (Environment.TickCount >= startTime + 100)
             {
-                watts.Text =("Total watt usage: " + WattsUsed.ToString("F2"));
+                double MaxUsage = CalculateWattUsageAtMax(Control);
+                double WattUsage = Control.GetTotalWattusage();
+                watts.Text = string.Format("Total watt usage: {0}, Current Increase: +{1}" + Environment.NewLine
+                                           + "Total watt at max: {2}, Current Increase +{3}", WattUsage.ToString("F2"), 
+                                           Increase.ToString("F2"), MaxUsage.ToString("F2"), IncreaseAtMax.ToString("F2"));
+                if(Environment.TickCount >= NewStartTime + 2000)
+                {
+                    CalculateIncreaseInWattUsageMAX(Control);
+                    CalculateIncreaseInWattUsageREGULAR(Control);
+                    NewStartTime = Environment.TickCount;
+                }
+
                 startTime = Environment.TickCount;
+
             }
+        }
+
+        private void CalculateIncreaseInWattUsageMAX(DALIController Control)
+        {
+            FirstMeassurementOfMaxWattUsage = SecondMeassurementOfMaxWattUsage;
+            SecondMeassurementOfMaxWattUsage = CalculateWattUsageAtMax(Control);
+            IncreaseAtMax = SecondMeassurementOfMaxWattUsage - FirstMeassurementOfMaxWattUsage;
+        }
+
+        private void CalculateIncreaseInWattUsageREGULAR(DALIController Control)
+        {
+            FirstMeassurementOfWattUsage = SecondMeassurementOfWattUsage;
+            SecondMeassurementOfWattUsage = Control.GetTotalWattusage();
+            Increase = SecondMeassurementOfWattUsage - FirstMeassurementOfWattUsage;
+        }
+
+        public double CalculateWattUsageAtMax(DALIController Control)
+        {
+            DateTime NewTime = DateTime.Now;
+            TimeSpan WattInterval = NewTime - Control.TimeOfCreation;
+            double wattUsageAtMax = WattInterval.TotalHours * 1 * 240;
+            double wattUsageAtMaxForAllLights = wattUsageAtMax * Control.AllLights.Count();
+            return wattUsageAtMaxForAllLights;
         }
     }
 }
