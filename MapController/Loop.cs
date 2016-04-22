@@ -44,8 +44,7 @@ namespace LightControl
                 Position();
                 UpdateLights();
                 DisplayInfo();
-                _init.gEngine.Drawing(_init.occupant.Position2, _init.LightUnitCoordinates,
-                                                _init.Router1, _init.Router2);
+                DrawEverything();
             }
         }
 
@@ -61,11 +60,12 @@ namespace LightControl
 
         public void UpdateLights()
         {
-            Query query = new RadiusSearchQuery(100, _init.Bound, _init.Tree);
-            StartTreeSearch startSearch = new StartTreeSearch();
-            _init.NyList = startSearch.SearchQuery(new Coords(_init.occupant.WiFiPosition1.x, _init.occupant.WiFiPosition1.y), query);
+            Query radiusQuery = new RadiusSearchQuery(100, _init.Bound, _init.Tree);
+            Query vectorQuery = new VectorSearchQuery(_init.Bound, _init.Tree, _init.occupant, _init.ActivateLights);
+            StartTreeSearch startSearch = new StartTreeSearch(_init.Tree);
+            _init.NyList = startSearch.SearchQuery(new Coords(_init.occupant.WiFiPosition1.x, _init.occupant.WiFiPosition1.y), radiusQuery, vectorQuery);
 
-            _init.ActivateLights.FindUnitsToActivate(_init.LightUnitCoordinates, _init.occupant);
+            _init.ActivateLights.FindUnitsToActivate(_init.NyList, _init.occupant);
 
             _init.Controller.IncrementLights(_init.LightUnitCoordinates);
         }
@@ -77,6 +77,12 @@ namespace LightControl
             _init.Info.SignalInfo(_init.Router1.Radius, _init.Router2.Radius);
             _init.Info.BrugerWiFi(_init.occupant.WiFiPosition2);
             _init.Info.Brugerpos(_init.occupant.Position2);
+        }
+
+        public void DrawEverything()
+        {
+            _init.gEngine.Drawing(_init.occupant.Position2, _init.LightUnitCoordinates,
+                                                _init.Router1, _init.Router2);
         }
 
         public void Form1_FormClosing(object sender, FormClosingEventArgs e)
