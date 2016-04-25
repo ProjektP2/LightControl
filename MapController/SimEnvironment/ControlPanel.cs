@@ -65,8 +65,8 @@ namespace MapController.SimEnvironment
             Point LocalMousePosition = SimulationRoom.PointToClient(Cursor.Position);
             foreach (var VARIABLE in light)
             {
-                if (VARIABLE.x <= LocalMousePosition.X + 2 && VARIABLE.x >= LocalMousePosition.X - 2
-                    && VARIABLE.y <= LocalMousePosition.Y + 2 && VARIABLE.y >= LocalMousePosition.Y - 2)
+                if (VARIABLE.x <= LocalMousePosition.X + 10 && VARIABLE.x >= LocalMousePosition.X - 10
+                    && VARIABLE.y <= LocalMousePosition.Y + 10 && VARIABLE.y >= LocalMousePosition.Y - 10)
                 {
                     l.Text = "Current Ligting Unit: " + VARIABLE.Address;
                     if(CheckBoxes[VARIABLE.Address].Checked == false)
