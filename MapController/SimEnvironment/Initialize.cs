@@ -18,6 +18,7 @@ namespace MapController.SimEnvironment
 
         #region Fields and Properties
         private Form Window;
+        PictureBox SimulationRoom = new PictureBox();
         public Bitmap Map = new Bitmap("Map3.png");
         public Circle Router1 = new Circle(0, 100);
         public Circle Router2 = new Circle(0, 300);
@@ -94,6 +95,13 @@ namespace MapController.SimEnvironment
             Triangulate = new Triangulation(Router1, Router2);
             ActivateLights = new DetermineLightsToActivate(200, 60, 400, Triangulate);
 
+            SimulationRoom.Width = GEngine.SimulationWidht;
+            SimulationRoom.Height = GEngine.SimulationWidht;
+            SimulationRoom.Location = new Point((Form1.width / 2) - (GEngine.SimulationWidht / 2), (Form1.height / 2) - (GEngine.SimulationWidht / 2));
+            SimulationRoom.Visible = true;
+            SimulationRoom.Show();
+            Window.Controls.Add(SimulationRoom);
+
         }
         
         private void CreateLightUnit()
@@ -106,11 +114,11 @@ namespace MapController.SimEnvironment
         {
             //Initializations
             _occupant = new Occupant(Map, Window, 'W', 'S', 'A', 'D');
-            gEngine = new GEngine(Window, Map);
+            gEngine = new GEngine(Window, Map, SimulationRoom);
             CreateLightUnit();
             Controller = new DALIController(LightUnitCoordinates);
             Controller.InitGroups();
-            ControlPanel = new ControlPanel(Window, Controller, LightUnitCoordinates);
+            ControlPanel = new ControlPanel(Window, Controller, LightUnitCoordinates, SimulationRoom);
 
             //Draw info
             Info = new InfoDrawing(Window);
