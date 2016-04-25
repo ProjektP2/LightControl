@@ -60,14 +60,23 @@ namespace MapController.SimEnvironment
 
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
-
+            l.Location = new Point(0, _buttons[2].Location.Y - _buttonHeight * 2);
+            l.AutoSize = true;
             Point LocalMousePosition = SimulationRoom.PointToClient(Cursor.Position);
             foreach (var VARIABLE in light)
             {
                 if (VARIABLE.x <= LocalMousePosition.X + 2 && VARIABLE.x >= LocalMousePosition.X - 2
                     && VARIABLE.y <= LocalMousePosition.Y + 2 && VARIABLE.y >= LocalMousePosition.Y - 2)
                 {
-                    l.Text = "" + VARIABLE.Address;
+                    l.Text = "Current Ligting Unit: " + VARIABLE.Address;
+                    if(CheckBoxes[VARIABLE.Address].Checked == false)
+                    {
+                        CheckBoxes[VARIABLE.Address].Checked = true;
+                    }
+                    else if(CheckBoxes[VARIABLE.Address].Checked == true)
+                    {
+                        CheckBoxes[VARIABLE.Address].Checked = false;
+                    }
                 }
             }
         }
@@ -151,10 +160,7 @@ namespace MapController.SimEnvironment
             _buttons[2].Click += new EventHandler(CallBroadCast);
 
 
-            foreach (var item in CheckBoxes)
-            {
-                item.Visible = false;
-            }
+            clearCheckBoxes();
             _FinishAddressChoice.Visible = false;
             BackButton.Visible = false;
         }
@@ -196,10 +202,7 @@ namespace MapController.SimEnvironment
                 _currentUnitIds.Add(index);
             }
 
-            foreach (var item in CheckBoxes)
-            {
-                item.Visible = false;
-            }
+            clearCheckBoxes();
             _FinishAddressChoice.Visible = false;
             CallOnAdressActions();
         }
@@ -211,10 +214,6 @@ namespace MapController.SimEnvironment
 
         private void BackButtonPress(object sender, EventArgs e)
         {
-            foreach (var item in CheckBoxes)
-            {
-                item.Visible = false;
-            }
             RemoveClickEvents();
             SetUpFirstButtons();
         }
@@ -521,6 +520,14 @@ namespace MapController.SimEnvironment
 
         }
 
+        private void clearCheckBoxes()
+        {
+            foreach (CheckBox Checkbox in CheckBoxes)
+            {
+                Checkbox.Checked = false;
+                Checkbox.Visible = false;
+            }
+        }
 
         private int FindNumberOfLightsPerRow()
         {
