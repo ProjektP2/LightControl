@@ -13,10 +13,11 @@ namespace SimEnvironment
     public class GEngine
     {
         #region Constructors
-        public GEngine(Form form, Bitmap map)
+        public GEngine(Form form, Bitmap map, PictureBox simulationRoom)
         {
             window = form;
             Map = map;
+            SimulationRoom = simulationRoom;
         }
         #endregion
 
@@ -31,13 +32,14 @@ namespace SimEnvironment
 
         public Bitmap Map;
         public Form window;
+        public PictureBox SimulationRoom;
 
         #endregion
 
         #region Methods
         public void init()
         {
-            graphicsDraw = new GraphicsDraw(window, Map);
+            graphicsDraw = new GraphicsDraw(window, Map, SimulationRoom);
             FpsCounter = new Fps();
         }
 
