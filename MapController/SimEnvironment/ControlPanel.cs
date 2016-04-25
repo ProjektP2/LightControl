@@ -20,7 +20,6 @@ namespace MapController.SimEnvironment
     {
         Form window;
         DALIController DALIController;
-        List<LightingUnit> AllLights;
         List<Button> _buttons;
         NumericUpDown _textBoxForInput;
         Button ExtraButton;
@@ -39,7 +38,6 @@ namespace MapController.SimEnvironment
         {
             window = form;
             DALIController = Controller;
-            AllLights = Lights;
             InitializeControlPanelButtons();
         }
 

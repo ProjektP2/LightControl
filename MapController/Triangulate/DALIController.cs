@@ -16,7 +16,7 @@ namespace LightControl
         public double[] scenes = new double[16] {0, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100};
 
 
-        
+        public DateTime TimeOfCreation;
         static double _totalWattUsage = 0;
         double _stepInterval = 0.01; //intervallet hvormed der bliver ændret ved stepUp og stepDown
         double _fadeRate = 0.005;
@@ -24,6 +24,7 @@ namespace LightControl
         public DALIController(List<LightingUnit> AllLightsInSystem)
         {
             AllLights = AllLightsInSystem;
+            TimeOfCreation = DateTime.Now;
         }
 
         public void RemoveUnitFromAllGroups(LightingUnit UnitToRemove)
@@ -216,10 +217,11 @@ namespace LightControl
 
         }
 
-
-        public double Wattusage()
+        public double GetTotalWattusage()
         {
             return _totalWattUsage;
         }
+
+
     }
 }
