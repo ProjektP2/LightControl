@@ -14,7 +14,7 @@ namespace LightControl
         // 32px = 1meter
         public int Height { get; private set; }
         public int Width { get; private set; }
-        public double PixelDensity { get; set; }
+        public int PixelDensity { get; set; }
 
         public LightUnitsCoords(int height, int width, int pixelDensity) 
         {
@@ -22,10 +22,10 @@ namespace LightControl
             Width = width;
             PixelDensity = pixelDensity;
         }
-        public void GetLightUnitCoords(ref List<LightingUnit> lightUnitCoords)
+        public void GetLightUnitCoords(List<LightingUnit> lightUnitCoords)
         {
-            for (int y = 32; y < Height-32; y++)
-                for (int x = 32; x < Width-32; x++)
+            for (int y = PixelDensity; y < Height-PixelDensity; y++)
+                for (int x = PixelDensity; x < Width-PixelDensity; x++)
                     if (CheckCoords(x,y))
                             lightUnitCoords.Add(new LightingUnit(x, y));
         }

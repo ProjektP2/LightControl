@@ -8,7 +8,7 @@ using LightControl;
 using NUnit.Framework;
 using Triangulering;
 
-namespace TriangulationTest
+namespace LightControlTest
 {
     [TestFixture]
     class DetermineLightsToActivateTest
