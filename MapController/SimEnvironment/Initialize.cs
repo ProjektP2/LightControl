@@ -36,6 +36,7 @@ namespace MapController.SimEnvironment
             set { _bound = value; }
         }
 
+        private LightUnitsCoords unitList;
         private DALIController _controller;
         public DALIController Controller {
             get { return _controller; }
@@ -97,7 +98,7 @@ namespace MapController.SimEnvironment
         
         private void CreateLightUnit()
         {
-            LightUnitsCoords unitList = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30);
+            unitList = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30);
             LightUnitCoordinates = new List<LightingUnit>();
             unitList.GetLightUnitCoords(ref LightUnitCoordinates);
         }
