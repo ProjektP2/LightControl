@@ -196,15 +196,20 @@ namespace MapController.SimEnvironment
 
         private void DoneChoosingAddresses(object sender, EventArgs e)
         {
-            foreach (CheckBox checkBox in window.Controls.OfType<CheckBox>().Where(c => c.Checked))
+            bool IsnotEmpty = false;
+            foreach (CheckBox checkBox in CheckBoxes.Where(c => c.Checked))
             {
                 int index = Int32.Parse(checkBox.Text);
                 _currentUnitIds.Add(index);
+                IsnotEmpty = true;
             }
 
-            clearCheckBoxes();
-            _FinishAddressChoice.Visible = false;
-            CallOnAdressActions();
+            if (IsnotEmpty == true)
+            {
+                clearCheckBoxes();
+                _FinishAddressChoice.Visible = false;
+                CallOnAdressActions();
+            }
         }
 
         private void AddAllUnitsToBroadcast(object sender, EventArgs e)
@@ -253,6 +258,7 @@ namespace MapController.SimEnvironment
 
             foreach (var item in CheckBoxes)
             {
+                item.Checked = false;
                 item.Visible = true;
             }
             _FinishAddressChoice.Visible = true;
