@@ -99,7 +99,7 @@ namespace MapController.SimEnvironment
         {
             LightUnitsCoords unitList = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30);
             LightUnitCoordinates = new List<LightingUnit>();
-            unitList.GetLightUnitCoords(ref LightUnitCoordinates);
+            unitList.GetLightUnitCoords(LightUnitCoordinates);
         }
         public void Start()
         {

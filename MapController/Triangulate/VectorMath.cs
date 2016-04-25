@@ -84,10 +84,6 @@ namespace Triangulering
 
         public static Coords projectionLength(Coords Light, Coords ScalledVector, Coords occupant)
         {
-            //A = lys B1,B2
-            //B = move B4,B5
-            // ((B1*B4)+(B2*B5))/(SQRT(B4^2+B5^2))^2
-            
             Coords Vector = new Coords();
             Coords LightVector = new Coords();
             LightVector = SubtractVectors(Light,occupant);
