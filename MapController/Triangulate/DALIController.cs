@@ -167,7 +167,7 @@ namespace LightControl
                         Unit.LightingLevel = 0;
                     }
 
-                    else if (Unit.LightingLevel < Unit.minLevel && Unit.wantedLightLevel > 0)
+                    else if (Unit.LightingLevel < Unit.minLevel && Unit.ForcedLightlevel > 0)
                     {
                         Unit.LightingLevel = Unit.minLevel;
                     }
@@ -215,6 +215,29 @@ namespace LightControl
                 }
             }
 
+            ResetWantedLightLevels();
+            UpdateUntouchedLights();
+        }
+
+        private void UpdateUntouchedLights()
+        {
+            IEnumerable<LightingUnit> q = AllLights;
+
+            foreach (List<LightingUnit> Group in _groups)
+            {
+                q = q.Except(Group);
+            }
+
+            UntouchedLights = q.ToList();
+
+        }
+
+        private void ResetWantedLightLevels()
+        {
+            foreach (LightingUnit Light in AllLights)
+            {
+                Light.wantedLightLevel = 0;
+            }
         }
 
         public double GetTotalWattusage()

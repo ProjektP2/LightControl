@@ -20,10 +20,14 @@ namespace MapController.SimEnvironment
     {
         Form window;
         DALIController DALIController;
+        LightUnitsCoords LightCoords;
         List<Button> _buttons;
-        NumericUpDown _textBoxForInput;
+        List<CheckBox> CheckBoxes;
         Button ExtraButton;
-        int _currentAddress;
+        Button BackButton;
+        Button _FinishAddressChoice;
+        List<int> _currentUnitIds;
+        int NumberOfLightsPerRow;
         int _currentGroup;
         int _startButtonY;
         int _startButtonX;
@@ -39,15 +43,17 @@ namespace MapController.SimEnvironment
             window = form;
             DALIController = Controller;
             InitializeControlPanelButtons();
+            _currentUnitIds = new List<int>();
         }
 
         public void InitializeControlPanelButtons()
         {
+            NumberOfLightsPerRow = FindNumberOfLightsPerRow();
             _boundX = (window.Width/2-GEngine.SimulationWidht/2);
             _buttonHeight = window.Height / 33;
             _startButtonX = _boundX / 25;
             _startButtonY = window.Height / 7;
-            _buttonLength = _boundX/ 5;
+            _buttonLength = _boundX/ 5 + 5;
             _newstartButtonX = _startButtonX;
             _newStartButtonY = _startButtonY;
             _buttons = new List<Button>();
@@ -57,10 +63,11 @@ namespace MapController.SimEnvironment
                 {
                     Button _newButton = new Button();
                     _buttons.Add(_newButton);
-                    _newButton.Location = new System.Drawing.Point(_newstartButtonX, _newStartButtonY);
-                    _newButton.Size = new System.Drawing.Size(_buttonLength, _buttonHeight);
+                    _newButton.Location = new Point(_newstartButtonX, _newStartButtonY);
+                    _newButton.Size = new Size(_buttonLength, _buttonHeight);
                     window.Controls.Add(_newButton);
-                    double DistanceBetweenButtonsHorisontally = _buttonLength * 1.2;
+
+                    double DistanceBetweenButtonsHorisontally = _buttonLength * 1.2 - 5;
                     _newstartButtonX += (int)Math.Floor(DistanceBetweenButtonsHorisontally);
                     _newButton.Visible = false;
                 }
@@ -73,8 +80,25 @@ namespace MapController.SimEnvironment
             ExtraButton.Size = new Size(_buttonLength, _buttonHeight);
             window.Controls.Add(ExtraButton);
             ExtraButton.Visible = false;
+
+            _FinishAddressChoice = new Button();
+            _FinishAddressChoice.Location = new Point(_buttons[2].Location.X, _buttons[2].Location.Y - _buttonHeight * 2);
+            _FinishAddressChoice.Text = "Done";
+            _FinishAddressChoice.Size = new Size(_buttonLength, _buttonHeight);
+            window.Controls.Add(_FinishAddressChoice);
+            _FinishAddressChoice.Click += new EventHandler(DoneChoosingAddresses);
+            _FinishAddressChoice.Visible = false;
+
+            BackButton = new Button();
+            BackButton.Location = new Point(_buttons[3].Location.X, _buttons[3].Location.Y - _buttonHeight* 2);
+            BackButton.Size = new Size(_buttonLength, _buttonHeight);
+            BackButton.Text = "Back";
+            BackButton.Click += new EventHandler(BackButtonPress);
+            window.Controls.Add(BackButton);
+            InitializeCheckBoxes();
+
             SetUpFirstButtons();
-            _textBoxForInput.Location = new Point(_startButtonX, _startButtonY);
+
         }
 
 
@@ -95,20 +119,62 @@ namespace MapController.SimEnvironment
             _buttons[1].Text = "Call Group";
             _buttons[2].Text = "Broadcast";
 
-            _textBoxForInput = InitializeTextBox();
-
             _buttons[0].Click += new EventHandler(CallAddress);
             _buttons[1].Click += new EventHandler(CallGroup);
             _buttons[2].Click += new EventHandler(CallBroadCast);
+
+
+            foreach (var item in CheckBoxes)
+            {
+                item.Visible = false;
+            }
+            _FinishAddressChoice.Visible = false;
+            BackButton.Visible = false;
         }
 
-        private NumericUpDown InitializeTextBox()
+        private void InitializeCheckBoxes()
         {
-            NumericUpDown CreatedTextBox = new NumericUpDown();
-            window.Controls.Add(CreatedTextBox);
-            CreatedTextBox.Visible = false;
-            CreatedTextBox.Maximum = DALIController.AllLights.Count();
-            return CreatedTextBox;
+            CheckBoxes = new List<CheckBox>();
+            int currentIndex = 0;
+            int _newCheckBoxX = 0;
+            int _newCheckBoxY = _startButtonY;
+
+            for (int i = 0; i < Math.Ceiling((Double)DALIController.AllLights.Count()/NumberOfLightsPerRow); i++)
+            {
+                for (int j = 0; j < NumberOfLightsPerRow && currentIndex <= DALIController.AllLights.Count()-1; j++)
+                {
+                    CheckBox _newCheckBox = new CheckBox();
+                    _newCheckBox.Width = _boundX / NumberOfLightsPerRow;
+                    _newCheckBox.Font = new Font(_newCheckBox.Font.FontFamily, 4);
+                    _newCheckBox.Text = currentIndex.ToString();
+                    window.Controls.Add(_newCheckBox);
+                    _newCheckBox.Location = new Point(_newCheckBoxX, _newCheckBoxY);
+                    _newCheckBoxX += _newCheckBox.Width;
+                    _newCheckBox.Visible = false;
+                    CheckBoxes.Add(_newCheckBox);
+                    currentIndex++;
+                }
+                _newCheckBoxX = 0;
+                _newCheckBoxY += _buttonHeight;
+            }
+
+            
+        }
+
+        private void DoneChoosingAddresses(object sender, EventArgs e)
+        {
+            foreach (CheckBox checkBox in window.Controls.OfType<CheckBox>().Where(c => c.Checked))
+            {
+                int index = Int32.Parse(checkBox.Text);
+                _currentUnitIds.Add(index);
+            }
+
+            foreach (var item in CheckBoxes)
+            {
+                item.Visible = false;
+            }
+            _FinishAddressChoice.Visible = false;
+            CallOnAdressActions();
         }
 
         private void AddAllUnitsToBroadcast(object sender, EventArgs e)
@@ -116,11 +182,22 @@ namespace MapController.SimEnvironment
             DALIController.BroadcastOnAllUnits();
         }
 
+        private void BackButtonPress(object sender, EventArgs e)
+        {
+            foreach (var item in CheckBoxes)
+            {
+                item.Visible = false;
+            }
+            RemoveClickEvents();
+            SetUpFirstButtons();
+        }
+
         private void CallBroadCast(object sender, EventArgs e)
         {
             RemoveClickEvents();
             _currentGroup = 16;
             CallOnBroadcastActions();
+            BackButton.Visible = true;
         }
 
         private void CallGroup(object sender, EventArgs e)
@@ -131,6 +208,7 @@ namespace MapController.SimEnvironment
             {
                 Button.Click += new EventHandler(SaveGroup);
             }
+            BackButton.Visible = true;
         }
         private void SaveGroup(object sender, EventArgs e)
         {
@@ -145,34 +223,14 @@ namespace MapController.SimEnvironment
             {
                 Button.Visible = false;
             }
-            _textBoxForInput.KeyPress += new KeyPressEventHandler(TextBoxForInput_KeyPress);
-            _textBoxForInput.Location = new Point(_startButtonX, _startButtonY + _buttonHeight);
-            _textBoxForInput.Visible = true;
-            _textBoxForInput.Enter += new EventHandler(TextBoxForInput_Entered);
-
             RemoveClickEvents();
-        }
 
-        private void TextBoxForInput_Entered(object sender, EventArgs e)
-        {
-            _textBoxForInput.ResetText();
-        }
-
-        private void TextBoxForInput_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter && _textBoxForInput.Value > _textBoxForInput.Maximum-1)
+            foreach (var item in CheckBoxes)
             {
-                _textBoxForInput.Value = 0;
+                item.Visible = true;
             }
-            else if (e.KeyChar == (char)Keys.Enter)
-            {
-                Console.WriteLine(_textBoxForInput.Maximum);
-                Console.WriteLine(_textBoxForInput.Value);
-                _textBoxForInput.Visible = false;
-                _currentAddress = Convert.ToInt32(_textBoxForInput.Value);
-
-                CallOnAdressActions();
-            }
+            _FinishAddressChoice.Visible = true;
+            BackButton.Visible = true;
         }
 
         private void ShowGroups()
@@ -227,45 +285,49 @@ namespace MapController.SimEnvironment
 
         private void RemoveAddressFromAllGroups(object sender, EventArgs e)
         {
-            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
-            DALIController.RemoveUnitFromAllGroups(CurrentUnit);
-            _currentAddress = -1;
+            foreach (int index in _currentUnitIds)
+            {
+                LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(index);
+                DALIController.RemoveUnitFromAllGroups(CurrentUnit);
+            }
+            _currentUnitIds.Clear();
             SetUpFirstButtons();
         }
 
         private void AddAddressToGroup(object sender, EventArgs e)
         {
-            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
-            DALIController.AddUnitToGroup(CurrentUnit, _buttons.IndexOf((Button)sender));
-            _currentAddress = -1;
+            foreach (int index in _currentUnitIds)
+            {
+                LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(index);
+                DALIController.AddUnitToGroup(CurrentUnit, _buttons.IndexOf((Button)sender));
+            }
+            _currentUnitIds.Clear();
             SetUpFirstButtons();
-
         }
 
         private void RemoveAddressFromGroup(object sender, EventArgs e)
         {
-            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
-            DALIController.RemoveUnitFromGroup(CurrentUnit, _buttons.IndexOf((Button)sender));
-            _currentAddress = -1;
+            foreach (int index in _currentUnitIds)
+            {
+                LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(index);
+                DALIController.RemoveUnitFromGroup(CurrentUnit, _buttons.IndexOf((Button)sender));
+            }
+            _currentUnitIds.Clear();
             SetUpFirstButtons();
         }
 
         private void AddressGoToScene(object sender, EventArgs e)
         {
-            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
-            DALIController.AddressGoToScene(CurrentUnit, DALIController.scenes[_buttons.IndexOf((Button)sender)]);
-            DALIController.AddUnitToGroup(CurrentUnit, 16);
-            _currentAddress = -1;
+            foreach (int index in _currentUnitIds)
+            {
+                LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(index);
+                DALIController.AddressGoToScene(CurrentUnit, DALIController.scenes[_buttons.IndexOf((Button)sender)]);
+                DALIController.AddUnitToGroup(CurrentUnit, 16);
+            }
+            _currentUnitIds.Clear();
             SetUpFirstButtons();
         }
 
-        private void ClearUnit(object sender, EventArgs e)
-        {
-            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
-            DALIController.RemoveUnitFromAllGroups(CurrentUnit);
-            _currentAddress = -1;
-            SetUpFirstButtons();
-        }
 
         private void ClearGroup(object sender, EventArgs e)
         {
@@ -275,9 +337,12 @@ namespace MapController.SimEnvironment
 
         private void ExtinguishUnit(object sender, EventArgs e)
         {
-            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
-            CurrentUnit.Extinguish();
-            _currentAddress = -1;
+            foreach (int index in _currentUnitIds)
+            {
+                LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(index);
+                CurrentUnit.Extinguish();
+            }
+            _currentUnitIds.Clear();
             SetUpFirstButtons();
         }
 
@@ -289,9 +354,12 @@ namespace MapController.SimEnvironment
 
         private void TurnUnitOn(object sender, EventArgs e)
         {
-            LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(_currentAddress);
-            CurrentUnit.TurnOn();
-            _currentAddress = -1;
+            foreach (int index in _currentUnitIds)
+            {
+                LightingUnit CurrentUnit = DALIController.FindUnitWithAddress(index);
+                CurrentUnit.TurnOn();
+            }
+            _currentUnitIds.Clear();
             SetUpFirstButtons();
         }
 
@@ -306,6 +374,7 @@ namespace MapController.SimEnvironment
             ShowScenes();
             foreach (Button Button in _buttons)
             {
+                Button.Click += new EventHandler(AddAllUnitsToBroadcast);
                 Button.Click += new EventHandler(GroupGoToScene);
             }
         }
@@ -336,7 +405,7 @@ namespace MapController.SimEnvironment
             _buttons[4].Click += new EventHandler(TurnUnitOn);
             _buttons[5].Visible = true;
             _buttons[5].Text = "Clear unit";
-            _buttons[5].Click += new EventHandler(ClearUnit);
+            _buttons[5].Click += new EventHandler(RemoveAddressFromAllGroups);
         }
 
         private void CallOnGroupActions()
@@ -374,7 +443,6 @@ namespace MapController.SimEnvironment
             _buttons[0].Visible = true;
             _buttons[0].Text = "Go to scene";
             _buttons[0].Click += new EventHandler(DisplayScenesForGroupToGoTo);
-            _buttons[0].Click += new EventHandler(AddAllUnitsToBroadcast);
             _buttons[1].Visible = true;
             _buttons[1].Text = "Extinguish";
             _buttons[1].Click += new EventHandler(ExtinguishGroup);
@@ -424,6 +492,21 @@ namespace MapController.SimEnvironment
             EventHandlerList list2 = (EventHandlerList)pi2.GetValue(ExtraButton, null);
             list2.RemoveHandler(obj2, list2[obj2]);
 
+        }
+
+
+        private int FindNumberOfLightsPerRow()
+        {
+            int LightCount = 0;
+            double firstUnitX = DALIController.AllLights[0].x;
+            foreach (var LightingUnit in DALIController.AllLights)
+            {
+                if(LightingUnit.x == firstUnitX)
+                {
+                    LightCount++;
+                }
+            }
+            return LightCount;
         }
     }
 }
