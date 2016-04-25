@@ -52,21 +52,13 @@ namespace SimEnvironment
         Form window;
         Stopwatch sw = new Stopwatch();
 
-        PictureBox pb = new PictureBox();
+        private PictureBox SimulationRoom;
 
-        Point SimulationPosition = new Point((Form1.width / 2) - (GEngine.SimulationWidht / 2), (Form1.height / 2) - (GEngine.SimulationWidht / 2));
-
-        public GraphicsDraw(Form form, Bitmap map)
+        public GraphicsDraw(Form form, Bitmap map, PictureBox simulationRoom)
         {
             Map = map;
             window = form;
-
-            pb.Width = GEngine.SimulationWidht;
-            pb.Height = GEngine.SimulationWidht;
-            pb.Location = SimulationPosition;
-            pb.Visible = true;
-            pb.Show();
-            window.Controls.Add(pb);
+            SimulationRoom = simulationRoom;
         }
         public void InitBitMaps()
         {
@@ -272,7 +264,7 @@ namespace SimEnvironment
             //Info Drawing
             G.DrawString("FPS:" + fps, window.Font, Brushes.Red, 590, 0);
             //Draw it to the window
-            pb.Image = BB;
+            SimulationRoom.Image = BB;
             DrawSignalRadius(G, router1, router2, point);
         }
 
