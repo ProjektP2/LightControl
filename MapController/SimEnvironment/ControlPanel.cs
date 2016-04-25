@@ -37,14 +37,41 @@ namespace MapController.SimEnvironment
         int _buttonHeight;
         int _buttonLength;
 
+        private PictureBox SimulationRoom;
+        private List<LightingUnit> light;
+        private Label l;
 
-        public ControlPanel(Form form, DALIController Controller, List<LightingUnit> Lights)
+
+        public ControlPanel(Form form, DALIController Controller, List<LightingUnit> Lights, PictureBox simulationRoom)
         {
             window = form;
+            SimulationRoom = simulationRoom;
+            light = Lights;
             DALIController = Controller;
             InitializeControlPanelButtons();
             _currentUnitIds = new List<int>();
+
+            SimulationRoom.MouseClick += new MouseEventHandler(this.Form1_MouseClick);
+            l = new Label();
+            l.Show();
+            l.Location = new Point(100, 100);
+            window.Controls.Add(l);
         }
+
+        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            Point LocalMousePosition = SimulationRoom.PointToClient(Cursor.Position);
+            foreach (var VARIABLE in light)
+            {
+                if (VARIABLE.x <= LocalMousePosition.X + 2 && VARIABLE.x >= LocalMousePosition.X - 2
+                    && VARIABLE.y <= LocalMousePosition.Y + 2 && VARIABLE.y >= LocalMousePosition.Y - 2)
+                {
+                    l.Text = "" + VARIABLE.Address;
+                }
+            }
+        }
+
 
         public void InitializeControlPanelButtons()
         {
