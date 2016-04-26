@@ -171,32 +171,38 @@ namespace SimEnvironment
         
         private void SetAlphaPixel(LightingUnit item, byte[] rgbValues, double volume, byte minTrasnparency)
         {
-            int PlaceInArray;
-            int Width = Light.Width;
-            double R = _radius * _radius;
-            double Cirklensligning, Alpha;
-            InitRectCorners(item);
-            double leftY = _rectCorners.TopLeftY;
-            double rightY = _rectCorners.BottomRightY;
-            double leftX = _rectCorners.TopLeftX;
-            double rightX = _rectCorners.BottomRightX;
-            for (double y = leftY; y < rightY; y++)
+            try
             {
-                double lasts = (y - item.y)*(y - item.y);
-                for (double x = leftX; x < rightX; x++)
+                int PlaceInArray;
+                int Width = Light.Width;
+                double R = _radius * _radius;
+                double Cirklensligning, Alpha;
+                InitRectCorners(item);
+                double leftY = _rectCorners.TopLeftY;
+                double rightY = _rectCorners.BottomRightY;
+                double leftX = _rectCorners.TopLeftX;
+                double rightX = _rectCorners.BottomRightX;
+                for (double y = leftY; y < rightY; y++)
                 {
-                    Cirklensligning = ((x - item.x) * (x - item.x)) + (lasts);
-                    if (Cirklensligning <= R)
+                    double lasts = (y - item.y) * (y - item.y);
+                    for (double x = leftX; x < rightX; x++)
                     {
-                        PlaceInArray = (int)(((y * Width * 4) + x * 4) + 3);
-                        Alpha = volume + (Math.Sqrt(Cirklensligning) * 2);
-                        if (Alpha > minTrasnparency)
-                            Alpha = minTrasnparency;
-                        else
-                            if (rgbValues[PlaceInArray] > (Byte)(Alpha))
+                        Cirklensligning = ((x - item.x) * (x - item.x)) + (lasts);
+                        if (Cirklensligning <= R)
+                        {
+                            PlaceInArray = (int)(((y * Width * 4) + x * 4) + 3);
+                            Alpha = volume + (Math.Sqrt(Cirklensligning) * 2);
+                            if (Alpha > minTrasnparency)
+                                Alpha = minTrasnparency;
+                            else
+                                if (rgbValues[PlaceInArray] > (Byte)(Alpha))
                                 rgbValues[PlaceInArray] = (Byte)(Alpha);
+                        }
                     }
                 }
+            }
+            catch (IndexOutOfRangeException)
+            {
             }
         }
 
