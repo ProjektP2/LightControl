@@ -93,7 +93,7 @@ namespace MapController.SimEnvironment
             _bound = new Bounds(new Coords(0,0), GEngine.SimulationWidht, GEngine.SimulationHeigt);
             _tree = new QuadTree(_bound);
             Triangulate = new Triangulation(Router1, Router2);
-            ActivateLights = new DetermineLightsToActivate(200, 60, 400, Triangulate);
+            ActivateLights = new DetermineLightsToActivate(130, 60, 200, Triangulate); //
 
             SimulationRoom.Width = GEngine.SimulationWidht;
             SimulationRoom.Height = GEngine.SimulationWidht;
@@ -106,7 +106,7 @@ namespace MapController.SimEnvironment
         
         private void CreateLightUnit()
         {
-            unitList = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30);
+            unitList = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 60); //
             LightUnitCoordinates = new List<LightingUnit>();
             unitList.GetLightUnitCoords(LightUnitCoordinates);
         }
