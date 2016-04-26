@@ -36,13 +36,14 @@ namespace MapController.SimEnvironment
         int _boundX;
         int _buttonHeight;
         int _buttonLength;
+        InfoScreen InfoScreen;
 
         private PictureBox SimulationRoom;
         private List<LightingUnit> light;
         private Label l;
 
 
-        public ControlPanel(Form form, DALIController Controller, List<LightingUnit> Lights, PictureBox simulationRoom)
+        public ControlPanel(Form form, DALIController Controller, List<LightingUnit> Lights, InfoScreen Info, PictureBox simulationRoom)
         {
             window = form;
             SimulationRoom = simulationRoom;
@@ -50,7 +51,7 @@ namespace MapController.SimEnvironment
             DALIController = Controller;
             InitializeControlPanelButtons();
             _currentUnitIds = new List<int>();
-
+            InfoScreen = Info;
             SimulationRoom.MouseClick += new MouseEventHandler(this.Form1_MouseClick);
             l = new Label();
             l.Show();
@@ -69,6 +70,8 @@ namespace MapController.SimEnvironment
                     && VARIABLE.y <= LocalMousePosition.Y + 10 && VARIABLE.y >= LocalMousePosition.Y - 10)
                 {
                     l.Text = "Current Ligting Unit: " + VARIABLE.Address;
+                    LightingUnit Current = DALIController.FindUnitWithAddress(VARIABLE.Address);
+                    InfoScreen.ChangeCurrentLightingUnit(Current);
                     if(CheckBoxes[VARIABLE.Address].Checked == false)
                     {
                         CheckBoxes[VARIABLE.Address].Checked = true;
