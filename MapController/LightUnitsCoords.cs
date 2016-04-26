@@ -24,8 +24,8 @@ namespace LightControl
         }
         public void GetLightUnitCoords(List<LightingUnit> lightUnitCoords)
         {
-            for (int y = PixelDensity; y < Height-PixelDensity; y++)
-                for (int x = PixelDensity; x < Width-PixelDensity; x++)
+            for (int y = 0; y < Height-32; y++)
+                for (int x = 0; x < Width-32; x++)
                     if (CheckCoords(x,y))
                             lightUnitCoords.Add(new LightingUnit(x, y, 240));
         }
