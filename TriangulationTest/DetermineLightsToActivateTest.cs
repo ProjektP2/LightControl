@@ -44,13 +44,13 @@ namespace LightControlTest
         public void ExistsInCircle()
         {
             List<LightingUnit> Expectet = new List<LightingUnit>();
-            Expectet.Add(new LightingUnit(100,100));
-            Expectet.Add(new LightingUnit(50,100));
+            Expectet.Add(new LightingUnit(100,100, 240));
+            Expectet.Add(new LightingUnit(50,100, 240));
 
-            list.Add(new LightingUnit(100,100));
-            list.Add(new LightingUnit(400, 100));
-            list.Add(new LightingUnit(50, 100));
-            list.Add(new LightingUnit(-200, 100));
+            list.Add(new LightingUnit(100,100, 240));
+            list.Add(new LightingUnit(400, 100, 240));
+            list.Add(new LightingUnit(50, 100, 240));
+            list.Add(new LightingUnit(-200, 100, 240));
             List<LightingUnit> result = lightToActivate.LightsToActivateOnUser(oc, list);
             Assert.AreEqual(Expectet[0].x, result[0].x);
             Assert.AreEqual(Expectet[1].x, result[1].x);
@@ -58,8 +58,8 @@ namespace LightControlTest
         [Test]
         public void CalculateLightingLevel()
         {
-            list.Add(new LightingUnit(100, 100));
-            list.Add(new LightingUnit(50, 100));
+            list.Add(new LightingUnit(100, 100, 240));
+            list.Add(new LightingUnit(50, 100, 240));
             List<LightingUnit> result = lightToActivate.LightsToActivateOnUser(oc, list);
             Assert.AreEqual((1.0-(0.0/200.0)) ,result[0].wantedLightLevel);
             Assert.AreEqual((1.0-(50.0/200.0)) ,result[1].wantedLightLevel);
