@@ -27,12 +27,11 @@ namespace LightControl
             for (int y = 32; y < Height-32; y++)
                 for (int x = 32; x < Width-32; x++)
                     if (CheckCoords(x,y))
-                            lightUnitCoords.Add(new LightingUnit(x, y));
+                            lightUnitCoords.Add(new LightingUnit(x, y, 240));
         }
 
         private bool CheckCoords(int x, int y)
         {
-
             if (x % (PixelDensity + PixelDensity / 2) == 0 &&
                 y % (PixelDensity + PixelDensity / 2) == 0 && 
                 x != 0 && 
