@@ -43,6 +43,13 @@ namespace MapController.SimEnvironment
             get { return _controller; }
             set { _controller = value; }
         }
+
+        private InfoScreen _infoScreen;
+        public InfoScreen InfoScreen
+        {
+            get { return _infoScreen; }
+            set { _infoScreen = value; }
+        }
         private ControlPanel _controlPanel;
         public ControlPanel ControlPanel {
             get { return _controlPanel; }
@@ -118,7 +125,9 @@ namespace MapController.SimEnvironment
             CreateLightUnit();
             Controller = new DALIController(LightUnitCoordinates);
             Controller.InitGroups();
-            ControlPanel = new ControlPanel(Window, Controller, LightUnitCoordinates, SimulationRoom);
+            InfoScreen = new InfoScreen(Window, Controller);
+            ControlPanel = new ControlPanel(Window, Controller, LightUnitCoordinates, InfoScreen, SimulationRoom);
+
 
             //Draw info
             Info = new InfoDrawing(Window);
