@@ -16,7 +16,7 @@ namespace SimEnvironment
 {
     public class GraphicsDraw
     {
-        int _radius = 35;
+        int _radius = 88;
 
         private struct DrawLightData
         {
@@ -163,7 +163,7 @@ namespace SimEnvironment
             {
                 if (item.LightingLevel > 0)
                 {
-                    double volume = 255 - (255 * (item.LightingLevel));
+                    double volume = minTrasnparency - (minTrasnparency * (item.LightingLevel));
                     SetAlphaPixel(item, rgbValues, volume, minTrasnparency);
                 }
             }
@@ -171,6 +171,7 @@ namespace SimEnvironment
         
         private void SetAlphaPixel(LightingUnit item, byte[] rgbValues, double volume, byte minTrasnparency)
         {
+
             try
             {
                 int PlaceInArray;
@@ -188,15 +189,23 @@ namespace SimEnvironment
                     for (double x = leftX; x < rightX; x++)
                     {
                         Cirklensligning = ((x - item.x) * (x - item.x)) + (lasts);
-                        if (Cirklensligning <= R)
+                        if (Cirklensligning <= R && y < GEngine.SimulationHeigt && y > 0 && x < GEngine.SimulationWidht && x > 0)
                         {
                             PlaceInArray = (int)(((y * Width * 4) + x * 4) + 3);
-                            Alpha = volume + (Math.Sqrt(Cirklensligning) * 2);
+                            Alpha = volume;//+ (Math.Sqrt(Cirklensligning)*2);
+                            
                             if (Alpha > minTrasnparency)
+                            {
                                 Alpha = minTrasnparency;
-                            else
-                                if (rgbValues[PlaceInArray] > (Byte)(Alpha))
-                                rgbValues[PlaceInArray] = (Byte)(Alpha);
+                            }
+                            else if(Alpha < 0)
+                            {
+                                Alpha = 0;
+                            }
+                            if (rgbValues[PlaceInArray] > (byte) (Alpha))
+                            {
+                                rgbValues[PlaceInArray] = (byte)(Alpha);
+                            }
                         }
                     }
                 }
