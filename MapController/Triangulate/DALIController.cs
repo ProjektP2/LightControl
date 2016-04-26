@@ -11,7 +11,7 @@ namespace LightControl
     public class DALIController
     {
         public List<LightingUnit> AllLights;
-        List<LightingUnit>[] _groups = new List<LightingUnit>[17];
+        public List<LightingUnit>[] _groups = new List<LightingUnit>[17];
         public List<LightingUnit> UntouchedLights = new List<LightingUnit>();
         public double[] scenes = new double[16] {0, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100};
 
@@ -200,7 +200,7 @@ namespace LightControl
                     Unit.LightingLevel = Unit.minLevel;
                 }
 
-                else if (Unit.LightingLevel > Unit.wantedLightLevel)
+                else if (Unit.LightingLevel > Unit.wantedLightLevel && _fadeRate < Unit.wantedLightLevel)
                 {
                     Unit.LightingLevel = Unit.LightingLevel - _fadeRate;
                 }
