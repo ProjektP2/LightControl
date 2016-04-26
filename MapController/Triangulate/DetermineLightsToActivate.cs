@@ -94,6 +94,11 @@ namespace Triangulering
             return LightingUnitsToActivateOnUser;
         }
 
+        public Coords GetMovementVector(Occupant Occupant)
+        {
+            return VectorMath.CalculateVector(Occupant.Position1, Occupant.Position2);
+        }
+
         //Checks whether or not a set of coordinates exist inside a given circle. We check if the distance between the centre
         //and the given coordinates is smaller than the radius. If it is, the coordinates exist inside the circle.
         private bool ExistsInCircle(Coords Centre, Coords CoordinatesToCheck)

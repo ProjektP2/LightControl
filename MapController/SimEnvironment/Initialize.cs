@@ -18,19 +18,41 @@ namespace MapController.SimEnvironment
 
         #region Fields and Properties
         private Form Window;
+        PictureBox SimulationRoom = new PictureBox();
         public Bitmap Map = new Bitmap("Map3.png");
         public Circle Router1 = new Circle(0, 100);
         public Circle Router2 = new Circle(0, 300);
 
         public DetermineLightsToActivate ActivateLights;
 
-        public Triangulation Triangulation;
+        private Triangulation _triangulate;
+        public Triangulation Triangulate { 
+            get { return _triangulate; }
+            set { _triangulate = value; }
+        }
 
         private Bounds _bound;
+        public Bounds Bound {
+            get { return _bound; }
+            set { _bound = value; }
+        }
 
-        public DALIController Controller;
-        public ControlPanel ControlPanel;
-        InfoDrawing Info;
+        private LightUnitsCoords unitList;
+        private DALIController _controller;
+        public DALIController Controller {
+            get { return _controller; }
+            set { _controller = value; }
+        }
+        private ControlPanel _controlPanel;
+        public ControlPanel ControlPanel {
+            get { return _controlPanel; }
+            set { _controlPanel = value; }
+        }
+        private InfoDrawing _info;
+        public InfoDrawing Info {
+            get { return _info; }
+            set { _info = value; }
+        }
 
         public Occupant occupant
         {
@@ -50,8 +72,16 @@ namespace MapController.SimEnvironment
         public bool Running = true;
 
         public List<LightingUnit> LightUnitCoordinates = new List<LightingUnit>();
-        List<LightingUnit> nyList;
-        QuadTree tree;
+        private List<LightingUnit> _nyList;
+        public List<LightingUnit> NyList {
+            get { return _nyList; }
+            set { _nyList = value; }
+        }
+        private QuadTree _tree;
+        public QuadTree Tree {
+            get { return _tree; }
+            set { _tree = value; }
+        }
         #endregion
 
         #region Methods
@@ -59,52 +89,36 @@ namespace MapController.SimEnvironment
         {
             Window = form;
             Window.KeyPreview = true;
-            nyList = new List<LightingUnit>();
+            _nyList = new List<LightingUnit>();
             _bound = new Bounds(new Coords(0,0), GEngine.SimulationWidht, GEngine.SimulationHeigt);
-            tree = new QuadTree(_bound);
-            Triangulation = new Triangulation(Router1, Router2);
-            ActivateLights = new DetermineLightsToActivate(200, 60, 400, Triangulation);
+            _tree = new QuadTree(_bound);
+            Triangulate = new Triangulation(Router1, Router2);
+            ActivateLights = new DetermineLightsToActivate(200, 60, 400, Triangulate);
+
+            SimulationRoom.Width = GEngine.SimulationWidht;
+            SimulationRoom.Height = GEngine.SimulationWidht;
+            SimulationRoom.Location = new Point((Form1.width / 2) - (GEngine.SimulationWidht / 2), (Form1.height / 2) - (GEngine.SimulationWidht / 2));
+            SimulationRoom.Visible = true;
+            SimulationRoom.Show();
+            Window.Controls.Add(SimulationRoom);
 
         }
-        public void Position()
-        {
-            //Moves the player
-            _occupant.Update();
-
-            //Updates the occupants WiFi position
-            Triangulation.TriangulatePositionOfSignalSource(_occupant, Router1, Router2);
-
-            Query query = new RadiusSearchQuery(100, _bound, tree);
-            StartTreeSearch startSearch = new StartTreeSearch();
-            List<LightingUnit> newlist = new List<LightingUnit>();
-
-            nyList = startSearch.SearchQuery(new Coords(_occupant.WiFiPosition1.x, _occupant.WiFiPosition1.y), query);
-
-            ActivateLights.FindUnitsToActivate(LightUnitCoordinates, _occupant);
-
-            Controller.IncrementLights(LightUnitCoordinates);
-            Info.WattUsageInfo(Controller.Wattusage());
-
-            Info.SignalInfo(Router1.Radius, Router2.Radius);
-            Info.BrugerWiFi(_occupant.WiFiPosition2);
-            Info.Brugerpos(_occupant.Position2);
-        }
+        
         private void CreateLightUnit()
         {
-            LightUnitsCoords unitList = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30);
+            unitList = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30);
             LightUnitCoordinates = new List<LightingUnit>();
-            unitList.GetLightUnitCoords(ref LightUnitCoordinates);
+            unitList.GetLightUnitCoords(LightUnitCoordinates);
         }
         public void Start()
         {
             //Initializations
             _occupant = new Occupant(Map, Window, 'W', 'S', 'A', 'D');
-            gEngine = new GEngine(Window, Map);
-            loop = new Loop(Window);
+            gEngine = new GEngine(Window, Map, SimulationRoom);
             CreateLightUnit();
             Controller = new DALIController(LightUnitCoordinates);
             Controller.InitGroups();
-            ControlPanel = new ControlPanel(Window, Controller, LightUnitCoordinates);
+            ControlPanel = new ControlPanel(Window, Controller, LightUnitCoordinates, SimulationRoom);
 
             //Draw info
             Info = new InfoDrawing(Window);
@@ -114,7 +128,7 @@ namespace MapController.SimEnvironment
             Info.InitBrugerPos();
 
             //Quadtree, initialize the graphics engine and load the visual level
-            tree.CreateQuadTree(LightUnitCoordinates);
+            _tree.CreateQuadTree(LightUnitCoordinates);
             gEngine.init();
             gEngine.LoadLevel(LightUnitCoordinates, Router1, Router2);
         }
