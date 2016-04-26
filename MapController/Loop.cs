@@ -60,7 +60,7 @@ namespace LightControl
 
         public void UpdateLights()
         {
-            Query radiusQuery = new RadiusSearchQuery(100, _init.Bound, _init.Tree);
+            Query radiusQuery = new RadiusSearchQuery(80, _init.Bound, _init.Tree);
             Query vectorQuery = new VectorSearchQuery(_init.Bound, _init.Tree, _init.occupant, _init.ActivateLights);
             StartTreeSearch startSearch = new StartTreeSearch(_init.Tree);
             _init.NyList = startSearch.SearchQuery(new Coords(_init.occupant.WiFiPosition1.x, _init.occupant.WiFiPosition1.y), radiusQuery, vectorQuery);

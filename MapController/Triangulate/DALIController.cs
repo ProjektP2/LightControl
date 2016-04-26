@@ -236,7 +236,7 @@ namespace LightControl
         {
             foreach (LightingUnit Light in AllLights)
             {
-                Light.wantedLightLevel = 0;
+                Light.wantedLightLevel = 0;                
             }
         }
 
