@@ -67,7 +67,7 @@ namespace LightControl
 
             _init.ActivateLights.FindUnitsToActivate(_init.NyList, _init.occupant);
 
-            _init.Controller.IncrementLights(_init.LightUnitCoordinates);
+            _init.Controller.IncrementAllLights();
         }
 
         public void DisplayInfo()
@@ -77,7 +77,7 @@ namespace LightControl
             _init.Info.SignalInfo(_init.Router1.Radius, _init.Router2.Radius);
             _init.Info.BrugerWiFi(_init.occupant.WiFiPosition2);
             _init.Info.Brugerpos(_init.occupant.Position2);
-            _init.InfoScreen.DisplayLightingUnitInfo(_init.InfoScreen.getWantedUnit());
+            _init.InfoScreen.DisplayLightingUnitInfo();
         }
 
         public void DrawEverything()

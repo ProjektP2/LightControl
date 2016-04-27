@@ -22,7 +22,7 @@ namespace MapController
         Form CurrentWindow;
         DALIController _controller;
         Label LightunitInfo;
-        LightingUnit WantedUnit;
+        LightingUnit CurrentUnit;
 
         public InfoScreen(Form window, DALIController Controller)
         {
@@ -34,7 +34,8 @@ namespace MapController
             CurrentWindow.Controls.Add(LightunitInfo);
         }
 
-        public void DisplayLightingUnitInfo(LightingUnit CurrentUnit)
+        //displays Relevant info of the lighting unit in the bottom right corner
+        public void DisplayLightingUnitInfo()
         {
             if (CurrentUnit != null)
             {
@@ -48,6 +49,7 @@ namespace MapController
 
         }
 
+        //finds the index of all groups that contain the wanted lighting unit
         private string GetUnitGroups(LightingUnit Unit)
         {
             List<int> groupNumbers = new List<int>();
@@ -69,15 +71,12 @@ namespace MapController
             return groupNumbersAsString;
         }
 
+        //changes what unit is currently being displayed
         public void ChangeCurrentLightingUnit(LightingUnit Unit)
         {
             LightunitInfo.Visible = true;
-            WantedUnit = Unit;
+            CurrentUnit = Unit;
         }
 
-        public LightingUnit getWantedUnit()
-        {
-            return WantedUnit;
-        }
     }
 }
