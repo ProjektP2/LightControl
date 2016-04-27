@@ -100,7 +100,7 @@ namespace MapController.SimEnvironment
             _bound = new Bounds(new Coords(0,0), GEngine.SimulationWidht, GEngine.SimulationHeigt);
             _tree = new QuadTree(_bound);
             Triangulate = new Triangulation(Router1, Router2);
-            ActivateLights = new DetermineLightsToActivate(130, 60, 200, Triangulate); //
+            ActivateLights = new DetermineLightsToActivate(150, 60, 400, Triangulate); //
 
             SimulationRoom.Width = GEngine.SimulationWidht;
             SimulationRoom.Height = GEngine.SimulationWidht;
