@@ -18,7 +18,7 @@ namespace LightControl
         public DateTime TimeOfCreation;
         static double _totalWattUsage = 0;
         double _stepInterval = 0.01; //intervallet hvormed der bliver gået op i lysstyrke (skal evt ændres til at tilpasse sig)
-        double _fadeRate = 0.001; //same but stepdown
+        double _fadeRate = 0.005; //same but stepdown
 
         public DALIController(List<LightingUnit> AllLightsInSystem)
         {
