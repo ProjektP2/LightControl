@@ -60,14 +60,14 @@ namespace LightControl
 
         public void UpdateLights()
         {
-            Query radiusQuery = new RadiusSearchQuery(100, _init.Bound, _init.Tree);
+            Query radiusQuery = new RadiusSearchQuery(80, _init.Bound, _init.Tree);
             Query vectorQuery = new VectorSearchQuery(_init.Bound, _init.Tree, _init.occupant, _init.ActivateLights);
             StartTreeSearch startSearch = new StartTreeSearch(_init.Tree);
             _init.NyList = startSearch.SearchQuery(new Coords(_init.occupant.WiFiPosition1.x, _init.occupant.WiFiPosition1.y), radiusQuery, vectorQuery);
 
             _init.ActivateLights.FindUnitsToActivate(_init.NyList, _init.occupant);
 
-            _init.Controller.IncrementLights(_init.LightUnitCoordinates);
+            _init.Controller.IncrementAllLights();
         }
 
         public void DisplayInfo()
@@ -77,6 +77,7 @@ namespace LightControl
             _init.Info.SignalInfo(_init.Router1.Radius, _init.Router2.Radius);
             _init.Info.BrugerWiFi(_init.occupant.WiFiPosition2);
             _init.Info.Brugerpos(_init.occupant.Position2);
+            _init.InfoScreen.DisplayLightingUnitInfo();
         }
 
         public void DrawEverything()
