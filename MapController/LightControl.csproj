@@ -79,6 +79,7 @@
     <Compile Include="Triangulate\Circle.cs" />
     <Compile Include="Coords.cs" />
     <Compile Include="Triangulate\DALIController.cs" />
+    <Compile Include="Triangulate\DALIGroup.cs" />
     <Compile Include="Triangulate\DetermineLightsToActivate.cs" />
     <Compile Include="Triangulate\LightingUnit.cs" />
     <Compile Include="Occupant.cs" />

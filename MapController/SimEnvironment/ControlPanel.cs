@@ -183,6 +183,7 @@ namespace MapController.SimEnvironment
 
             _FinishAddressChoice.Visible = false;
             BackButton.Visible = false;
+            clearCheckBoxes();
         }
 
         //used for easy reset to main menu
