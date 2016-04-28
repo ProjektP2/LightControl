@@ -189,6 +189,7 @@ namespace MapController.SimEnvironment
         //used for easy reset to main menu
         private void BackButtonPress(object sender, EventArgs e)
         {
+            RemoveClickEvents();
             SetUpFirstButtons();
         }
 
