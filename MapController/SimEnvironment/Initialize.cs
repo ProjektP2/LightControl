@@ -43,6 +43,13 @@ namespace MapController.SimEnvironment
             get { return _controller; }
             set { _controller = value; }
         }
+
+        private InfoScreen _infoScreen;
+        public InfoScreen InfoScreen
+        {
+            get { return _infoScreen; }
+            set { _infoScreen = value; }
+        }
         private ControlPanel _controlPanel;
         public ControlPanel ControlPanel {
             get { return _controlPanel; }
@@ -93,7 +100,7 @@ namespace MapController.SimEnvironment
             _bound = new Bounds(new Coords(0,0), GEngine.SimulationWidht, GEngine.SimulationHeigt);
             _tree = new QuadTree(_bound);
             Triangulate = new Triangulation(Router1, Router2);
-            ActivateLights = new DetermineLightsToActivate(200, 60, 400, Triangulate);
+            ActivateLights = new DetermineLightsToActivate(150, 80, 400, Triangulate); //
 
             SimulationRoom.Width = GEngine.SimulationWidht;
             SimulationRoom.Height = GEngine.SimulationWidht;
@@ -106,7 +113,7 @@ namespace MapController.SimEnvironment
         
         private void CreateLightUnit()
         {
-            unitList = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 30);
+            unitList = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 60); //
             LightUnitCoordinates = new List<LightingUnit>();
             unitList.GetLightUnitCoords(LightUnitCoordinates);
         }
@@ -118,7 +125,9 @@ namespace MapController.SimEnvironment
             CreateLightUnit();
             Controller = new DALIController(LightUnitCoordinates);
             Controller.InitGroups();
-            ControlPanel = new ControlPanel(Window, Controller, LightUnitCoordinates, SimulationRoom);
+            InfoScreen = new InfoScreen(Window, Controller);
+            ControlPanel = new ControlPanel(Window, Controller, LightUnitCoordinates, InfoScreen, SimulationRoom);
+
 
             //Draw info
             Info = new InfoDrawing(Window);

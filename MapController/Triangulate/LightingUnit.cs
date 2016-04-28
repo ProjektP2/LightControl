@@ -19,11 +19,18 @@ namespace Triangulering
         double _maxLevel = 1.0;
         
         //min lysstyrke (basically en standard off knap)
-        public double minLevel = 0.30;
+        public double minLevel = 0;
         static private int _address = 0;
 
         //skal bruges i udregninger til strømforbrug (har gemt et link jeg gerne lige vil snakke om :))
-        private double _watts = 240; 
+        private double _watts;
+
+        public double Watts
+        {
+            get { return _watts; }
+            private set { _watts = value; }
+        }
+
         public double wantedLightLevel;
         public double ForcedLightlevel;
 
@@ -31,18 +38,19 @@ namespace Triangulering
         public double LightingLevel;
 
         //for testing purposes only. will be deleted later
-        public LightingUnit() : this(0, 0) 
+        public LightingUnit() : this(0, 0, 0) 
         {
         }
 
         //constructor for lightingUnit (modtager x og y og skaber en light unit med x, y samt en adresse/id
-        public LightingUnit(double X, double Y) 
+        public LightingUnit(double X, double Y, double watts) 
         {
             x = X;
             y = Y;
             Address = _address;
             _address++;
             _oldTime = DateTime.Now;
+            Watts = watts;
             //her skal vi have lavet en sikkerhedsforanstaltning der starter en ny liste når _address når 63
 
         }
