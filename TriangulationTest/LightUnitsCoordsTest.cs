@@ -21,7 +21,9 @@ namespace LightControlTest
             lightUnitsCoords = new LightUnitsCoords(100,100,10);
             list = new List<LightingUnit>();
         }
+
         [Test]
+        [Ignore("Not Complete")]
         public void GetLightUnitCoordsTest()
         {
             lightUnitsCoords.GetLightUnitCoords(list);
