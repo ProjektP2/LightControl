@@ -146,5 +146,53 @@ namespace LightControlTest
 
             return listToReturn;
         }
+
+        [Test]
+        public void FindLightsInPath_ReturnNullTest()
+        {
+            Occupant temp = new Occupant();
+            Assert.IsNull(lightToActivate.LightsToActivateInPath(temp, list));
+        }
+
+        [Test]
+        public void FindLightsInPath_MaxDistanceFromPathFailure()
+        {
+            list.Clear();
+            //oc's movement vector should have length of 1
+            oc.UpdatePositions(1, 0);
+            oc.UpdatePositions(2, 0);
+            //x should be less than oc.LatestPosition().x + scaledMovementVector.x
+            //y should be maxDistanceFromPath+1 to trigger a failure
+            list.Add(new LightingUnit(3, lightToActivate.MaxDistanceFromPath+1, 0));
+            lightToActivate.LightsToActivateInPath(oc, list);
+            Assert.AreEqual(0, list.Count);
+        }
+
+        [Test]
+        public void FindLightsInPath_PredictedMovementScalingFailure()
+        {
+            list.Clear();
+            oc.UpdatePositions(1, 0);
+            oc.UpdatePositions(2, 0);
+            //x should be oc.LatestPosition().x extended by the length of the scaled movement vector +1
+            //to trigger a failure.
+            //y should be less than the MaxDistanceFromPath, in this case 0.
+            list.Add(new LightingUnit(2+1*lightToActivate.PredictedMovementScaling+1, 0, 0));
+            lightToActivate.LightsToActivateInPath(oc, list);
+            Assert.AreEqual(0, list.Count);
+        }
+
+        public void FindLightsInPath_LightingUnitInPathSuccess()
+        {
+            list.Clear();
+            oc.UpdatePositions(1, 0);
+            oc.UpdatePositions(2, 0);
+            //x should be less than the latest position scaled by the scaled movement vector
+            //y should be less than maxdistancefrompath
+            list.Add(new LightingUnit(3, 0, 0));
+            lightToActivate.LightsToActivateInPath(oc, list);
+            Assert.AreEqual(1, list.Count);
+        }
+
     }
 }
