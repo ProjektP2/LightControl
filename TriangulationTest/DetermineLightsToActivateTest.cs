@@ -81,6 +81,15 @@ namespace LightControlTest
             Assert.AreEqual(expectedList[0].wantedLightLevel, actualList[0].wantedLightLevel);
         }
 
+        [Test]
+        public void LightsToActivateOnUser_EnsureCorrectLightingLevelTest()
+        {
+            list.Clear();
+            list.Add(new LightingUnit(0,50,0));
+            lightToActivate.LightsToActivateOnUser(oc, list);
+            Assert.AreEqual(1, list[0].wantedLightLevel);
+        }
+
         private List<LightingUnit> InitLightingUnitsPositionsForOnUserTest(double radius)
         {
             list.Clear();
