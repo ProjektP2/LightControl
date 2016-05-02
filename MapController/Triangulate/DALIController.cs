@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Triangulering;
+using MapController.Triangulate;
+
 
 
 namespace LightControl
@@ -12,18 +14,22 @@ namespace LightControl
     public class DALIController
     {
         public List<LightingUnit> AllLights;
-        public List<LightingUnit>[] _groups = new List<LightingUnit>[17];
+        public List<DALIGroup> _groups = new List<DALIGroup>();
         public List<LightingUnit> UntouchedLights = new List<LightingUnit>();
         public double[] scenes = new double[16] {0, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100};
         public DateTime TimeOfCreation;
         static double _totalWattUsage = 0;
         double _stepInterval = 0.01; //intervallet hvormed der bliver gået op i lysstyrke (skal evt ændres til at tilpasse sig)
-        double _fadeRate = 0.005; //same but stepdown
+        double _fadeRate = 0.01; //same but stepdown
 
         public DALIController(List<LightingUnit> AllLightsInSystem)
         {
             AllLights = AllLightsInSystem;
             TimeOfCreation = DateTime.Now;
+            for(int i = 0; i < 17; i++)
+            {
+                _groups.Add(new DALIGroup());
+            }
         }        
 
         #region Calls on a single unit
@@ -31,10 +37,10 @@ namespace LightControl
         //Removes a unit from all groups it is a part of and resets forcedLightlevel.
         public void RemoveUnitFromAllGroups(LightingUnit UnitToRemove)
         {
-            foreach (List<LightingUnit> group in _groups)
+            foreach (DALIGroup group in _groups)
             {
-                if (group.Contains(UnitToRemove))
-                    group.Remove(UnitToRemove);
+                if (group.GroupOfLights.Contains(UnitToRemove))
+                    group.RemoveUnit(UnitToRemove);
             }
             UnitToRemove.ForcedLightlevel = 0;
         }
@@ -42,7 +48,7 @@ namespace LightControl
         //Removes unit from a single group
         public void RemoveUnitFromGroup(LightingUnit UnitToRemove, int GroupToRemoveFrom)
         {
-            _groups[GroupToRemoveFrom].Remove(UnitToRemove);
+            _groups[GroupToRemoveFrom].RemoveUnit(UnitToRemove);
         }
 
         //adds a unit to group[16] (broadcast/ single unit control group) and sets its forced lightlevel to the scene
@@ -54,17 +60,7 @@ namespace LightControl
         //adds a unit to the wanted group if it does not already exist in that group
         public void AddUnitToGroup(LightingUnit UnitToAdd, int groupNumber)
         {
-            bool AddUnit = true;
-
-            if (_groups[groupNumber].Contains(UnitToAdd))
-            {
-                AddUnit = false;
-            }
-
-            if (AddUnit == true)
-            {
-                _groups[groupNumber].Add(UnitToAdd);
-            }
+            _groups[groupNumber].AddUnitToGroup(UnitToAdd);
         }
         #endregion
 
@@ -73,34 +69,26 @@ namespace LightControl
         //Extinguished all the units in a group
         public void Extinguishgroup(int groupnumber)
         {
-            foreach (LightingUnit Unit in _groups[groupnumber])
-            {
-                Unit.Extinguish();
-            }
+            _groups[groupnumber].ExtinguishGroup();
         }
 
         //activates all units in a group (used for when they have been extinguished)
         public void TurnOnGroup(int groupnumber)
         {
-            foreach (LightingUnit Unit in _groups[groupnumber])
-            {
-                Unit.TurnOn();
-            }
+            _groups[groupnumber].TurnOnGroup();
         }
 
         //calls addressGoToScene for each unit in a group to set all given units to a specific scene
         public void GroupGoToScene(int groupNumber, double scene)
         {
-            foreach (LightingUnit Unit in _groups[groupNumber])
-            {
-                AddressGoToScene(Unit, scene);
-            }
+            scene = scene / 100;
+            _groups[groupNumber].GroupGoToScene(scene);
         }
 
         //Removes all units from a group
         public void ClearGroup(int groupNumber)
         {
-            _groups[groupNumber].Clear();
+            _groups[groupNumber].ClearGroup();
         }
 
         #endregion
@@ -125,9 +113,9 @@ namespace LightControl
         //clears ALL groups for units (including the broadcast group)
         public void ClearAllGroups()
         {
-            foreach (List<LightingUnit> group in _groups)
+            foreach (DALIGroup group in _groups)
             {
-                group.Clear();
+                group.ClearGroup();
             }
         }
 
@@ -144,51 +132,26 @@ namespace LightControl
                 _totalWattUsage += Unit.getWattUsageForLightUnitInHours();
             }
 
+            UpdateUntouchedLights();
             IncrementGroupLights();
             IncrementUntouchedLights();
 
             ResetWantedLightLevels();
-            UpdateUntouchedLights();
+
         }
 
         //increments lights in all groups based on their forced lightlevel
         private void IncrementGroupLights()
         {
-            foreach (List<LightingUnit> group in _groups)
+            foreach (DALIGroup group in _groups)
             {
-                foreach (LightingUnit Unit in group)
-                {
-
-                    if (Unit.IsUnitOn == false)
-                    {
-                        Unit.LightingLevel = 0;
-                    }
-
-                    else if (Unit.LightingLevel < Unit.minLevel && Unit.ForcedLightlevel > 0)
-                    {
-                        Unit.LightingLevel = Unit.minLevel;
-                    }
-
-                    else if (Unit.LightingLevel > Unit.ForcedLightlevel)
-                    {
-                        Unit.LightingLevel = Unit.LightingLevel - _fadeRate;
-                    }
-
-                    else if (Unit.LightingLevel < Unit.ForcedLightlevel)
-                    {
-                        Unit.LightingLevel = Unit.LightingLevel + _stepInterval;
-                    }
-
-                    else
-                    {
-                        Unit.LightingLevel = Unit.ForcedLightlevel;
-                    }
-                }
+                group.Increment(_fadeRate, _stepInterval);
             }
         }
         //increments lights in untouchedLights based on the wanted lightlevel
         private void IncrementUntouchedLights()
         {
+
             foreach (LightingUnit Unit in UntouchedLights)
             {
                 if (Unit.IsUnitOn == false)
@@ -196,11 +159,12 @@ namespace LightControl
                     Unit.LightingLevel = 0;
                 }
 
+                /*
                 else if (Unit.LightingLevel < Unit.minLevel && Unit.wantedLightLevel > 0)
                 {
                     Unit.LightingLevel = Unit.minLevel;
                 }
-
+                */
                 else if (Unit.LightingLevel > Unit.wantedLightLevel && _fadeRate < Unit.wantedLightLevel)
                 {
                     Unit.LightingLevel = Unit.LightingLevel - _fadeRate;
@@ -221,14 +185,13 @@ namespace LightControl
         {
             IEnumerable<LightingUnit> q = AllLights;
 
-            foreach (List<LightingUnit> Group in _groups)
+            foreach (DALIGroup Group in _groups)
             {
-                q = q.Except(Group);
+                q = q.Except(Group.ReturnListIfGroupIsUsed());
             }
-
             UntouchedLights = q.ToList();
-
         }
+
         //resets all wanted lightlevels
         private void ResetWantedLightLevels()
         {
@@ -243,10 +206,6 @@ namespace LightControl
         public void InitGroups()
         {
             UntouchedLights.AddRange(AllLights);
-            for (int i = 0; i <= _groups.Length - 1; i++)
-            {
-                _groups[i] = new List<LightingUnit>();
-            }
         }
 
         //finds a given unit in the AllLights list based on the address
