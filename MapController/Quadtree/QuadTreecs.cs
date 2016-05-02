@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Triangulering;
 using LightControl;
+using System.Diagnostics;
 
 namespace TreeStructure
 {
@@ -144,6 +145,6 @@ namespace TreeStructure
                     unitList.Add(listItem.LightUnit);
                 }
             }
-        } 
+        }
     }
 }

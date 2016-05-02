@@ -11,7 +11,7 @@ namespace TreeStructure
         private int _width;
         private int _height;
         private Occupant _occupant;
-        DetermineLightsToActivate _lightsToActivate;
+        IMovementVectorProvider _lightsToActivate;
         public override Bounds Bound
         {
             get { return _vectorBound; }
@@ -20,7 +20,7 @@ namespace TreeStructure
         private Bounds _vectorBound;
 
         public VectorSearchQuery(Bounds mapBound, QuadTree tree, Occupant occupant,
-                                 DetermineLightsToActivate lightsToactivate)
+                                 IMovementVectorProvider lightsToactivate)
         {
             MapBound = mapBound;
             Tree = tree;
@@ -109,7 +109,7 @@ namespace TreeStructure
         {
             Coords BaseMovementVector = baseMovevector;
             Coords TopLeft;
-            double TopLeftX, TopLeftY, TopRightX, TopRightY;
+            double TopLeftX, TopLeftY;
 
             TopLeftX = Position.x - _width * BaseMovementVector.y;
             TopLeftY = Position.y - _width * BaseMovementVector.x;
