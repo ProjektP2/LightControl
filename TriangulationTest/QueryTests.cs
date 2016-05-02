@@ -29,6 +29,7 @@ namespace TriangulationTest
             occupant = new Occupant();
             QT = new QuadTree(mapBound);
             RQ = new RadiusSearchQuery(20, mapBound, QT);
+            VQ = new VectorSearchQuery(mapBound, QT, occupant, DLA);
         }
 
         [TearDown]
@@ -37,6 +38,8 @@ namespace TriangulationTest
             RQ = null;
             mapBound = null;
             QT = null;
+            VQ = null;
+            occupant = null;
         }
         
         [Test]
@@ -44,12 +47,18 @@ namespace TriangulationTest
         {
             Coords TL = new Coords();
             Coords BR = new Coords();
-            int expectedTopLeft = 0;
-            int expectedBottomRight = 0;
+
+            int expectedTopLeftX = -20;
+            int expectedTopLeftY = -20;
+            int expectedBottomRightX = 20;
+            int expectedBottomRightY = 20;
+
             RQ.CalculateBoundCoords(new Coords(0, 0), out TL, out BR);
 
-            Assert.AreEqual(TL, expectedTopLeft);
-            Assert.AreEqual(BR, expectedBottomRight);
+            Assert.AreEqual(TL.x, expectedTopLeftX);
+            Assert.AreEqual(TL.y, expectedTopLeftY);
+            Assert.AreEqual(BR.x, expectedBottomRightX);
+            Assert.AreEqual(BR.y, expectedBottomRightY);
         }
     }
     internal class MovementVector : IMovementVectorProvider
