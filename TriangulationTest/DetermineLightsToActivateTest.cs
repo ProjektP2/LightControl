@@ -65,15 +65,23 @@ namespace LightControlTest
             Assert.AreEqual((1.0-(50.0/200.0)) ,result[1].wantedLightLevel);
         }
         [Test]
-        public void LightsToActivateOnUserTest()
+        public void LightsToActivateOnUser_LightingUnitTest()
         {
             oc.UpdatePositions(0, 0);
-            List<LightingUnit> expectedList = InitLightingUnitsForOnUserTest(lightToActivate.Radius);
+            List<LightingUnit> expectedList = InitLightingUnitsPositionsForOnUserTest(lightToActivate.Radius);
             List<LightingUnit> actualList = lightToActivate.LightsToActivateOnUser(oc, list);
             Assert.AreEqual(expectedList.Count, actualList.Count);
         }
 
-        private List<LightingUnit> InitLightingUnitsForOnUserTest(double radius)
+        public void LightsToActivateOnUser_wantedLightLevelTest()
+        {
+            oc.UpdatePositions(0,0);
+            List<LightingUnit> expectedList = InitLightingUnitWantedLightLevelsForOnUserTest();
+            List<LightingUnit> actualList = lightToActivate.LightsToActivateOnUser(oc, list);
+            Assert.AreEqual(expectedList[0].wantedLightLevel, actualList[0].wantedLightLevel);
+        }
+
+        private List<LightingUnit> InitLightingUnitsPositionsForOnUserTest(double radius)
         {
             list.Clear();
             //Directly on user
@@ -111,6 +119,23 @@ namespace LightControlTest
             returnlist.Add(new LightingUnit(-radius + 1, 0, 0));
 
             return returnlist;
+        }
+
+        private List<LightingUnit> InitLightingUnitWantedLightLevelsForOnUserTest()
+        {
+            List <LightingUnit> listToReturn = InitLightingUnitsPositionsForOnUserTest(lightToActivate.Radius);
+            //On user
+            listToReturn[0].wantedLightLevel = 1 - (1 / lightToActivate.Radius);
+            listToReturn[1].wantedLightLevel = 1 - (1 / lightToActivate.Radius);
+            listToReturn[2].wantedLightLevel = 1 - (1 / lightToActivate.Radius);
+            listToReturn[3].wantedLightLevel = 1 - (1 / lightToActivate.Radius);
+            //Just below radius
+            listToReturn[4].wantedLightLevel = 1 - (lightToActivate.Radius-1 / lightToActivate.Radius);
+            listToReturn[5].wantedLightLevel = 1 - (lightToActivate.Radius - 1 / lightToActivate.Radius);
+            listToReturn[6].wantedLightLevel = 1 - (lightToActivate.Radius - 1 / lightToActivate.Radius);
+            listToReturn[7].wantedLightLevel = 1 - (lightToActivate.Radius - 1 / lightToActivate.Radius);
+
+            return listToReturn;
         }
     }
 }
