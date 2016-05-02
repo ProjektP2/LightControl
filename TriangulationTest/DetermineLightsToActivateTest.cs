@@ -64,5 +64,54 @@ namespace LightControlTest
             Assert.AreEqual((1.0-(0.0/200.0)) ,result[0].wantedLightLevel);
             Assert.AreEqual((1.0-(50.0/200.0)) ,result[1].wantedLightLevel);
         }
+        [Test]
+        public void LightsToActivateOnUserTest()
+        {
+            oc.UpdatePositions(0, 0);
+            List<LightingUnit> expectedList = InitLightingUnitsForOnUserTest(lightToActivate.Radius);
+            List<LightingUnit> actualList = lightToActivate.LightsToActivateOnUser(oc, list);
+            Assert.AreEqual(expectedList, actualList);
+        }
+
+        private List<LightingUnit> InitLightingUnitsForOnUserTest(double radius)
+        {
+            list.Clear();
+            //Directly on user
+            list.Add(new LightingUnit(0, 0, 1));
+            list.Add(new LightingUnit(0, 0, -1));
+            list.Add(new LightingUnit(0, 1, 0));
+            list.Add(new LightingUnit(0, -1, 0));
+            //Just inside the circle
+            list.Add(new LightingUnit(0, 0, radius-1));
+            list.Add(new LightingUnit(0, 0, -radius+1));
+            list.Add(new LightingUnit(0, radius-1, 0));
+            list.Add(new LightingUnit(0, -radius+1, 1));
+            //Just outside the circle
+            list.Add(new LightingUnit(0, 0, radius));
+            list.Add(new LightingUnit(0, 0, -radius));
+            list.Add(new LightingUnit(0, radius, 0));
+            list.Add(new LightingUnit(0, -radius, 1));
+            //Way out of circle
+            list.Add(new LightingUnit(0, 0, radius*2));
+            list.Add(new LightingUnit(0, 0, -radius*2));
+            list.Add(new LightingUnit(0, radius*2, 0));
+            list.Add(new LightingUnit(0, -radius*2, 1));
+
+            //List containing correct lighting units
+            List<LightingUnit> returnlist = new List<LightingUnit>();
+
+            //Directly on user
+            returnlist.Add(new LightingUnit(0, 0, 1));
+            returnlist.Add(new LightingUnit(0, 0, -1));
+            returnlist.Add(new LightingUnit(0, 1, 0));
+            returnlist.Add(new LightingUnit(0, -1, 0));
+            //Just inside the circle
+            returnlist.Add(new LightingUnit(0, 0, radius - 1));
+            returnlist.Add(new LightingUnit(0, 0, -radius + 1));
+            returnlist.Add(new LightingUnit(0, radius - 1, 0));
+            returnlist.Add(new LightingUnit(0, -radius + 1, 1));
+
+            return returnlist;
+        }
     }
 }
