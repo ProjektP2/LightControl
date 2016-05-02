@@ -9,21 +9,11 @@ using SimEnvironment;
 using Triangulering;
 using TreeStructure;
 using MapController.SimEnvironment;
+using System.Diagnostics;
 
 namespace LightControl
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
-    using System.Drawing;
-    using SimEnvironment;
-    using Triangulering;
-    using TreeStructure;
-
-        public class Loop
+    public class Loop
     {
         public Form Window;
         private Initialize _init;
@@ -60,13 +50,15 @@ namespace LightControl
 
         public void UpdateLights()
         {
+            Coords OccupantWfiPosition = new Coords(_init.occupant.WiFiPosition1.x, _init.occupant.WiFiPosition1.y);
             Query radiusQuery = new RadiusSearchQuery(80, _init.Bound, _init.Tree);
             Query vectorQuery = new VectorSearchQuery(_init.Bound, _init.Tree, _init.occupant, _init.ActivateLights);
             StartTreeSearch startSearch = new StartTreeSearch(_init.Tree);
-            _init.NyList = startSearch.SearchQuery(new Coords(_init.occupant.WiFiPosition1.x, _init.occupant.WiFiPosition1.y), radiusQuery, vectorQuery);
+            
+            _init.NyList = startSearch.SearchQuery(OccupantWfiPosition, radiusQuery, vectorQuery);
 
             _init.ActivateLights.FindUnitsToActivate(_init.NyList, _init.occupant);
-
+            
             _init.Controller.IncrementAllLights();
         }
 

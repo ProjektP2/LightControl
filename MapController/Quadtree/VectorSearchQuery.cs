@@ -25,8 +25,8 @@ namespace TreeStructure
             MapBound = mapBound;
             Tree = tree;
             _occupant = occupant;
-            _width = 35;
-            _height = 100;
+            _width = 20;
+            _height = 60;
             _lightsToActivate = lightsToactivate;
         }
         public override Bounds GetBound(Coords entityPosition, int width, int height)
