@@ -164,8 +164,8 @@ namespace LightControlTest
             //x should be less than oc.LatestPosition().x + scaledMovementVector.x
             //y should be maxDistanceFromPath+1 to trigger a failure
             list.Add(new LightingUnit(3, lightToActivate.MaxDistanceFromPath+1, 0));
-            lightToActivate.LightsToActivateInPath(oc, list);
-            Assert.AreEqual(0, list.Count);
+            List<LightingUnit> result = lightToActivate.LightsToActivateInPath(oc, list);
+            Assert.AreEqual(0, result.Count);
         }
 
         [Test]
@@ -178,8 +178,8 @@ namespace LightControlTest
             //to trigger a failure.
             //y should be less than the MaxDistanceFromPath, in this case 0.
             list.Add(new LightingUnit(2+1*lightToActivate.PredictedMovementScaling+1, 0, 0));
-            lightToActivate.LightsToActivateInPath(oc, list);
-            Assert.AreEqual(0, list.Count);
+            List<LightingUnit> result = lightToActivate.LightsToActivateInPath(oc, list);
+            Assert.AreEqual(0, result.Count);
         }
 
         public void FindLightsInPath_LightingUnitInPathSuccess()
@@ -190,8 +190,8 @@ namespace LightControlTest
             //x should be less than the latest position scaled by the scaled movement vector
             //y should be less than maxdistancefrompath
             list.Add(new LightingUnit(3, 0, 0));
-            lightToActivate.LightsToActivateInPath(oc, list);
-            Assert.AreEqual(1, list.Count);
+            List<LightingUnit> result = lightToActivate.LightsToActivateInPath(oc, list);
+            Assert.AreEqual(1, result.Count);
         }
 
     }
