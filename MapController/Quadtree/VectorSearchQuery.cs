@@ -109,7 +109,7 @@ namespace TreeStructure
         {
             Coords BaseMovementVector = baseMovevector;
             Coords TopLeft;
-            double TopLeftX, TopLeftY, TopRightX, TopRightY;
+            double TopLeftX, TopLeftY;
 
             TopLeftX = Position.x - _width * BaseMovementVector.y;
             TopLeftY = Position.y - _width * BaseMovementVector.x;

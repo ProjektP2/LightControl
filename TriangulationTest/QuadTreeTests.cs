@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using LightControl;
 using TreeStructure;
-using LightControl;
 using Triangulering;
 
 namespace TriangulationTest
@@ -101,8 +100,6 @@ namespace TriangulationTest
         [Test]
         public void InsertNode_InsertUnitOutSideBound_ReturnFalse()
         {
-            bool expected = false;
-            bool actual = true;
             list.Add(new LightingUnit(-1, -1, 0));
             QTree.CreateQuadTree(list);
             Assert.AreEqual(QTree.QuadNodesList.Count, 1);
