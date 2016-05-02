@@ -44,12 +44,12 @@ namespace TreeStructure
             BottomRight = new Coords(_position.x + Width, _position.y + Height);
             TopLeft = new Coords(_position.x, _position.y);
 
-            bool boundCheck = !((bound.BottomRight.y < TopLeft.y) || (bound.TopLeft.y > BottomRight.y) ||
+            bool boundCheck = !((bound.BottomRight.y < TopLeft.y) || (bound.TopLeft.y > BottomRight.y) &&
                                (bound.BottomRight.x < TopLeft.x) || (bound.TopLeft.x > BottomRight.x));
 
-            bool boundCheck2 = ((bound.BottomRight.x > BottomRight.x) || (bound.BottomRight.y > BottomRight.y));
+            bool VectorBoundCheck = ((bound.BottomRight.x > BottomRight.x) || (bound.BottomRight.y > BottomRight.y));
 
-            return boundCheck || boundCheck2;
+            return boundCheck || VectorBoundCheck; 
         }
     }
 }
