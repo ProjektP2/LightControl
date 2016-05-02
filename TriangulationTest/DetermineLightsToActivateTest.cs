@@ -181,7 +181,7 @@ namespace LightControlTest
             List<LightingUnit> result = lightToActivate.LightsToActivateInPath(oc, list);
             Assert.AreEqual(0, result.Count);
         }
-
+        [Test]
         public void FindLightsInPath_LightingUnitInPathSuccess()
         {
             list.Clear();
