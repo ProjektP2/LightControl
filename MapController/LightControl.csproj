@@ -81,6 +81,7 @@
     <Compile Include="Triangulate\DALIController.cs" />
     <Compile Include="Triangulate\DALIGroup.cs" />
     <Compile Include="Triangulate\DetermineLightsToActivate.cs" />
+    <Compile Include="Triangulate\IMovementVectorProvider.cs" />
     <Compile Include="Triangulate\LightingUnit.cs" />
     <Compile Include="Occupant.cs" />
     <Compile Include="Triangulate\MoreExceptions.cs" />
