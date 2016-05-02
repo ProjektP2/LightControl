@@ -29,12 +29,7 @@ namespace LightControlTest
             Assert.AreEqual(15, list[0].y);
             Assert.AreEqual(30, list[1].x);
             Assert.AreEqual(15, list[1].y);
-            Assert.AreEqual(75, list[9].x);
-            Assert.AreEqual(30, list[9].y);
-            Assert.AreEqual(15, list[10].x);
-            Assert.AreEqual(45, list[10].y);
-            Assert.AreEqual(15, list[20].x);
-            Assert.AreEqual(75, list[20].y);
+            Assert.AreEqual(16, list.Count);
         }
     }
 }
