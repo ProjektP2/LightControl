@@ -24,7 +24,7 @@ namespace LightControlTest
         public void Setup()
         {
             QuadTreeCreator QTCreator = new QuadTreeCreator(100, 100);
-            QuadTree QT = QTCreator.Create();
+            QT = QTCreator.Create();
 
             Creator creator = new RadiusQueryCreator(20, QT);
             RQ = (RadiusSearchQuery)creator.Create();

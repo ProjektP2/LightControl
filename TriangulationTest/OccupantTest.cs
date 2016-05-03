@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using NUnit.Framework;
 using LightControl;
-using LightControl;
 
 
 namespace LightControlTest
