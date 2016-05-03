@@ -46,9 +46,6 @@ namespace LightControl
         public bool IsPosition1Initialized { get; private set; }
 
         public bool IsPosition2Initialized { get; private set; }
-        public bool IsWiFiPosition1Initialized { get; private set; }
-
-        public bool IsWiFiPosition2Initialized { get; private set; }
 
         public Coords Position1 = new Coords();
         public Coords Position2 = new Coords();
@@ -102,25 +99,43 @@ namespace LightControl
         }
         public void UpdateWifiPosition(Coords Coordinates)
         {
-            if (IsWiFiPosition2Initialized)
-            {
-                WiFiPosition1.x = WiFiPosition2.x;
-                WiFiPosition1.y = WiFiPosition2.y;
-                WiFiPosition2.x = Coordinates.x;
-                WiFiPosition2.y = Coordinates.y;
-            }
 
-            else if (IsWiFiPosition1Initialized)
-            {
-                WiFiPosition2 = Coordinates;
-                IsWiFiPosition2Initialized = true;
-            }
+            WiFiPosition1.x = WiFiPosition2.x;
+            WiFiPosition1.y = WiFiPosition2.y;
+            WiFiPosition2.x = Coordinates.x;
+            WiFiPosition2.y = Coordinates.y;
+        }
 
+        //Calculates the position vector given by the two coordinates.
+        public void CalculatePositionVector()
+        {
+            if (IsPosition1Initialized == false || IsPosition2Initialized == false)
+                throw new ArgumentNullException("Two positions are needed to calculate a movement vector");
             else
             {
-                WiFiPosition1 = Coordinates;
-                IsWiFiPosition1Initialized = true;
+                if (Position1 != null && Position2 != null)
+                {
+                    PositionVector.x = Position2.x - Position1.x;
+                    PositionVector.y = Position2.y - Position1.y;
+                }
             }
+
+        }
+
+        //Calculates the magnitude of the position vector which, in our case, is the velocity of the signal source.
+        public void CalculateVelocity()
+        {
+            CalculatePositionVector();
+            Velocity = Math.Sqrt((Math.Pow(PositionVector.x,2)+Math.Pow(PositionVector.y,2)));
+        }
+
+        public void PrintEverything()
+        {
+            Console.WriteLine($"First position: ({Position1.x},{Position1.y})\n");
+            Console.WriteLine($"Second position: ({Position2.x},{Position2.y})");
+            Console.WriteLine($"Position vector: <{PositionVector.x},{PositionVector.y}>");
+            Console.WriteLine($"Velocity of Occupant1: {Velocity}");
+            Console.ReadKey();
         }
     }
 

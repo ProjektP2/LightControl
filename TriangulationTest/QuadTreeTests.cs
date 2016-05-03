@@ -9,7 +9,7 @@ using LightControl;
 using TreeStructure;
 using Triangulering;
 
-namespace LightControlTest
+namespace TriangulationTest
 {
     [TestFixture]
     public class QuadTreeTests

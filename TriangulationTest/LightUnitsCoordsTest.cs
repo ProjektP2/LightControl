@@ -23,6 +23,7 @@ namespace LightControlTest
         }
 
         [Test]
+        [Ignore("Not Complete")]
         public void GetLightUnitCoordsTest()
         {
             lightUnitsCoords.GetLightUnitCoords(list);
