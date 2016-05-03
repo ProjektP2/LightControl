@@ -14,29 +14,30 @@ namespace TriangulationTest
     public class QueryTests
     {
 
-        RadiusSearchQuery RQ;
-        VectorSearchQuery VQ;
-        Bounds mapBound;
-        QuadTree QT;
-        IMovementVectorProvider DLA;
-        Occupant occupant;
+        private RadiusSearchQuery RQ;
+        private VectorSearchQuery VQ;
+        private QuadTree QT;
+        private IMovementVectorProvider DLA;
+        private Occupant occupant;
 
         [SetUp]
         public void Setup()
         {
-            Coords startPosition = new Coords(0, 0);
-            mapBound = new Bounds(startPosition, 100, 100);
+            QuadTreeCreator QTCreator = new QuadTreeCreator(100, 100);
+            QuadTree QT = QTCreator.Create();
+
+            Creator creator = new RadiusQueryCreator(20, QT);
+            RQ = (RadiusSearchQuery)creator.Create();
             occupant = new Occupant();
-            QT = new QuadTree(mapBound);
-            RQ = new RadiusSearchQuery(20, mapBound, QT);
-            VQ = new VectorSearchQuery(mapBound, QT, occupant, DLA);
+            DLA = new MovementVector();
+            creator = new VectorQueryCreator(DLA, QT, occupant);
+            VQ = (VectorSearchQuery)creator.Create();
         }
 
         [TearDown]
         public void Teardown()
         {
             RQ = null;
-            mapBound = null;
             QT = null;
             VQ = null;
             occupant = null;
@@ -60,13 +61,33 @@ namespace TriangulationTest
             Assert.AreEqual(BR.x, expectedBottomRightX);
             Assert.AreEqual(BR.y, expectedBottomRightY);
         }
+
+        [Test]
+        public void VectorQuery_ValidBounding_ReturnTrue()
+        {
+            Coords TL = new Coords();
+            Coords BR = new Coords();
+
+            int expectedTopLeftX = 30;
+            int expectedTopLeftY = 70;
+            int expectedBottomRightX = -110;
+            int expectedBottomRightY = -110;
+
+            MovementVector.vector = new Coords(-1, 1);
+            VQ.CalculateBoundCoords(new Coords(50,50), out TL, out BR);
+            
+            Assert.AreEqual(TL.x, expectedTopLeftX);
+            Assert.AreEqual(TL.y, expectedTopLeftY);
+            Assert.AreEqual(BR.x, expectedBottomRightX);
+            Assert.AreEqual(BR.y, expectedBottomRightY);
+        }
     }
     internal class MovementVector : IMovementVectorProvider
     {
-        public Coords Vector { get; set; }
+        public static Coords vector = new Coords(0,0);
         public Coords GetMovementVector(Occupant occupant)
         {
-            return Vector;
+            return vector;
         }
     }
 }
