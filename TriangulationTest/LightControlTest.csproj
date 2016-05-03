@@ -47,6 +47,7 @@
     <Compile Include="DALIControllerTest.cs" />
     <Compile Include="DetermineLightsToActivateTest.cs" />
     <Compile Include="LightUnitsCoordsTest.cs" />
+    <Compile Include="OccupantTest.cs" />
     <Compile Include="QuadTreeTests.cs" />
     <Compile Include="QueryTests.cs" />
     <Compile Include="TriangulationTest.cs" />
