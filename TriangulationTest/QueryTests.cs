@@ -8,7 +8,7 @@ using LightControl;
 using Triangulering;
 using NUnit.Framework;
 
-namespace TriangulationTest
+namespace LightControlTest
 {
     [TestFixture]
     public class QueryTests
