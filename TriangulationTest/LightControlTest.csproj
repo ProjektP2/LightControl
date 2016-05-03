@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="BoundsTests.cs" />
     <Compile Include="DALIControllerTest.cs" />
+    <Compile Include="DALIGroupTest.cs" />
     <Compile Include="DetermineLightsToActivateTest.cs" />
     <Compile Include="LightUnitsCoordsTest.cs" />
     <Compile Include="OccupantTest.cs" />
