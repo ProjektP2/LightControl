@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DALIControllerTest.cs" />
     <Compile Include="DetermineLightsToActivateTest.cs" />
     <Compile Include="LightUnitsCoordsTest.cs" />
     <Compile Include="QuadTreeTests.cs" />
