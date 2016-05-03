@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LightControl;
-using MapController.Quadtree;
 
 namespace TreeStructure
 {
@@ -49,7 +48,8 @@ namespace TreeStructure
 
             bool VectorBoundCheck = ((bound.BottomRight.x > BottomRight.x) || (bound.BottomRight.y > BottomRight.y));
 
-            return boundCheck || VectorBoundCheck; 
+            //return boundCheck;
+            return boundCheck || VectorBoundCheck;  
         }
     }
 }
