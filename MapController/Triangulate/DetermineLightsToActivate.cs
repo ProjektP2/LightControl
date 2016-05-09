@@ -82,9 +82,9 @@ namespace Triangulering
             {
                 if (ExistsInCircle(Occupant.LatestPosition(), LightingUnitToCheck))
                 {
-                    LightingUnitToCheck.wantedLightLevel = (CalculateLightingLevel(Occupant.LatestPosition(),
+                    LightingUnitToCheck.wantedLightLevel = Math.Round((CalculateLightingLevel(Occupant.LatestPosition(),
                                                             LightingUnitToCheck, 
-                                                            _radius));
+                                                            _radius)),2);
 
                     LightingUnitsToActivateOnUser.Add(LightingUnitToCheck);
                 }
