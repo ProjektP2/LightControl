@@ -8,7 +8,7 @@ using LightControl;
 using NUnit.Framework;
 using System.Drawing;
 
-namespace LightControl
+namespace LightControlTest
 {
     [TestFixture]
     class LoadMapUsingPathTest
