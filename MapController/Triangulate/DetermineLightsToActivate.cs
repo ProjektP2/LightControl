@@ -7,7 +7,7 @@ using LightControl;
 
 namespace Triangulering
 {
-    public class DetermineLightsToActivate
+    public class DetermineLightsToActivate : IMovementVectorProvider
     {
         #region Constructors
         public DetermineLightsToActivate(double radius, double distance, double scaling, Triangulation triangulation)

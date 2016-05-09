@@ -11,7 +11,7 @@ namespace TreeStructure
         private int _width;
         private int _height;
         private Occupant _occupant;
-        DetermineLightsToActivate _lightsToActivate;
+        IMovementVectorProvider _lightsToActivate;
         public override Bounds Bound
         {
             get { return _vectorBound; }
@@ -20,13 +20,13 @@ namespace TreeStructure
         private Bounds _vectorBound;
 
         public VectorSearchQuery(Bounds mapBound, QuadTree tree, Occupant occupant,
-                                 DetermineLightsToActivate lightsToactivate)
+                                 IMovementVectorProvider lightsToactivate)
         {
             MapBound = mapBound;
             Tree = tree;
             _occupant = occupant;
-            _width = 35;
-            _height = 100;
+            _width = 20;
+            _height = 60;
             _lightsToActivate = lightsToactivate;
         }
         public override Bounds GetBound(Coords entityPosition, int width, int height)
@@ -80,27 +80,23 @@ namespace TreeStructure
             Coords MovementVector = movementVector;
             Coords BaseMovementVector = baseMovementVector;
             Coords BottomRight;
-            double BottomRightX, BottomRightY, BottomLeftX, BottomLeftY;
+            double BottomRightX, BottomRightY;
             double width, height;
 
             width = _width * BaseMovementVector.x + _width * BaseMovementVector.y;
             height = _height * MovementVector.x + _height * MovementVector.y;
-            
+
             if (height != 0)
             {
-                BottomRightX = Position.x + width + height;
-                BottomRightY = Position.y + width + height;
-                BottomLeftX = Position.x;
-                BottomLeftY = Position.y + width + height;
+                BottomRightX = Position.x  + height + width;
+                BottomRightY = Position.y + height + width;
             }
             else
             {
                 height = _height * MovementVector.x - _height * MovementVector.y;
                 width = _width * BaseMovementVector.x - _width * BaseMovementVector.y;
-                BottomRightX = Position.x + width + height;
-                BottomRightY = Position.y + width + height;
-                BottomLeftX = Position.x;
-                BottomLeftY = Position.y + width + height;
+                BottomRightX = Position.x + height + width;
+                BottomRightY = Position.y + height + width;
             }
 
             return BottomRight = new Coords(BottomRightX, BottomRightY);
@@ -109,7 +105,7 @@ namespace TreeStructure
         {
             Coords BaseMovementVector = baseMovevector;
             Coords TopLeft;
-            double TopLeftX, TopLeftY, TopRightX, TopRightY;
+            double TopLeftX, TopLeftY;
 
             TopLeftX = Position.x - _width * BaseMovementVector.y;
             TopLeftY = Position.y - _width * BaseMovementVector.x;
