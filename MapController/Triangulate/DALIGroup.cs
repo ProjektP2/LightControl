@@ -97,11 +97,6 @@ namespace MapController.Triangulate
                     {
                         Unit.LightingLevel = Unit.LightingLevel + _stepInterval;
                     }
-
-                    else
-                    {
-                        Unit.LightingLevel = Unit.ForcedLightlevel;
-                    }
                 }
             }          
         }
