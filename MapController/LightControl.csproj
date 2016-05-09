@@ -58,6 +58,7 @@
     <Compile Include="OccupantMove.cs" />
     <Compile Include="Quadtree\Bounds.cs" />
     <Compile Include="LightUnitsCoords.cs" />
+    <Compile Include="Quadtree\Creator.cs" />
     <Compile Include="Quadtree\IBoundable.cs" />
     <Compile Include="Quadtree\QuadTreecs.cs" />
     <Compile Include="Quadtree\QuadTreeNode.cs" />

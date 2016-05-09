@@ -3,7 +3,6 @@ using LightControl;
 using System.Collections.Generic;
 using Triangulering;
 using System.Diagnostics;
-using MapController.Quadtree;
 
 namespace TreeStructure
 {

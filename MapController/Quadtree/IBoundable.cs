@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LightControl;
 
-namespace MapController.Quadtree
+namespace TreeStructure
 {
     public interface IBoundable
     {

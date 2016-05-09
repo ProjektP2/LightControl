@@ -80,27 +80,23 @@ namespace TreeStructure
             Coords MovementVector = movementVector;
             Coords BaseMovementVector = baseMovementVector;
             Coords BottomRight;
-            double BottomRightX, BottomRightY, BottomLeftX, BottomLeftY;
+            double BottomRightX, BottomRightY;
             double width, height;
 
             width = _width * BaseMovementVector.x + _width * BaseMovementVector.y;
             height = _height * MovementVector.x + _height * MovementVector.y;
-            
+
             if (height != 0)
             {
-                BottomRightX = Position.x + width + height;
-                BottomRightY = Position.y + width + height;
-                BottomLeftX = Position.x;
-                BottomLeftY = Position.y + width + height;
+                BottomRightX = Position.x  + height + width;
+                BottomRightY = Position.y + height + width;
             }
             else
             {
                 height = _height * MovementVector.x - _height * MovementVector.y;
                 width = _width * BaseMovementVector.x - _width * BaseMovementVector.y;
-                BottomRightX = Position.x + width + height;
-                BottomRightY = Position.y + width + height;
-                BottomLeftX = Position.x;
-                BottomLeftY = Position.y + width + height;
+                BottomRightX = Position.x + height + width;
+                BottomRightY = Position.y + height + width;
             }
 
             return BottomRight = new Coords(BottomRightX, BottomRightY);
