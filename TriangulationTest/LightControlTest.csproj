@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,6 +50,7 @@
     <Compile Include="DALIGroupTest.cs" />
     <Compile Include="DetermineLightsToActivateTest.cs" />
     <Compile Include="LightUnitsCoordsTest.cs" />
+    <Compile Include="LoadMapUsingPathTest.cs" />
     <Compile Include="OccupantTest.cs" />
     <Compile Include="QuadTreeTests.cs" />
     <Compile Include="QueryTests.cs" />
