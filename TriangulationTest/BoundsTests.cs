@@ -7,7 +7,7 @@ using TreeStructure;
 using LightControl;
 using NUnit.Framework;
 
-namespace TriangulationTest
+namespace LightControlTest
 {
     [TestFixture]
     public class BoundsTests
