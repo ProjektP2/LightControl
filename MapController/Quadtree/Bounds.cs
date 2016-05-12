@@ -46,10 +46,12 @@ namespace TreeStructure
             bool boundCheck = !((bound.BottomRight.y < TopLeft.y) || (bound.TopLeft.y > BottomRight.y) &&
                                (bound.BottomRight.x < TopLeft.x) || (bound.TopLeft.x > BottomRight.x));
 
-            bool VectorBoundCheck = ((bound.BottomRight.x > BottomRight.x) || (bound.BottomRight.y > BottomRight.y));
+            //bool VectorBoundCheck = ((bound.BottomRight.x > BottomRight.x) || (bound.BottomRight.y > BottomRight.y));
+            bool InBetweenBounds = (((bound.BottomRight.x > BottomRight.x) || (bound.BottomRight.y > BottomRight.y)) && 
+                                   ((bound.TopLeft.x < TopLeft.x) || (bound.TopLeft.y < TopLeft.y)));
 
-            //return boundCheck;
-            return boundCheck || VectorBoundCheck;  
+            return boundCheck || InBetweenBounds;
+            //return boundCheck || VectorBoundCheck;  
         }
     }
 }

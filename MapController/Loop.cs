@@ -56,7 +56,7 @@ namespace LightControl
             StartTreeSearch startSearch = new StartTreeSearch(_init.Tree);
             
             _init.NyList = startSearch.SearchQuery(OccupantWfiPosition, radiusQuery, vectorQuery);
-
+            Console.WriteLine($"Nyliste {_init.NyList.Count}");
             _init.ActivateLights.FindUnitsToActivate(_init.NyList, _init.occupant);
             
             _init.Controller.IncrementAllLights();

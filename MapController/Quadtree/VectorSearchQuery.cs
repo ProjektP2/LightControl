@@ -83,6 +83,8 @@ namespace TreeStructure
             double BottomRightX, BottomRightY;
             double width, height;
 
+            
+            
             width = _width * BaseMovementVector.x + _width * BaseMovementVector.y;
             height = _height * MovementVector.x + _height * MovementVector.y;
 
@@ -98,8 +100,8 @@ namespace TreeStructure
                 BottomRightX = Position.x + height + width;
                 BottomRightY = Position.y + height + width;
             }
-
-            return BottomRight = new Coords(BottomRightX, BottomRightY);
+            
+            return BottomRight = new Coords(BottomRightX, BottomRightY); 
         }
         public Coords GetTopBoundCoord(Coords baseMovevector, Coords Position)
         {
@@ -107,9 +109,11 @@ namespace TreeStructure
             Coords TopLeft;
             double TopLeftX, TopLeftY;
 
+            
+            
             TopLeftX = Position.x - _width * BaseMovementVector.y;
             TopLeftY = Position.y - _width * BaseMovementVector.x;
-
+            
             return TopLeft = new Coords(TopLeftX, TopLeftY);
         }
     }
