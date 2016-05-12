@@ -56,6 +56,7 @@ namespace LightControl
         {
             Unit.ForcedLightlevel = scene / 100;
             AddUnitToGroup(Unit, 16);
+            _groups[16].isGroupUsed = true;
         }
         //adds a unit to the wanted group if it does not already exist in that group
         public void AddUnitToGroup(LightingUnit UnitToAdd, int groupNumber)
