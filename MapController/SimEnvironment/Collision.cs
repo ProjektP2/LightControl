@@ -65,13 +65,6 @@ namespace SimEnvironment
             CollisonPosition(posx + x, posy + y);
             return ReadFromMap(XPosX, YPosY);
         }
-        public bool CheckLightCollision(int posx, int posy)
-        {
-            if (Check(posx, posy, 0, 0) == true)
-                return Check(posx, posy, 0, 0);
-            else
-                return false;
-        }
 
         public bool CheckCollison(double posx, double posy, Coords leftCorner, Coords rightCorner)
         {
