@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using LightControl;
 
-namespace TreeStructure
+namespace Triangulering
 {
-    public interface IBoundable
+    public interface IMovementVectorProvider
     {
-        void CalculateBoundCoords(Coords Position, out Coords TopLeft, out Coords BottomRight);
+        Coords GetMovementVector(Occupant occupant);
     }
 }

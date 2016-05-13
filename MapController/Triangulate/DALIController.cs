@@ -20,7 +20,7 @@ namespace LightControl
         public DateTime TimeOfCreation;
         static double _totalWattUsage = 0;
         double _stepInterval = 0.01; //intervallet hvormed der bliver gået op i lysstyrke (skal evt ændres til at tilpasse sig)
-        double _fadeRate = 0.01; //same but stepdown
+        double _fadeRate = 0.005; //same but stepdown
 
         public DALIController(List<LightingUnit> AllLightsInSystem)
         {
@@ -56,6 +56,7 @@ namespace LightControl
         {
             Unit.ForcedLightlevel = scene / 100;
             AddUnitToGroup(Unit, 16);
+            _groups[16].isGroupUsed = true;
         }
         //adds a unit to the wanted group if it does not already exist in that group
         public void AddUnitToGroup(LightingUnit UnitToAdd, int groupNumber)
@@ -135,9 +136,7 @@ namespace LightControl
             UpdateUntouchedLights();
             IncrementGroupLights();
             IncrementUntouchedLights();
-
             ResetWantedLightLevels();
-
         }
 
         //increments lights in all groups based on their forced lightlevel
@@ -165,18 +164,15 @@ namespace LightControl
                     Unit.LightingLevel = Unit.minLevel;
                 }
                 */
-                else if (Unit.LightingLevel > Unit.wantedLightLevel && _fadeRate < Unit.wantedLightLevel)
+
+                else if (Unit.LightingLevel > Unit.wantedLightLevel)
                 {
                     Unit.LightingLevel = Unit.LightingLevel - _fadeRate;
                 }
 
-                else if (Unit.LightingLevel < Unit.wantedLightLevel)
+                else if (Unit.LightingLevel < Unit.wantedLightLevel && Unit.wantedLightLevel > 0.2)
                 {
                     Unit.LightingLevel = Unit.LightingLevel + _stepInterval;
-                }
-                else
-                {
-                    Unit.LightingLevel = Unit.wantedLightLevel;
                 }
             }
         }

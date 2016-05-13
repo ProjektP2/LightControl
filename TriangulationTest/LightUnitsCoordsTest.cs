@@ -21,6 +21,7 @@ namespace LightControlTest
             lightUnitsCoords = new LightUnitsCoords(100,100,10);
             list = new List<LightingUnit>();
         }
+
         [Test]
         public void GetLightUnitCoordsTest()
         {

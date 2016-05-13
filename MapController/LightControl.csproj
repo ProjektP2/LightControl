@@ -53,10 +53,12 @@
     <Compile Include="Fps.cs" />
     <Compile Include="InfoDrawing.cs" />
     <Compile Include="InfoScreen.cs" />
+    <Compile Include="LoadMapUsingPath.cs" />
     <Compile Include="Loop.cs" />
     <Compile Include="OccupantMove.cs" />
     <Compile Include="Quadtree\Bounds.cs" />
     <Compile Include="LightUnitsCoords.cs" />
+    <Compile Include="Quadtree\Creator.cs" />
     <Compile Include="Quadtree\IBoundable.cs" />
     <Compile Include="Quadtree\QuadTreecs.cs" />
     <Compile Include="Quadtree\QuadTreeNode.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Triangulate\DALIController.cs" />
     <Compile Include="Triangulate\DALIGroup.cs" />
     <Compile Include="Triangulate\DetermineLightsToActivate.cs" />
+    <Compile Include="Triangulate\IMovementVectorProvider.cs" />
     <Compile Include="Triangulate\LightingUnit.cs" />
     <Compile Include="Occupant.cs" />
     <Compile Include="Triangulate\MoreExceptions.cs" />

@@ -7,7 +7,7 @@ using LightControl;
 
 namespace Triangulering
 {
-    public class DetermineLightsToActivate
+    public class DetermineLightsToActivate : IMovementVectorProvider
     {
         #region Constructors
         public DetermineLightsToActivate(double radius, double distance, double scaling, Triangulation triangulation)
@@ -82,9 +82,9 @@ namespace Triangulering
             {
                 if (ExistsInCircle(Occupant.LatestPosition(), LightingUnitToCheck))
                 {
-                    LightingUnitToCheck.wantedLightLevel = (CalculateLightingLevel(Occupant.LatestPosition(),
+                    LightingUnitToCheck.wantedLightLevel = Math.Round((CalculateLightingLevel(Occupant.LatestPosition(),
                                                             LightingUnitToCheck, 
-                                                            _radius));
+                                                            _radius)),2);
 
                     LightingUnitsToActivateOnUser.Add(LightingUnitToCheck);
                 }

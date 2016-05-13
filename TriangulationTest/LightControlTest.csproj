@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,8 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoundsTests.cs" />
+    <Compile Include="DALIControllerTest.cs" />
+    <Compile Include="DALIGroupTest.cs" />
     <Compile Include="DetermineLightsToActivateTest.cs" />
     <Compile Include="LightUnitsCoordsTest.cs" />
+    <Compile Include="LoadMapUsingPathTest.cs" />
+    <Compile Include="OccupantTest.cs" />
+    <Compile Include="QuadTreeTests.cs" />
+    <Compile Include="QueryTests.cs" />
     <Compile Include="TriangulationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VectorMathTest.cs" />
@@ -58,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
