@@ -134,15 +134,15 @@ namespace LightControlTest
         {
             List<LightingUnit> listToReturn = InitLightingUnitsPositionsForOnUserTest(lightToActivate.Radius);
             //On user
-            listToReturn[0].wantedLightLevel = 1 - (1 / lightToActivate.Radius);
-            listToReturn[1].wantedLightLevel = 1 - (1 / lightToActivate.Radius);
-            listToReturn[2].wantedLightLevel = 1 - (1 / lightToActivate.Radius);
-            listToReturn[3].wantedLightLevel = 1 - (1 / lightToActivate.Radius);
+            listToReturn[0].wantedLightLevel = Math.Round(1 - (1 / lightToActivate.Radius),2);
+            listToReturn[1].wantedLightLevel = Math.Round(1 - (1 / lightToActivate.Radius), 2);
+            listToReturn[2].wantedLightLevel = Math.Round(1 - (1 / lightToActivate.Radius), 2);
+            listToReturn[3].wantedLightLevel = Math.Round(1 - (1 / lightToActivate.Radius), 2);
             //Just below radius
-            listToReturn[4].wantedLightLevel = 1 - (lightToActivate.Radius - 1 / lightToActivate.Radius);
-            listToReturn[5].wantedLightLevel = 1 - (lightToActivate.Radius - 1 / lightToActivate.Radius);
-            listToReturn[6].wantedLightLevel = 1 - (lightToActivate.Radius - 1 / lightToActivate.Radius);
-            listToReturn[7].wantedLightLevel = 1 - (lightToActivate.Radius - 1 / lightToActivate.Radius);
+            listToReturn[4].wantedLightLevel = Math.Round(1 - (lightToActivate.Radius - 1 / lightToActivate.Radius), 2);
+            listToReturn[5].wantedLightLevel = Math.Round(1 - (lightToActivate.Radius - 1 / lightToActivate.Radius), 2);
+            listToReturn[6].wantedLightLevel = Math.Round(1 - (lightToActivate.Radius - 1 / lightToActivate.Radius), 2);
+            listToReturn[7].wantedLightLevel = Math.Round(1 - (lightToActivate.Radius - 1 / lightToActivate.Radius), 2);
 
             return listToReturn;
         }
