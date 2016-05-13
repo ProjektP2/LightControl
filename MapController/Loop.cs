@@ -10,6 +10,7 @@ using Triangulering;
 using TreeStructure;
 using MapController.SimEnvironment;
 using System.Diagnostics;
+using System.IO;
 
 namespace LightControl
 {
@@ -36,6 +37,9 @@ namespace LightControl
                 DisplayInfo();
                 DrawEverything();
             }
+
+            File.WriteAllText(@"C:\Users\Anders Brams\Documents\GitHub\LightControl\data2.csv", _init.Info.csv.ToString());
+            
         }
 
         public void Position()

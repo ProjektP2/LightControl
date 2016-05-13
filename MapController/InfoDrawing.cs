@@ -14,15 +14,21 @@ using Triangulering;
 using SimEnvironment;
 
 namespace LightControl
-
 {
+
     public class InfoDrawing
     {
+        //temp
+        public StringBuilder csv = new StringBuilder();
+
         Form window;
         public InfoDrawing(Form form)
         {
             window = form;
+            start = DateTime.Now;
         }
+        DateTime start = new DateTime();
+        DateTime now = new DateTime();
         long startTime = Environment.TickCount;
         Label Router1 = new Label();
         Label Router2 = new Label();
@@ -137,6 +143,15 @@ namespace LightControl
                     CalculateIncreaseInWattUsageREGULAR(Control);
                     NewStartTime = Environment.TickCount;
                 }
+
+                //temp
+                var first = WattUsage.ToString();
+                var second = MaxUsage.ToString();
+                now = DateTime.Now;
+                TimeSpan span = now - start;
+                //Suggestion made by KyleMit
+                var newLine = string.Format($"{first},{second}, {span.TotalSeconds}");
+                csv.AppendLine(newLine);
 
                 startTime = Environment.TickCount;
 
