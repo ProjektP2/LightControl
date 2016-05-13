@@ -217,6 +217,14 @@ namespace LightControlTest
             Assert.AreEqual(1, list[0].wantedLightLevel);
             Assert.AreEqual(1-((300-2)/lightToActivate.PredictedMovementScaling), list[1].wantedLightLevel);
         }
-
+        [Test]
+        public void GetMovementVectorTest()
+        {   Coords expected = new Coords(1,0);
+            oc.UpdatePositions(1, 0);
+            oc.UpdatePositions(2, 0);
+            Coords result = lightToActivate.GetMovementVector(oc);
+            Assert.AreEqual(expected.x, result.x);
+            Assert.AreEqual(expected.y, result.y);
+        }
     }
 }
