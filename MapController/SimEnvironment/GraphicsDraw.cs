@@ -62,41 +62,33 @@ namespace SimEnvironment
         }
         public void InitBitMaps()
         {
+            LoadMapUsingPath loadMap = new LoadMapUsingPath();
             BB = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
             MAPMAP = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
             Lamps = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
             Light = new Bitmap(GEngine.SimulationWidht, GEngine.SimulationHeigt);
-            player = LoadFileIntoBitMap("Player3.png");
-            teils = LoadFileIntoBitMap("Teils.png");
-            lamp = LoadFileIntoBitMap("Lamp.png");
+            try
+            {
+                player = loadMap.LoadFileIntoBitMap("Player3.png");
+                teils = loadMap.LoadFileIntoBitMap("Teils.png");
+                lamp = loadMap.LoadFileIntoBitMap("Lamp.png");
+            }
+            catch (ArgumentException exception)
+            {
+                Application.Exit();
+            }
+            catch (Exception exception)
+            {
+                Application.Exit();
+            }
+
             //teils = new Bitmap("Teils.png");
             //lamp = new Bitmap("Lamp.png");
         }
 
-        private Bitmap LoadFileIntoBitMap(string fileName)
-        {
-            Bitmap bitmap;
-            try
-            {
-                bitmap = new Bitmap(fileName);
-            }
-            catch(NullReferenceException exception)
-            {
-                throw exception;
-            }
-            catch(ArgumentException exception)
-            {
-                throw exception;
-            }
-            catch(Exception exception)
-            {
-                throw exception;
-            }
-            return bitmap;
-        }
+
         public void LoadMapIntoBitMap(Circle Router1, Circle Router2)
         {
-
             G = Graphics.FromImage(MAPMAP);
             for (int x = 0; x < Map.Width; x++)
             {

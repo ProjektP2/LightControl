@@ -9,7 +9,7 @@ using TreeStructure;
 using Triangulering;
 using MapController.Triangulate;
 
-namespace TriangulationTest
+namespace LightControlTest
 {
     [TestFixture]
     public class DALIControllerTest
