@@ -37,11 +37,6 @@ namespace Triangulering
         //Lampens nuværende lysniveau  (skal måske laves til private hvis daliCommands skal køres
         public double LightingLevel;
 
-        //for testing purposes only. will be deleted later
-        public LightingUnit() : this(0, 0, 0) 
-        {
-        }
-
         //constructor for lightingUnit (modtager x og y og skaber en light unit med x, y samt en adresse/id
         public LightingUnit(double X, double Y, double watts) 
         {

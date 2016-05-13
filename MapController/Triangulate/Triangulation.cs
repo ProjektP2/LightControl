@@ -64,14 +64,6 @@ namespace Triangulering
             return (Distance);
         }
 
-        private void PrintEverythingForDebug(double DistanceBetweenCenters, double a, double h, Coords P2)
-        {
-            Console.WriteLine($"Distance between the centers was calculated to: {Math.Round(DistanceBetweenCenters, 3)}");
-            Console.WriteLine($"a was calculated to: {Math.Round(a, 3)}");
-            Console.WriteLine($"h was calculated to: {Math.Round(h, 3)}");
-            Console.WriteLine($"Coordinates of P2 were calculated to: ({Math.Round(P2.x, 3)},{Math.Round(P2.y, 3)})");
-        }
-
         public void DetermineSignalStrengthFromCoords(Occupant SignalSource, Circle Router1, Circle Router2)
         {
             Coords CoordinatesTouse = new Coords();

@@ -64,12 +64,6 @@ namespace LightControlTest
             Coords result = trian.ExcludeImpossiblePositions(oc, possitions);
             Assert.AreEqual(possitions[1].x, result.x);
         }
-
-        public void TriangulatePositionOfSignalSourceTest()
-        {
-            trian.TriangulatePositionOfSignalSource(oc,r1,r2);
-            //Assert.AreEqual(,oc.WiFiPosition1);
-        }
         [Test]
         public void FindCircleCircleIntersectionsTest()
         {

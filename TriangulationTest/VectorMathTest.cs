@@ -37,12 +37,6 @@ namespace LightControlTest
             double result = VectorMath.LengthOfVector(p2);
             Assert.AreEqual(Expectet, result);
         }
-
-        //[Test]
-        public void NormalizeVectorTest()
-        {
-            //VectorMath.NormalizeVector();
-        }
         [Test]
         public void SubtractVectorsTest()
         {
@@ -51,16 +45,6 @@ namespace LightControlTest
             Assert.AreEqual(Expectet.x, result.x);
             Assert.AreEqual(Expectet.y, result.y);
         }
-        //[test]
-        public void AngleBetweenVectorsTest()
-        {
-            
-        }
-        //[test]
-        public void DotProductTest()
-        {
-            
-        }
         [Test]
         public void ScaleVectorTest()
         {
@@ -68,11 +52,6 @@ namespace LightControlTest
             Coords result = VectorMath.ScaleVector(p2, 3);
             Assert.AreEqual(Expectet.x, result.x);
             Assert.AreEqual(Expectet.y, result.y);
-        }
-        //[test]
-        public void PerpendicularVectorBetweenPointAndVectorTest()
-        {
-            
         }
         [Test]
         public void projectionLengthTest()
