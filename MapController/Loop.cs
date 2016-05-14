@@ -51,14 +51,19 @@ namespace LightControl
         public void UpdateLights()
         {
             Coords OccupantWfiPosition = new Coords(_init.occupant.WiFiPosition1.x, _init.occupant.WiFiPosition1.y);
-            Query radiusQuery = new RadiusSearchQuery(80, _init.Bound, _init.Tree);
+            Query radiusQuery = new RadiusSearchQuery(100, _init.Bound, _init.Tree);
             Query vectorQuery = new VectorSearchQuery(_init.Bound, _init.Tree, _init.occupant, _init.ActivateLights);
             StartTreeSearch startSearch = new StartTreeSearch(_init.Tree);
-            
+            Stopwatch su = new Stopwatch();
+            su.Start();
             _init.NyList = startSearch.SearchQuery(OccupantWfiPosition, radiusQuery, vectorQuery);
-            Console.WriteLine($"Nyliste {_init.NyList.Count}");
+
+            //Console.WriteLine($"Nyliste {_init.NyList.Count}");
             _init.ActivateLights.FindUnitsToActivate(_init.NyList, _init.occupant);
-            
+            //_init.ActivateLights.FindUnitsToActivate(_init.LightUnitCoordinates, _init.occupant);
+            su.Stop();
+            Console.WriteLine(su.Elapsed);
+            su.Reset();
             _init.Controller.IncrementAllLights();
         }
 

@@ -9,7 +9,7 @@ using Triangulering;
 
 namespace TreeStructure
 {
-    public abstract class Creator
+    /*public abstract class Creator
     {
         public abstract Query Create();
     }
@@ -75,5 +75,5 @@ namespace TreeStructure
         {
             return new VectorSearchQuery(Tree.bound, Tree, Occupant, MovementVector);
         }
-    }
+    }*/
 }

@@ -3,6 +3,8 @@ using LightControl;
 using System.Collections.Generic;
 using Triangulering;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace TreeStructure
 {
@@ -12,34 +14,94 @@ namespace TreeStructure
         private int _height;
         private Occupant _occupant;
         IMovementVectorProvider _lightsToActivate;
-        public override Bounds Bound
+        /*public override Bounds Bound
         {
             get { return _vectorBound; }
             set { _vectorBound = value; }
         }
-        private Bounds _vectorBound;
+        private Bounds _vectorBound;*/
 
-        public VectorSearchQuery(Bounds mapBound, QuadTree tree, Occupant occupant,
+        private Rectangle _vectorBound;
+        public override Rectangle Bound
+        {
+            get { return _vectorBound; }
+            set { _vectorBound = value; }
+        }
+
+        public VectorSearchQuery(Rectangle mapBound, QuadTree tree, Occupant occupant,
                                  IMovementVectorProvider lightsToactivate)
         {
             MapBound = mapBound;
             Tree = tree;
             _occupant = occupant;
-            _width = 20;
+            _width = 30;
             _height = 60;
             _lightsToActivate = lightsToactivate;
         }
-        public override Bounds GetBound(Coords entityPosition, int width, int height)
+        public override Rectangle GetBound(Coords entityPosition, int width, int height)
         {
-            Bounds Bound = new Bounds(entityPosition, width, height);
+            //Bounds Bound = new Bounds(entityPosition, width, height);
+            Coords MovementVector = _lightsToActivate.GetMovementVector(_occupant);
+            Coords baseMoveVector = GetBaseMoveVector(MovementVector);
+            int TopLeftX, TopLeftY;
+            int boundHeight, boundWidth;
+
+            if (baseMoveVector.x >= 0 && baseMoveVector.y >= 0)
+            {
+                TopLeftX = (int)(entityPosition.x - _width * baseMoveVector.y);
+                TopLeftY = (int)(entityPosition.y - _width * baseMoveVector.x);
+                boundHeight = (int)(_height * MovementVector.y + _width * baseMoveVector.x * 2);
+                boundWidth = (int)(_height * MovementVector.x + _width * baseMoveVector.y * 2);
+            }
+            else if (baseMoveVector.x <= 0 && baseMoveVector.y <= 0)
+            {
+                TopLeftX = (int)(entityPosition.x + _height * MovementVector.x + _width * baseMoveVector.y);
+                TopLeftY = (int)(entityPosition.y + _height * MovementVector.y + _width * baseMoveVector.x);
+                boundHeight = (int)(-1 * (_height * MovementVector.y + _width * baseMoveVector.x * 2));
+                boundWidth = (int)(-1 * (_height * MovementVector.x + _width * baseMoveVector.y * 2));
+            }
+            else
+            {
+                if (baseMoveVector.x > 0 && baseMoveVector.y > 0)
+                {
+                    TopLeftX = (int)(entityPosition.x - _width * baseMoveVector.y);
+                    TopLeftY = (int)(entityPosition.y - _width * baseMoveVector.x);
+                    boundHeight = (int)(_height * MovementVector.x);
+                    boundWidth = (int)(_height * MovementVector.x);
+                }
+                else if (baseMoveVector.x < 0 && baseMoveVector.y < 0)
+                {
+                    TopLeftX = (int)(entityPosition.x + _height * MovementVector.x);
+                    TopLeftY = (int)(entityPosition.y + _height * MovementVector.x);
+                    boundHeight = (int)(-1 * (_height * MovementVector.x));
+                    boundWidth = (int)(-1 * (_height * MovementVector.x));
+                }
+                else if (baseMoveVector.x > 0 && baseMoveVector.y < 0)
+                {
+                    TopLeftX = (int)(entityPosition.x);
+                    TopLeftY = (int)(entityPosition.y + _height * MovementVector.y);
+                    boundHeight = (int)(_height * MovementVector.x);
+                    boundWidth = (int)(_height * MovementVector.x);
+                }
+                else
+                {
+                    TopLeftX = (int)(entityPosition.x + _height * MovementVector.x);
+                    TopLeftY = (int)(entityPosition.y);
+                    boundHeight = (int)(_height * MovementVector.y);
+                    boundWidth = (int)(_height * MovementVector.y);
+                }
+            }
+            
+            Point TopLeft = new Point(TopLeftX, TopLeftY);
+            Size boundSize = new Size(boundWidth, boundHeight);
+            Rectangle Bound = new Rectangle(TopLeft, boundSize);
             return Bound;
         }
 
         public override void SearchTree(Coords entityPosition, ref List<LightingUnit> list)
         {
             _vectorBound = GetBound(entityPosition, _width, _height);
-            _vectorBound.InitializeBoundable(this);
-            // Optimatisere GetLightUnitInBound worst case over 100 ns.
+            //_vectorBound.InitializeBoundable(this);
             Tree.GetLightUnitInBound(ref list, _vectorBound);
         }
 

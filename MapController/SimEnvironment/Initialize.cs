@@ -31,8 +31,14 @@ namespace MapController.SimEnvironment
             set { _triangulate = value; }
         }
 
-        private Bounds _bound;
+        /*private Bounds _bound;
         public Bounds Bound {
+            get { return _bound; }
+            set { _bound = value; }
+        }*/
+        private Rectangle _bound;
+        public Rectangle Bound
+        {
             get { return _bound; }
             set { _bound = value; }
         }
@@ -97,7 +103,8 @@ namespace MapController.SimEnvironment
             Window = form;
             Window.KeyPreview = true;
             _nyList = new List<LightingUnit>();
-            _bound = new Bounds(new Coords(0,0), GEngine.SimulationWidht, GEngine.SimulationHeigt);
+            //_bound = new Bounds(new Coords(0,0), GEngine.SimulationWidht, GEngine.SimulationHeigt);
+            _bound = new Rectangle(new Point(0, 0), new Size(GEngine.SimulationWidht, GEngine.SimulationHeigt));
             _tree = new QuadTree(_bound);
             Triangulate = new Triangulation(Router1, Router2);
             ActivateLights = new DetermineLightsToActivate(150, 80, 400, Triangulate); //

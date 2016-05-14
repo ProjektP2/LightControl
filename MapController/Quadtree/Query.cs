@@ -3,12 +3,14 @@ using LightControl;
 using System.Collections.Generic;
 using Triangulering;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace TreeStructure
 {
     public abstract class Query : IBoundable
     {
-        public Bounds MapBound { get; set; }
+        //public Bounds MapBound { get; set; }
+        public Rectangle MapBound { get; set; }
         public QuadTree Tree { get; set; }
 
         /*public Query(int width, int height, Bounds map, QuadTree tree)
@@ -16,10 +18,12 @@ namespace TreeStructure
             MapBound = map;
             Tree = tree;
         }*/
-        public abstract Bounds GetBound(Coords entityPosition, int witdh, int height);
+        //public abstract Bounds GetBound(Coords entityPosition, int witdh, int height);
+        public abstract Rectangle GetBound(Coords entityPosition, int witdh, int height);
         public abstract void SearchTree(Coords entityPosition, ref List<LightingUnit> list);
         public abstract void CalculateBoundCoords(Coords Position, out Coords TopLeft, out Coords BottomRight);
-        public abstract Bounds Bound { get; set; }
+        //public abstract Bounds Bound { get; set; }
+        public abstract Rectangle Bound { get; set; }
     }
 
     public class StartTreeSearch
