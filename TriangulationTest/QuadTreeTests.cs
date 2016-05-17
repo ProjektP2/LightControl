@@ -8,22 +8,23 @@ using NUnit.Framework;
 using LightControl;
 using TreeStructure;
 using Triangulering;
+using System.Drawing;
 
 namespace LightControlTest
 {
     [TestFixture]
     public class QuadTreeTests
     {
-        Coords startPosition;
-        Bounds bound;
+        Point startPosition;
+        Rectangle bound;
         QuadTree QTree;
         List<LightingUnit> list;
 
         [SetUp]
         public void Setup()
         {
-            startPosition = new Coords(0, 0);
-            bound = new Bounds(startPosition, 100, 100);
+            startPosition = new Point(0, 0);
+            bound = new Rectangle(startPosition, new Size(100,100));
             QTree = new QuadTree(bound);
             list = new List<LightingUnit>();
         }
@@ -32,8 +33,6 @@ namespace LightControlTest
         public void TearDown()
         {
             QTree = null;
-            startPosition = null;
-            bound = null;
             list = null;
         }
 
@@ -96,8 +95,8 @@ namespace LightControlTest
             Assert.AreEqual(QTree.nodes[3].QuadNodesList[0].LightUnit.y, 100);
         }
 
-        [Ignore("Mangler håntering af units udenfor bound")]
         [Test]
+        [Ignore("Mangler håntering af units udenfor bound")]
         public void InsertNode_InsertUnitOutSideBound_ReturnFalse()
         {
             list.Add(new LightingUnit(-1, -1, 0));

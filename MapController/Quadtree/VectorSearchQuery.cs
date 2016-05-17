@@ -14,13 +14,7 @@ namespace TreeStructure
         private int _height;
         private Occupant _occupant;
         IMovementVectorProvider _lightsToActivate;
-        /*public override Bounds Bound
-        {
-            get { return _vectorBound; }
-            set { _vectorBound = value; }
-        }
-        private Bounds _vectorBound;*/
-
+        
         private Rectangle _vectorBound;
         public override Rectangle Bound
         {
@@ -40,7 +34,6 @@ namespace TreeStructure
         }
         public override Rectangle GetBound(Coords entityPosition, int width, int height)
         {
-            //Bounds Bound = new Bounds(entityPosition, width, height);
             Coords MovementVector = _lightsToActivate.GetMovementVector(_occupant);
             Coords baseMoveVector = GetBaseMoveVector(MovementVector);
             int TopLeftX, TopLeftY;
@@ -125,58 +118,6 @@ namespace TreeStructure
 
             baseMovementVector = new Coords(baseMovementVectorX, baseMovementVectorY);
             return baseMovementVector;
-        }
-        public override void CalculateBoundCoords(Coords Position, out Coords TopLeft, out Coords BottomRight)
-        {
-            Coords MovementVector = _lightsToActivate.GetMovementVector(_occupant);
-            Coords baseMoveVector = GetBaseMoveVector(MovementVector);
-
-            TopLeft = GetTopBoundCoord(baseMoveVector, Position);
-            BottomRight = GetBottomBoundCoord(MovementVector, baseMoveVector, Position);
-
-            GetBottomBoundCoord(MovementVector, baseMoveVector, Position);
-            GetTopBoundCoord(baseMoveVector, Position);
-        }
-        public Coords GetBottomBoundCoord(Coords movementVector, Coords baseMovementVector, Coords Position)
-        {
-            Coords MovementVector = movementVector;
-            Coords BaseMovementVector = baseMovementVector;
-            Coords BottomRight;
-            double BottomRightX, BottomRightY;
-            double width, height;
-
-            
-            
-            width = _width * BaseMovementVector.x + _width * BaseMovementVector.y;
-            height = _height * MovementVector.x + _height * MovementVector.y;
-
-            if (height != 0)
-            {
-                BottomRightX = Position.x  + height + width;
-                BottomRightY = Position.y + height + width;
-            }
-            else
-            {
-                height = _height * MovementVector.x - _height * MovementVector.y;
-                width = _width * BaseMovementVector.x - _width * BaseMovementVector.y;
-                BottomRightX = Position.x + height + width;
-                BottomRightY = Position.y + height + width;
-            }
-            
-            return BottomRight = new Coords(BottomRightX, BottomRightY); 
-        }
-        public Coords GetTopBoundCoord(Coords baseMovevector, Coords Position)
-        {
-            Coords BaseMovementVector = baseMovevector;
-            Coords TopLeft;
-            double TopLeftX, TopLeftY;
-
-            
-            
-            TopLeftX = Position.x - _width * BaseMovementVector.y;
-            TopLeftY = Position.y - _width * BaseMovementVector.x;
-            
-            return TopLeft = new Coords(TopLeftX, TopLeftY);
         }
     }
 }

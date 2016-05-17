@@ -41,18 +41,5 @@ namespace TreeStructure
             //_radiusBound.InitializeBoundable(this);
             _tree.GetLightUnitInBound(ref list, _radiusBound);
         }
-
-        public override void CalculateBoundCoords(Coords Position, out Coords TopLeft, out Coords BottomRight)
-        {
-            double BottomRightX, BottomRightY;
-            double TopLeftX, TopLeftY;
-            TopLeftX = Position.x - _width;
-            TopLeftY = Position.y - _height;
-            BottomRightX = Position.x + _width;
-            BottomRightY = Position.y + _height;
-
-            TopLeft = new Coords(TopLeftX, TopLeftY);
-            BottomRight = new Coords(BottomRightX, BottomRightY);
-        }
     }
 }
