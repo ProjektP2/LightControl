@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using SimEnvironment;
 using TreeStructure;
 using System.Drawing;
+using Quadtree;
 
 namespace MapController.SimEnvironment
 {
@@ -30,12 +31,7 @@ namespace MapController.SimEnvironment
             get { return _triangulate; }
             set { _triangulate = value; }
         }
-
-        /*private Bounds _bound;
-        public Bounds Bound {
-            get { return _bound; }
-            set { _bound = value; }
-        }*/
+        
         private Rectangle _bound;
         public Rectangle Bound
         {
@@ -91,7 +87,8 @@ namespace MapController.SimEnvironment
             set { _nyList = value; }
         }
         private QuadTree _tree;
-        public QuadTree Tree {
+        public QuadTree Tree
+        {
             get { return _tree; }
             set { _tree = value; }
         }

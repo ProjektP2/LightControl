@@ -10,6 +10,7 @@ using Triangulering;
 using TreeStructure;
 using MapController.SimEnvironment;
 using System.Diagnostics;
+using Quadtree;
 
 namespace LightControl
 {
@@ -51,9 +52,9 @@ namespace LightControl
         public void UpdateLights()
         {
             Coords OccupantWfiPosition = new Coords(_init.occupant.WiFiPosition1.x, _init.occupant.WiFiPosition1.y);
-            Query radiusQuery = new RadiusSearchQuery(100, _init.Bound, _init.Tree);
-            Query vectorQuery = new VectorSearchQuery(_init.Bound, _init.Tree, _init.occupant, _init.ActivateLights);
-            StartTreeSearch startSearch = new StartTreeSearch(_init.Tree);
+            Query radiusQuery = new RadiusSearchQuery(100, _init.Tree, _init.Tree);
+            Query vectorQuery = new VectorSearchQuery(_init.Tree, _init.Tree, _init.occupant, _init.ActivateLights);
+            StartTreeSearch startSearch = new StartTreeSearch();
             
             _init.NyList = startSearch.SearchQuery(OccupantWfiPosition, radiusQuery, vectorQuery);
             

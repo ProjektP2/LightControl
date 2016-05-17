@@ -31,7 +31,7 @@ namespace LightControlTest
             occupant = new Occupant();
             DLA = new MovementVector();
             VQ = new VectorSearchQuery(new Rectangle(0, 0, 100, 100), QT, occupant, DLA);
-            Start = new StartTreeSearch(QT);
+            Start = new StartTreeSearch();
         }
 
         [TearDown]

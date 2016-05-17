@@ -50,7 +50,7 @@ namespace LightControlTest
             list.Add(new LightingUnit(0, 0, 0));
             list.Add(new LightingUnit(0, 0, 0));
             QTree.CreateQuadTree(list);
-            Assert.AreEqual(QTree.nodes[0].bound.Width, 50);
+            Assert.AreEqual(QTree.nodes[0].Bound.Width, 50);
         }
         [Test]
         public void Split_TwoSplit_ReturnTrue()
@@ -61,7 +61,7 @@ namespace LightControlTest
             list.Add(new LightingUnit(0, 0, 0));
             list.Add(new LightingUnit(0, 0, 0));
             QTree.CreateQuadTree(list);
-            Assert.AreEqual(QTree.nodes[0].nodes[0].bound.Width, 25);
+            Assert.AreEqual(QTree.nodes[0].nodes[0].Bound.Width, 25);
         }
 
         [Test]

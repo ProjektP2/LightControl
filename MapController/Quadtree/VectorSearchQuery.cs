@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Triangulering;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
+using Quadtree;
 
 namespace TreeStructure
 {
@@ -22,7 +22,7 @@ namespace TreeStructure
             set { _vectorBound = value; }
         }
 
-        public VectorSearchQuery(Rectangle mapBound, QuadTree tree, Occupant occupant,
+        public VectorSearchQuery(IBoundable mapBound, ISearchable tree, Occupant occupant,
                                  IMovementVectorProvider lightsToactivate)
         {
             MapBound = mapBound;

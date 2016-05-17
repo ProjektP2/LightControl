@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Triangulering;
 using System.Diagnostics;
 using System.Drawing;
+using Quadtree;
 
 namespace TreeStructure
 {
@@ -11,8 +12,6 @@ namespace TreeStructure
     {
         int _radius;
         int _width, _height;
-        private Rectangle _mapBound;
-        private QuadTree _tree;
 
         public override Rectangle Bound
         {
@@ -21,12 +20,12 @@ namespace TreeStructure
         }
         private Rectangle _radiusBound;
 
-        public RadiusSearchQuery(int Radius, Rectangle Mapbound, QuadTree tree)
+        public RadiusSearchQuery(int Radius, IBoundable Mapbound, ISearchable tree)
         {
             _radius = Radius;
             _width = _height = _radius;
-            _mapBound = Mapbound;
-            _tree = tree;
+            MapBound = Mapbound;
+            Tree = tree;
         }
         public override Rectangle GetBound(Coords entityPosition, int width, int height)
         {
@@ -39,7 +38,7 @@ namespace TreeStructure
         {
             _radiusBound = GetBound(entityPosition, _width, _height);
             //_radiusBound.InitializeBoundable(this);
-            _tree.GetLightUnitInBound(ref list, _radiusBound);
+            Tree.GetLightUnitInBound(ref list, _radiusBound);
         }
     }
 }

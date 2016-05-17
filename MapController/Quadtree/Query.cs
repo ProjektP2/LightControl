@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using Triangulering;
 using System.Diagnostics;
 using System.Drawing;
+using Quadtree;
 
 namespace TreeStructure
 {
     public abstract class Query
     {
-        public Rectangle MapBound { get; set; }
-        public QuadTree Tree { get; set; }
+        public IBoundable MapBound { get; set; }
+        public ISearchable Tree { get; set; }
         
         public abstract Rectangle GetBound(Coords entityPosition, int witdh, int height);
         public abstract void SearchTree(Coords entityPosition, ref List<LightingUnit> list);
@@ -20,10 +21,8 @@ namespace TreeStructure
     public class StartTreeSearch
     {
         private List<LightingUnit> _unitList;
-        private QuadTree _tree;
-        public StartTreeSearch(QuadTree tree)
+        public StartTreeSearch()
         {
-            _tree = tree;
         }
         public List<LightingUnit> SearchQuery(Coords position, params Query[] searches)
         {

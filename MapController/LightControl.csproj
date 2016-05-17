@@ -60,6 +60,8 @@
     <Compile Include="Loop.cs" />
     <Compile Include="OccupantMove.cs" />
     <Compile Include="LightUnitsCoords.cs" />
+    <Compile Include="Quadtree\IBoundable.cs" />
+    <Compile Include="Quadtree\ISearchable.cs" />
     <Compile Include="Quadtree\QuadTreecs.cs" />
     <Compile Include="Quadtree\QuadTreeNode.cs" />
     <Compile Include="Quadtree\Query.cs" />
