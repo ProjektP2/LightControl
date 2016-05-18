@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using Triangulering;
 using LightControl;
 using System.Diagnostics;
+using System.Drawing;
+using Quadtree;
 
 namespace TreeStructure
 {
-    public class QuadTree
+    public class QuadTree : ISearchable, IBoundable
     {
         static int MaxNodes = 4;
         static int MaxObjects = 2;
@@ -18,16 +20,16 @@ namespace TreeStructure
         public List<QuadTreeNode> QuadNodesList = new List<QuadTreeNode>();
         private int currentLevel = 0;
 
-        public Bounds bound;
+        public Rectangle Bound { get; set; }
 
         private enum State
         {
             TopLeft, TopRight, BottomLeft, BottomRight
         }
 
-        public QuadTree(Bounds bound)
+        public QuadTree(Rectangle bound)
         {
-            this.bound = bound;
+            this.Bound = bound;
         }
 
         public void CreateQuadTree(List<LightingUnit> list)
@@ -75,17 +77,17 @@ namespace TreeStructure
 
         private void Split()
         {
-            int subWidth = bound.Width / 2;
-            int subHeight = bound.Height / 2;
-            int x = (int) bound.x;
-            int y = (int) bound.y;
+            int subWidth = Bound.Width / 2;
+            int subHeight = Bound.Height / 2;
+            int x = (int)Bound.X;
+            int y = (int) Bound.Y;
 
             int increasedNodeLevel = ++currentLevel;
-
-            Bounds boundTL = new Bounds(new Coords(x,y), subWidth, subHeight);
-            Bounds boundTR = new Bounds(new Coords(x + subWidth, y), subWidth, subHeight);
-            Bounds boundBL = new Bounds(new Coords(x, y + subHeight), subWidth, subHeight);
-            Bounds boundBR = new Bounds(new Coords(x + subWidth, y + subHeight), subWidth, subHeight);
+            
+            Rectangle boundTL = new Rectangle(new Point(x,y), new Size(subWidth, subHeight));
+            Rectangle boundTR = new Rectangle(new Point(x + subWidth, y), new Size(subWidth, subHeight));
+            Rectangle boundBL = new Rectangle(new Point(x, y + subHeight), new Size(subWidth, subHeight));
+            Rectangle boundBR = new Rectangle(new Point(x + subWidth, y + subHeight), new Size(subWidth, subHeight));
 
             nodes[0] = new QuadTree(boundTL);
             nodes[1] = new QuadTree(boundTR);
@@ -96,8 +98,8 @@ namespace TreeStructure
 
         private int GetNodeIndex(QuadTreeNode node)
         {
-            double quadWidthMid = bound.x + bound.Width / 2;
-            double quadHeightMid = bound.y + bound.Height / 2;
+            double quadWidthMid = Bound.X + Bound.Width / 2;
+            double quadHeightMid = Bound.Y + Bound.Height / 2;
 
             return GetObjectState(quadWidthMid, quadHeightMid, node);
         }
@@ -120,16 +122,16 @@ namespace TreeStructure
             return index;
         }
 
-        public void GetLightUnitInBound(ref List<LightingUnit> list, Bounds circleBound)
+        public void GetLightUnitInBound(ref List<LightingUnit> list, Rectangle Bound)
         {
-            if (nodes[0] != null && bound.Intersects(circleBound))
+            if (nodes[0] != null && this.Bound.IntersectsWith(Bound))
             {
                 foreach (var item in nodes)
                 {
-                    if (item.bound != null && item.bound.Intersects(circleBound))
+                    if (item.Bound != null && item.Bound.IntersectsWith(Bound))
                     {
                         if (item.QuadNodesList.Count == 0)
-                            item.GetLightUnitInBound(ref list, circleBound);
+                            item.GetLightUnitInBound(ref list, Bound);
                         else
                             AddNewUnitsToList(ref item.QuadNodesList, ref list);
                     }

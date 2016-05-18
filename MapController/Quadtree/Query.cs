@@ -3,32 +3,26 @@ using LightControl;
 using System.Collections.Generic;
 using Triangulering;
 using System.Diagnostics;
+using System.Drawing;
+using Quadtree;
 
 namespace TreeStructure
 {
-    public abstract class Query : IBoundable
+    public abstract class Query
     {
-        public Bounds MapBound { get; set; }
-        public QuadTree Tree { get; set; }
-
-        /*public Query(int width, int height, Bounds map, QuadTree tree)
-        {
-            MapBound = map;
-            Tree = tree;
-        }*/
-        public abstract Bounds GetBound(Coords entityPosition, int witdh, int height);
+        public IBoundable MapBound { get; set; }
+        public ISearchable Tree { get; set; }
+        
+        public abstract Rectangle GetBound(Coords entityPosition, int witdh, int height);
         public abstract void SearchTree(Coords entityPosition, ref List<LightingUnit> list);
-        public abstract void CalculateBoundCoords(Coords Position, out Coords TopLeft, out Coords BottomRight);
-        public abstract Bounds Bound { get; set; }
+        public abstract Rectangle Bound { get; set; }
     }
 
     public class StartTreeSearch
     {
         private List<LightingUnit> _unitList;
-        private QuadTree _tree;
-        public StartTreeSearch(QuadTree tree)
+        public StartTreeSearch()
         {
-            _tree = tree;
         }
         public List<LightingUnit> SearchQuery(Coords position, params Query[] searches)
         {
