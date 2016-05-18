@@ -236,8 +236,15 @@ namespace Triangulering
 
             if (totalLightingLevel < 1)
             {
-                unitToCorrect = listToCheck.Aggregate((i, j) => i.wantedLightLevel > j.wantedLightLevel ? i : j);
-                unitToCorrect.wantedLightLevel = 1;
+                try
+                {
+                    unitToCorrect = listToCheck.Aggregate((i, j) => i.wantedLightLevel > j.wantedLightLevel ? i : j);
+                    unitToCorrect.wantedLightLevel = 1;
+                }
+                catch(Exception)
+                {
+                   
+                }
             }
         }
         #endregion
