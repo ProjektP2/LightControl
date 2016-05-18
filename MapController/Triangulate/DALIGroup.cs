@@ -81,13 +81,6 @@ namespace MapController.Triangulate
                     {
                         Unit.LightingLevel = 0;
                     }
-
-                    /*else if (Unit.LightingLevel < Unit.minLevel && Unit.ForcedLightlevel > 0)
-                    {
-                        Unit.LightingLevel = Unit.minLevel;
-                    }
-                    */
-
                     else if (Unit.LightingLevel > Unit.ForcedLightlevel)
                     {
                         Unit.LightingLevel = Unit.LightingLevel - _fadeRate;
