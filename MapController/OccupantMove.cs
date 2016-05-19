@@ -41,7 +41,7 @@ namespace Triangulering
             trackbar1.Location = new Point(520, 10);
             trackbar1.Visible = true;
             trackbar1.TabIndex = 1;
-            trackbar1.Maximum = 5;
+            trackbar1.Maximum = 10;//5
             trackbar1.LargeChange = 1;
             _window.Controls.Add(trackbar1);
             labeltrack.Location = new Point(trackbar1.Location.X + trackbar1.Size.Width + 1, 10);

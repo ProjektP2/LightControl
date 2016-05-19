@@ -94,14 +94,5 @@ namespace LightControlTest
             Assert.AreEqual(QTree.nodes[3].QuadNodesList[0].LightUnit.x, 100);
             Assert.AreEqual(QTree.nodes[3].QuadNodesList[0].LightUnit.y, 100);
         }
-
-        [Test]
-        [Ignore("Mangler håntering af units udenfor bound")]
-        public void InsertNode_InsertUnitOutSideBound_ReturnFalse()
-        {
-            list.Add(new LightingUnit(-1, -1, 0));
-            QTree.CreateQuadTree(list);
-            Assert.AreEqual(QTree.QuadNodesList.Count, 1);
-        }
     }
 }

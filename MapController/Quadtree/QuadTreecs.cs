@@ -12,7 +12,7 @@ namespace TreeStructure
     {
         static int MaxNodes = 4;
         static int MaxObjects = 2;
-        static int MaxNodeLevel = 6;
+        static int MaxNodeLevel = 20;
 
         public QuadTree[] nodes = new QuadTree[MaxNodes];
 
