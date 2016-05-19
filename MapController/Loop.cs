@@ -55,11 +55,10 @@ namespace LightControl
             Query radiusQuery = new RadiusSearchQuery(100, _init.Tree, _init.Tree);
             Query vectorQuery = new VectorSearchQuery(_init.Tree, _init.Tree, _init.occupant, _init.ActivateLights);
             StartTreeSearch startSearch = new StartTreeSearch();
-            
+
             _init.NyList = startSearch.SearchQuery(OccupantWfiPosition, radiusQuery, vectorQuery);
-            
+
             _init.ActivateLights.FindUnitsToActivate(_init.NyList, _init.occupant);
-            
             _init.Controller.IncrementAllLights();
         }
 
