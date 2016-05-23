@@ -32,13 +32,15 @@ namespace TreeStructure
             _height = 60;
             _lightsToActivate = lightsToactivate;
         }
+        /* Makes the vector bound for each direction 
+         * This methods have a high cyclomatic complexity and should be structred differently */
         public override Rectangle GetBound(Coords entityPosition, int width, int height)
         {
             Coords MovementVector = _lightsToActivate.GetMovementVector(_occupant);
             Coords baseMoveVector = GetBaseMoveVector(MovementVector);
             int TopLeftX, TopLeftY;
             int boundHeight, boundWidth;
-
+            // Rightward OR downward direction vector bound
             if (baseMoveVector.x >= 0 && baseMoveVector.y >= 0)
             {
                 TopLeftX = (int)(entityPosition.x - _width * baseMoveVector.y);
@@ -46,6 +48,7 @@ namespace TreeStructure
                 boundHeight = (int)(_height * MovementVector.y + _width * baseMoveVector.x * 2);
                 boundWidth = (int)(_height * MovementVector.x + _width * baseMoveVector.y * 2);
             }
+            // Leftward OR upward direction vector bound
             else if (baseMoveVector.x <= 0 && baseMoveVector.y <= 0)
             {
                 TopLeftX = (int)(entityPosition.x + _height * MovementVector.x + _width * baseMoveVector.y);
@@ -55,6 +58,7 @@ namespace TreeStructure
             }
             else
             {
+                // Rightward AND Downward direction vector bound
                 if (baseMoveVector.x > 0 && baseMoveVector.y > 0)
                 {
                     TopLeftX = (int)(entityPosition.x - _width * baseMoveVector.y);
@@ -62,6 +66,7 @@ namespace TreeStructure
                     boundHeight = (int)(_height * MovementVector.x);
                     boundWidth = (int)(_height * MovementVector.x);
                 }
+                // Leftward AND Upward direction vector bound
                 else if (baseMoveVector.x < 0 && baseMoveVector.y < 0)
                 {
                     TopLeftX = (int)(entityPosition.x + _height * MovementVector.x);
@@ -69,6 +74,7 @@ namespace TreeStructure
                     boundHeight = (int)(-1 * (_height * MovementVector.x));
                     boundWidth = (int)(-1 * (_height * MovementVector.x));
                 }
+                // Rightward AND Upward direction vector bound
                 else if (baseMoveVector.x > 0 && baseMoveVector.y < 0)
                 {
                     TopLeftX = (int)(entityPosition.x);
@@ -76,6 +82,7 @@ namespace TreeStructure
                     boundHeight = (int)(_height * MovementVector.x);
                     boundWidth = (int)(_height * MovementVector.x);
                 }
+                // Leftward AND Downward direction vector bound
                 else
                 {
                     TopLeftX = (int)(entityPosition.x + _height * MovementVector.x);
@@ -98,6 +105,7 @@ namespace TreeStructure
             Tree.GetLightUnitInBound(ref list, _vectorBound);
         }
 
+        // Normalizes the movement vector length
         private Coords GetBaseMoveVector(Coords movementVector)
         {
             Coords baseMovementVector;
