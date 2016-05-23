@@ -18,6 +18,7 @@ namespace TreeStructure
         public abstract Rectangle Bound { get; set; }
     }
 
+    // this class is responsiable for searching the quadtree in regards to every query needed
     public class StartTreeSearch
     {
         private List<LightingUnit> _unitList;

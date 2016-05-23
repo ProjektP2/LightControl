@@ -27,6 +27,7 @@ namespace TreeStructure
             MapBound = Mapbound;
             Tree = tree;
         }
+        // Makes the radius bound 
         public override Rectangle GetBound(Coords entityPosition, int width, int height)
         {
             Point TopLeft = new Point((int)entityPosition.x - width / 2, (int)entityPosition.y - height / 2);
@@ -34,6 +35,7 @@ namespace TreeStructure
             Rectangle Bound = new Rectangle(TopLeft, boundSize);
             return Bound;
         }
+        
         public override void SearchTree(Coords entityPosition, ref List<LightingUnit> list)
         {
             _radiusBound = GetBound(entityPosition, _width, _height);
