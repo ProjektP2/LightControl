@@ -59,7 +59,7 @@ namespace LightControl
             _init.NyList = startSearch.SearchQuery(OccupantWfiPosition, radiusQuery, vectorQuery);
             
             _init.ActivateLights.FindUnitsToActivate(_init.NyList, _init.occupant);
-            
+            //_init.ActivateLights.FindUnitsToActivate(_init.LightUnitCoordinates, _init.occupant);
             _init.Controller.IncrementAllLights();
         }
 

@@ -8,6 +8,7 @@ using LightControl;
 using Triangulering;
 using NUnit.Framework;
 using System.Drawing;
+using Quadtree;
 
 namespace LightControlTest
 {
@@ -27,10 +28,10 @@ namespace LightControlTest
         {
             
             QT = new QuadTree(new Rectangle(0,0, 100,100));
-            RQ = new RadiusSearchQuery(50, new Rectangle(0, 0, 100, 100), QT);
+            RQ = new RadiusSearchQuery(50, QT, QT);
             occupant = new Occupant();
             DLA = new MovementVector();
-            VQ = new VectorSearchQuery(new Rectangle(0, 0, 100, 100), QT, occupant, DLA);
+            VQ = new VectorSearchQuery(QT, QT, occupant, DLA);
             Start = new StartTreeSearch();
         }
 
