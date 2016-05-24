@@ -7,7 +7,7 @@ using System.Drawing;
 using LightControl;
 using Triangulering;
 
-namespace LightControl
+namespace SimEnvironment
 {
     public class LoadMapUsingPath
     {

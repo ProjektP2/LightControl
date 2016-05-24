@@ -35,36 +35,8 @@ namespace SimEnvironment
             this.Height = height;
             init = new Initialize(this);
             loop = new Loop(this, init);
-            AllocConsole();
             init.Start();
             loop.calculationLoop();
-        }
-
-        //Console Window to Debug 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAsAttribute(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
-                
-        private void button1_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Stop Niko!");
-        }
-
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-
-        }
-
-        internal Initialize Initialize
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
+        }              
     } 
 }

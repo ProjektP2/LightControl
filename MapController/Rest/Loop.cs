@@ -66,7 +66,6 @@ namespace LightControl
         {
             _init.Info.WattUsageInfo(_init.Controller);
 
-            _init.Info.SignalInfo(_init.Router1.Radius, _init.Router2.Radius);
             _init.Info.BrugerWiFi(_init.occupant.WiFiPosition2);
             _init.Info.Brugerpos(_init.occupant.Position2);
             _init.InfoScreen.DisplayLightingUnitInfo();
