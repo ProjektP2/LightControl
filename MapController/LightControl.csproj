@@ -53,23 +53,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fps.cs" />
-    <Compile Include="InfoDrawing.cs" />
-    <Compile Include="InfoScreen.cs" />
-    <Compile Include="LoadMapUsingPath.cs" />
-    <Compile Include="Loop.cs" />
-    <Compile Include="OccupantMove.cs" />
-    <Compile Include="Quadtree\Bounds.cs" />
-    <Compile Include="LightUnitsCoords.cs" />
-    <Compile Include="Quadtree\Creator.cs" />
+    <Compile Include="Info\Fps.cs" />
+    <Compile Include="Info\InfoDrawing.cs" />
+    <Compile Include="Info\InfoScreen.cs" />
+    <Compile Include="SimEnvironment\LoadMapUsingPath.cs" />
+    <Compile Include="Rest\Loop.cs" />
+    <Compile Include="Occupant\OccupantMove.cs" />
+    <Compile Include="Initialize\LightUnitsCoords.cs" />
     <Compile Include="Quadtree\IBoundable.cs" />
+    <Compile Include="Quadtree\ISearchable.cs" />
     <Compile Include="Quadtree\QuadTreecs.cs" />
     <Compile Include="Quadtree\QuadTreeNode.cs" />
     <Compile Include="Quadtree\Query.cs" />
     <Compile Include="Quadtree\RadiusSeachQuery.cs" />
     <Compile Include="Quadtree\VectorSearchQuery.cs" />
     <Compile Include="SimEnvironment\Collision.cs" />
-    <Compile Include="SimEnvironment\ControlPanel.cs" />
+    <Compile Include="DALI\ControlPanel.cs" />
     <Compile Include="SimEnvironment\GraphicsDraw.cs" />
     <Compile Include="SimEnvironment\Form1.cs">
       <SubType>Form</SubType>
@@ -80,20 +79,20 @@
     <Compile Include="SimEnvironment\GEngine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimEnvironment\Initialize.cs" />
-    <Compile Include="Triangulate\Circle.cs" />
-    <Compile Include="Coords.cs" />
-    <Compile Include="Triangulate\DALIController.cs" />
-    <Compile Include="Triangulate\DALIGroup.cs" />
+    <Compile Include="Initialize\Initialize.cs" />
+    <Compile Include="Rest\Coords.cs" />
+    <Compile Include="DALI\DALIController.cs" />
+    <Compile Include="DALI\DALIGroup.cs" />
+    <Compile Include="Rest\Circle.cs" />
     <Compile Include="Triangulate\DetermineLightsToActivate.cs" />
     <Compile Include="Triangulate\IMovementVectorProvider.cs" />
-    <Compile Include="Triangulate\LightingUnit.cs" />
-    <Compile Include="Occupant.cs" />
-    <Compile Include="Triangulate\MoreExceptions.cs" />
+    <Compile Include="Rest\LightingUnit.cs" />
+    <Compile Include="Occupant\Occupant.cs" />
     <Compile Include="Triangulate\Triangulation.cs" />
     <Compile Include="Triangulate\VectorMath.cs" />
     <EmbeddedResource Include="SimEnvironment\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -104,9 +103,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
-    <None Include="packages.config" />
+    <None Include="Config files\ClassDiagram2.cd" />
+    <None Include="Config files\packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -118,7 +116,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="Config files\App.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="acf7ef943fdeb3cbfed8dd0d8f584731.ico" />

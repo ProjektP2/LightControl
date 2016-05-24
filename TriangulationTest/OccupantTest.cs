@@ -38,12 +38,7 @@ namespace LightControlTest
             Assert.AreEqual(0, oc.Position1.x);
             Assert.AreEqual(0, oc.Position1.y);
         }
-        [Test]
-        [Ignore("Virker ikke")]
-        public void UpdateTest()
-        {
-            
-        }
+
         //Update WiFi Test
         [Test]
         public void UpdateWifiPosition1Test()

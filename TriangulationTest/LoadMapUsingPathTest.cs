@@ -7,6 +7,7 @@ using System.Diagnostics;
 using LightControl;
 using NUnit.Framework;
 using System.Drawing;
+using SimEnvironment;
 
 namespace LightControlTest
 {

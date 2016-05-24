@@ -8,22 +8,23 @@ using NUnit.Framework;
 using LightControl;
 using TreeStructure;
 using Triangulering;
+using System.Drawing;
 
 namespace LightControlTest
 {
     [TestFixture]
     public class QuadTreeTests
     {
-        Coords startPosition;
-        Bounds bound;
+        Point startPosition;
+        Rectangle bound;
         QuadTree QTree;
         List<LightingUnit> list;
 
         [SetUp]
         public void Setup()
         {
-            startPosition = new Coords(0, 0);
-            bound = new Bounds(startPosition, 100, 100);
+            startPosition = new Point(0, 0);
+            bound = new Rectangle(startPosition, new Size(100,100));
             QTree = new QuadTree(bound);
             list = new List<LightingUnit>();
         }
@@ -32,8 +33,6 @@ namespace LightControlTest
         public void TearDown()
         {
             QTree = null;
-            startPosition = null;
-            bound = null;
             list = null;
         }
 
@@ -51,7 +50,7 @@ namespace LightControlTest
             list.Add(new LightingUnit(0, 0, 0));
             list.Add(new LightingUnit(0, 0, 0));
             QTree.CreateQuadTree(list);
-            Assert.AreEqual(QTree.nodes[0].bound.Width, 50);
+            Assert.AreEqual(QTree.nodes[0].Bound.Width, 50);
         }
         [Test]
         public void Split_TwoSplit_ReturnTrue()
@@ -62,7 +61,7 @@ namespace LightControlTest
             list.Add(new LightingUnit(0, 0, 0));
             list.Add(new LightingUnit(0, 0, 0));
             QTree.CreateQuadTree(list);
-            Assert.AreEqual(QTree.nodes[0].nodes[0].bound.Width, 25);
+            Assert.AreEqual(QTree.nodes[0].nodes[0].Bound.Width, 25);
         }
 
         [Test]
@@ -94,15 +93,6 @@ namespace LightControlTest
             Assert.AreEqual(QTree.nodes[2].QuadNodesList[0].LightUnit.y, 100);
             Assert.AreEqual(QTree.nodes[3].QuadNodesList[0].LightUnit.x, 100);
             Assert.AreEqual(QTree.nodes[3].QuadNodesList[0].LightUnit.y, 100);
-        }
-
-        [Ignore("Mangler håntering af units udenfor bound")]
-        [Test]
-        public void InsertNode_InsertUnitOutSideBound_ReturnFalse()
-        {
-            list.Add(new LightingUnit(-1, -1, 0));
-            QTree.CreateQuadTree(list);
-            Assert.AreEqual(QTree.QuadNodesList.Count, 1);
         }
     }
 }

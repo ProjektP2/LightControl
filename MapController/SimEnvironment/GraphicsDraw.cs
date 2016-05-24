@@ -81,9 +81,6 @@ namespace SimEnvironment
             {
                 Application.Exit();
             }
-
-            //teils = new Bitmap("Teils.png");
-            //lamp = new Bitmap("Lamp.png");
         }
 
 
@@ -184,8 +181,7 @@ namespace SimEnvironment
                         if (Cirklensligning <= R && y < GEngine.SimulationHeigt && y > 0 && x < GEngine.SimulationWidht && x > 0)
                         {
                             PlaceInArray = (int)(((y * Width * 4) + x * 4) + 3);
-                            Alpha = volume;//+ (Math.Sqrt(Cirklensligning)*2);
-                            
+                            Alpha = volume;
                             if (Alpha > minTrasnparency)
                             {
                                 Alpha = minTrasnparency;

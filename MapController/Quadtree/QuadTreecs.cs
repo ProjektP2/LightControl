@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using Triangulering;
 using LightControl;
 using System.Diagnostics;
+using System.Drawing;
+using Quadtree;
 
 namespace TreeStructure
 {
-    public class QuadTree
+    /* This class represents the Quadtree datastructrue each time the quadtree splits 
+     * it creates a new quadtree recursivly */
+    public class QuadTree : ISearchable, IBoundable
     {
         static int MaxNodes = 4;
         static int MaxObjects = 2;
@@ -18,16 +22,16 @@ namespace TreeStructure
         public List<QuadTreeNode> QuadNodesList = new List<QuadTreeNode>();
         private int currentLevel = 0;
 
-        public Bounds bound;
+        public Rectangle Bound { get; set; }
 
         private enum State
         {
             TopLeft, TopRight, BottomLeft, BottomRight
         }
 
-        public QuadTree(Bounds bound)
+        public QuadTree(Rectangle bound)
         {
-            this.bound = bound;
+            this.Bound = bound;
         }
 
         public void CreateQuadTree(List<LightingUnit> list)
@@ -37,10 +41,11 @@ namespace TreeStructure
                 InsertNode(new QuadTreeNode(item));
             }
         }
-
+        // Handles the logic concerning the insertions of quadtree nodes into the quadtree
         private void InsertNode(QuadTreeNode node)
         {
             int index = -1;
+            // checks weather the quadtree has already been split up
             if (nodes[0] != null)
             {
                 index = GetNodeIndex(node);
@@ -54,11 +59,13 @@ namespace TreeStructure
             int numLightsInList = QuadNodesList.Count;
             if (numLightsInList > MaxObjects && MaxNodeLevel > currentLevel)
             {
+                // Splits the quadtree into four quads
                 if (nodes[0] == null)
                     Split();
 
                 int i = 0;
                 index = -1;
+                // Removes the data in internal nodes and moves data into the newly created leafnodes
                 while (i < QuadNodesList.Count)
                 {
                     index = GetNodeIndex(QuadNodesList[i]);
@@ -72,20 +79,20 @@ namespace TreeStructure
                 }
             }
         }
-
+        // Splits the quadtree into four new smaller quadtrees which represent internal nodes or leaf nodes
         private void Split()
         {
-            int subWidth = bound.Width / 2;
-            int subHeight = bound.Height / 2;
-            int x = (int) bound.x;
-            int y = (int) bound.y;
+            int subWidth = Bound.Width / 2;
+            int subHeight = Bound.Height / 2;
+            int x = (int)Bound.X;
+            int y = (int) Bound.Y;
 
             int increasedNodeLevel = ++currentLevel;
-
-            Bounds boundTL = new Bounds(new Coords(x,y), subWidth, subHeight);
-            Bounds boundTR = new Bounds(new Coords(x + subWidth, y), subWidth, subHeight);
-            Bounds boundBL = new Bounds(new Coords(x, y + subHeight), subWidth, subHeight);
-            Bounds boundBR = new Bounds(new Coords(x + subWidth, y + subHeight), subWidth, subHeight);
+            
+            Rectangle boundTL = new Rectangle(new Point(x,y), new Size(subWidth, subHeight));
+            Rectangle boundTR = new Rectangle(new Point(x + subWidth, y), new Size(subWidth, subHeight));
+            Rectangle boundBL = new Rectangle(new Point(x, y + subHeight), new Size(subWidth, subHeight));
+            Rectangle boundBR = new Rectangle(new Point(x + subWidth, y + subHeight), new Size(subWidth, subHeight));
 
             nodes[0] = new QuadTree(boundTL);
             nodes[1] = new QuadTree(boundTR);
@@ -96,12 +103,13 @@ namespace TreeStructure
 
         private int GetNodeIndex(QuadTreeNode node)
         {
-            double quadWidthMid = bound.x + bound.Width / 2;
-            double quadHeightMid = bound.y + bound.Height / 2;
+            double quadWidthMid = Bound.X + Bound.Width / 2;
+            double quadHeightMid = Bound.Y + Bound.Height / 2;
 
             return GetObjectState(quadWidthMid, quadHeightMid, node);
         }
 
+        // Returnes the position in which data should or is placed compared to the coordinat
         private int GetObjectState(double xMid, double yMid, QuadTreeNode node)
         {
             int index = -1;
@@ -120,22 +128,25 @@ namespace TreeStructure
             return index;
         }
 
-        public void GetLightUnitInBound(ref List<LightingUnit> list, Bounds circleBound)
+        // Recursivly transvers the quadtree for intersections with query bounds
+        public void GetLightUnitInBound(ref List<LightingUnit> list, Rectangle Bound)
         {
-            if (nodes[0] != null && bound.Intersects(circleBound))
+            if (nodes[0] != null && this.Bound.IntersectsWith(Bound))
             {
                 foreach (var item in nodes)
                 {
-                    if (item.bound != null && item.bound.Intersects(circleBound))
+                    if (item.Bound != null && item.Bound.IntersectsWith(Bound))
                     {
                         if (item.QuadNodesList.Count == 0)
-                            item.GetLightUnitInBound(ref list, circleBound);
+                            item.GetLightUnitInBound(ref list, Bound);
                         else
                             AddNewUnitsToList(ref item.QuadNodesList, ref list);
                     }
                 }
             }
         }
+
+        // Emploies memorization by only adding the objects which have not aldready been added
         private void AddNewUnitsToList(ref List<QuadTreeNode> list, ref List<LightingUnit> unitList)
         {
             foreach (QuadTreeNode listItem in list)

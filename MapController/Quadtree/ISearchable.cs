@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using Triangulering;
 
 namespace Quadtree
 {
-    public interface IBoundable
+    public interface ISearchable
     {
-        Rectangle Bound { get; set; }
+        void GetLightUnitInBound(ref List<LightingUnit> list, Rectangle circleBound);
     }
 }

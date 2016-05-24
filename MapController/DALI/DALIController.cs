@@ -157,14 +157,6 @@ namespace LightControl
                 {
                     Unit.LightingLevel = 0;
                 }
-
-                /*
-                else if (Unit.LightingLevel < Unit.minLevel && Unit.wantedLightLevel > 0)
-                {
-                    Unit.LightingLevel = Unit.minLevel;
-                }
-                */
-
                 else if (Unit.LightingLevel > Unit.wantedLightLevel)
                 {
                     Unit.LightingLevel = Unit.LightingLevel - _fadeRate;
