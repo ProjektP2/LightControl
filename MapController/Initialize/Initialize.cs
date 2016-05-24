@@ -100,7 +100,6 @@ namespace MapController.SimEnvironment
             Window = form;
             Window.KeyPreview = true;
             _nyList = new List<LightingUnit>();
-            //_bound = new Bounds(new Coords(0,0), GEngine.SimulationWidht, GEngine.SimulationHeigt);
             _bound = new Rectangle(new Point(0, 0), new Size(GEngine.SimulationWidht, GEngine.SimulationHeigt));
             _tree = new QuadTree(_bound);
             Triangulate = new Triangulation(Router1, Router2);
@@ -117,7 +116,7 @@ namespace MapController.SimEnvironment
         
         private void CreateLightUnit()
         {
-            unitList = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 60); // min 21
+            unitList = new LightUnitsCoords(GEngine.SimulationHeigt, GEngine.SimulationWidht, 60);
             LightUnitCoordinates = new List<LightingUnit>();
             unitList.GetLightUnitCoords(LightUnitCoordinates);
         }
@@ -136,7 +135,6 @@ namespace MapController.SimEnvironment
             //Draw info
             Info = new InfoDrawing(Window);
             Info.initWattInfo();
-            Info.initSignalInfo();
             Info.InitBrugerPosWiFi();
             Info.InitBrugerPos();
 

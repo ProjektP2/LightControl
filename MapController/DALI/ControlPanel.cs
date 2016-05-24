@@ -227,6 +227,8 @@ namespace MapController.SimEnvironment
 
         //clears click event from all of the 16 main buttons
         //used to stop buttons from keeping old eventhandlers
+
+        //Code was found on Stackoverflow: http://stackoverflow.com/questions/16911294/removing-all-methods-from-eventhandler
         private void RemoveClickEvents()
         {
             foreach (Button Button in _buttons)

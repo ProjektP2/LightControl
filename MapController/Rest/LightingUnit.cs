@@ -59,20 +59,6 @@ namespace Triangulering
             return _wattUsageInInterval;
         }
 
-        public double goToMax()
-        {
-            getWattUsageForLightUnitInHours();
-            LightingLevel = _maxLevel;
-            return LightingLevel;
-        }
-
-        public double goToMin()
-        {
-            getWattUsageForLightUnitInHours();
-            LightingLevel = minLevel;
-            return LightingLevel;
-        }
-
         //sluk med det samme
         public void Extinguish() 
         {
@@ -91,12 +77,5 @@ namespace Triangulering
             Coords ReturnCoords = new Coords(x, y);
             return ReturnCoords;
         }
-
-        //Implements IComparable's CompareTo()
-        public int CompareTo(LightingUnit next)
-        {
-            return next.wantedLightLevel.CompareTo(wantedLightLevel);
-        }
-
     }
 }
