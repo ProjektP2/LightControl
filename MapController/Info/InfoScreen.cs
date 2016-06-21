@@ -30,6 +30,7 @@ namespace MapController
             _controller = Controller;
             LightunitInfo = new Label();
             LightunitInfo.Location = new Point(GEngine.SimulationWidht / 2 + CurrentWindow.Width / 2, CurrentWindow.Height / 2- GEngine.SimulationHeigt / 4);
+            LightunitInfo.Font = new Font("Arial", 20);
             LightunitInfo.AutoSize = true;
             CurrentWindow.Controls.Add(LightunitInfo);
         }
